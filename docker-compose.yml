@@ -3,6 +3,7 @@ services:
 
   trainer-app:
     image: trainer-app
+    build: .
     networks:
       - typebotnet
     deploy:
