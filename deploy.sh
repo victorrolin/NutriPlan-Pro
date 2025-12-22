@@ -7,7 +7,9 @@ git pull
 
 # Rebuild the image manually ensures the latest code is used
 echo "🏗️  Building image..."
-docker build -t trainer-app .
+# Rebuild the image using docker-compose to pick up build args from .env
+echo "🏗️  Building image..."
+docker-compose build
 
 # Deploy using Docker Swarm (fixes network permission issue)
 echo "🚀 Deploying stack..."
