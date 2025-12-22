@@ -42,8 +42,9 @@ export default function AdminLoginPage() {
         }
         window.location.href = "/admin"
       }
-    } catch (err) {
-      setError("Erro ao fazer login")
+    } catch (err: any) {
+      console.error("Login Page Error:", err)
+      setError(`Erro técnico: ${err?.message || JSON.stringify(err)}`)
       setIsLoading(false)
     }
   }

@@ -17,8 +17,8 @@ export async function loginAction(email: string, password: string) {
     })
 
     return { success: true, role: user.role }
-  } catch (error) {
-    console.error("Login error:", error)
-    return { success: false, error: "Erro inesperado ao fazer login" }
+  } catch (error: any) {
+    console.error("Login Action Error:", error)
+    return { success: false, error: `Erro no login: ${error?.message || JSON.stringify(error)}` }
   }
 }
