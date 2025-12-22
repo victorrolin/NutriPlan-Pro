@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+android
+.git
+.gitignore
+README.md
+task.md

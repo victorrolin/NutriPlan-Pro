@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/login/page": "/admin/login",
+  "/admin/page": "/admin",
+  "/auth/login/page": "/auth/login",
+  "/page": "/",
+  "/personal/login/page": "/personal/login",
+  "/personal/page": "/personal"
+}
