@@ -14,8 +14,8 @@ if [ -f .env ]; then
 fi
 
 # Rebuild the image using docker-compose to pick up build args from .env
-echo "🏗️  Building image..."
-docker-compose build
+echo "🏗️  Building image (no cache)..."
+docker-compose build --no-cache
 
 # Deploy using Docker Swarm (fixes network permission issue)
 echo "🚀 Deploying stack..."
