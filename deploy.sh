@@ -13,9 +13,13 @@ if [ -f .env ]; then
   export $(grep -v '^#' .env | xargs)
 fi
 
-# Rebuild the image using docker-compose to pick up build args from .env
+# Rebuild the image using direct docker build to GUARANTEE args are passed
 echo "🏗️  Building image (no cache)..."
-docker-compose build --no-cache
+docker build \
+  --build-arg NEXT_PUBLIC_SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" \
+  --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
+  --no-cache \
+  -t trainer-app .
 
 # Deploy using Docker Swarm (fixes network permission issue)
 echo "🚀 Deploying stack..."
