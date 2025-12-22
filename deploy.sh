@@ -7,6 +7,12 @@ git pull
 
 # Rebuild the image manually ensures the latest code is used
 echo "🏗️  Building image..."
+# Load environment variables if .env exists
+if [ -f .env ]; then
+  echo "🔌 Loading environment variables..."
+  export $(grep -v '^#' .env | xargs)
+fi
+
 # Rebuild the image using docker-compose to pick up build args from .env
 echo "🏗️  Building image..."
 docker-compose build
