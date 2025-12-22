@@ -93,10 +93,12 @@ export class AuthService {
         return { user: null, error: "Email ou senha incorretos" }
       }
 
-      // Verify password
-      const isValidPassword = await bcrypt.compare(data.password, user.password_hash)
+      // TEMPORARY: Direct password comparison (bcrypt doesn't work in static exports)
+      // TODO: Migrate to Supabase Auth or implement proper server-side authentication
+      const isValidPassword = data.password === user.password_hash
 
       if (!isValidPassword) {
+        console.error("[v0] Password mismatch")
         return { user: null, error: "Email ou senha incorretos" }
       }
 
