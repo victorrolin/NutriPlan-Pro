@@ -51,13 +51,13 @@ export default function PersonalLoginPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="relative">
-              <Dumbbell className="w-12 h-12 text-orange-500" />
-              <Sparkles className="w-6 h-6 text-orange-400 absolute -top-1 -right-1 animate-pulse" />
+              <Dumbbell className="w-12 h-12 text-green-500" />
+              <Sparkles className="w-6 h-6 text-green-400 absolute -top-1 -right-1 animate-pulse" />
             </div>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">FitPlan Pro</h1>
           <div className="flex items-center justify-center gap-2 text-gray-400">
-            <Users className="w-5 h-5 text-orange-400" />
+            <Users className="w-5 h-5 text-green-400" />
             <p>Área do Personal Trainer</p>
           </div>
         </div>
@@ -107,7 +107,7 @@ export default function PersonalLoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold"
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold"
                   disabled={isLoading}
                 >
                   {isLoading ? "Entrando..." : "Entrar"}
@@ -118,7 +118,7 @@ export default function PersonalLoginPage() {
         </Card>
 
         <div className="mt-6 text-center">
-          <a href="/auth/login" className="text-sm text-gray-500 hover:text-orange-400 transition-colors">
+          <a href="/auth/login" className="text-sm text-gray-500 hover:text-green-400 transition-colors">
             ← Voltar para login de alunos
           </a>
         </div>
