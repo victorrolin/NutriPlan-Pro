@@ -224,19 +224,25 @@ export class AuthService {
     try {
       const supabase = await createClient()
 
-      const { data: personal } = await supabase
-        .from("users")
-        .select("max_students, student_count")
-        .eq("id", personalId)
-        .single()
+      // Get max students allowed
+      const { data: personal } = await supabase.from("users").select("max_students").eq("id", personalId).single()
 
       if (!personal) {
         return { canAdd: false, current: 0, max: 0 }
       }
 
+      // Count actual students
+      const { count } = await supabase
+        .from("users")
+        .select("*", { count: "exact", head: true })
+        .eq("created_by", personalId)
+        .eq("role", "user")
+
+      const currentCount = count || 0
+
       return {
-        canAdd: personal.student_count < personal.max_students,
-        current: personal.student_count,
+        canAdd: currentCount < personal.max_students,
+        current: currentCount,
         max: personal.max_students,
       }
     } catch (error) {
