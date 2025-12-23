@@ -33,9 +33,10 @@ import {
   Plus,
 } from "lucide-react"
 import Link from "next/link"
-import { createUser, toggleUserStatus, deleteUser, updateUserPassword, updatePersonalLimit } from "@/app/admin/actions"
+import { AuthService } from "@/lib/auth-service"
 import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
+import { createClient } from "@/lib/supabase/client"
 
 interface AdminDashboardProps {
   users: User[]
@@ -92,10 +93,15 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
       return
     }
 
-    const result = await createUser(newUser)
+    const { user, error } = await AuthService.signUp({
+      email: newUser.email,
+      password: newUser.password,
+      full_name: newUser.full_name,
+      role: newUser.role,
+    })
 
-    if (!result.success) {
-      setError(result.error || "Erro ao criar usuário")
+    if (error) {
+      setError(error)
       setIsCreating(false)
     } else {
       setSuccess("Usuário criado com sucesso!")
@@ -110,12 +116,21 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
     setError(null)
     setSuccess(null)
 
-    const result = await toggleUserStatus(userId, !currentStatus)
+    try {
+      const supabase = await createClient()
+      const { error } = await supabase
+        .from("users")
+        .update({ is_active: !currentStatus, updated_at: new Date().toISOString() })
+        .eq("id", userId)
 
-    if (!result.success) {
-      setError(result.error || "Erro ao atualizar usuário")
-    } else {
-      setSuccess(currentStatus ? "Usuário bloqueado" : "Usuário desbloqueado")
+      if (error) {
+        setError("Erro ao atualizar usuário")
+      } else {
+        setSuccess(currentStatus ? "Usuário bloqueado" : "Usuário desbloqueado")
+        setTimeout(() => window.location.reload(), 1000)
+      }
+    } catch (error) {
+      setError("Erro ao atualizar usuário")
     }
   }
 
@@ -124,16 +139,23 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
     setSuccess(null)
     setIsProcessing(true)
 
-    const result = await deleteUser(userId)
+    try {
+      const supabase = await createClient()
+      const { error } = await supabase.from("users").delete().eq("id", userId)
 
-    if (!result.success) {
-      setError(result.error || "Erro ao excluir usuário")
-    } else {
-      setSuccess("Usuário excluído com sucesso")
-      setDeleteDialogOpen(null)
+      if (error) {
+        setError("Erro ao excluir usuário")
+        setIsProcessing(false)
+      } else {
+        setSuccess("Usuário excluído com sucesso")
+        setDeleteDialogOpen(null)
+        setIsProcessing(false)
+        setTimeout(() => window.location.reload(), 1000)
+      }
+    } catch (error) {
+      setError("Erro ao excluir usuário")
+      setIsProcessing(false)
     }
-
-    setIsProcessing(false)
   }
 
   const handlePasswordChange = async (userId: string, password: string) => {
@@ -147,17 +169,18 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
       return
     }
 
-    const result = await updateUserPassword(userId, password)
+    const { success, error } = await AuthService.updatePassword(userId, password)
 
-    if (!result.success) {
-      setError(result.error || "Erro ao alterar senha")
+    if (!success) {
+      setError(error || "Erro ao alterar senha")
+      setIsProcessing(false)
     } else {
       setSuccess("Senha alterada com sucesso")
       setPasswordDialogOpen(null)
       setPasswordChange({ userId: "", newPassword: "" })
+      setIsProcessing(false)
+      setTimeout(() => window.location.reload(), 1000)
     }
-
-    setIsProcessing(false)
   }
 
   const handleLimitChange = async (personalId: string, newLimit: number) => {
@@ -171,17 +194,18 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
       return
     }
 
-    const result = await updatePersonalLimit(personalId, newLimit)
+    const result = await AuthService.updateStudentLimit(personalId, newLimit)
 
     if (!result.success) {
       setError(result.error || "Erro ao alterar limite")
+      setIsProcessing(false)
     } else {
       setSuccess("Limite de alunos alterado com sucesso")
       setLimitDialogOpen(null)
       setLimitChange({ personalId: "", newLimit: 100 })
+      setIsProcessing(false)
+      setTimeout(() => window.location.reload(), 1000)
     }
-
-    setIsProcessing(false)
   }
 
   const getRoleBadge = (role: string) => {
