@@ -38,6 +38,7 @@ import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
 import { createClient } from "@/lib/supabase/client"
 import { PasswordDialog } from "@/components/password-dialog"
+import { LimitDialog } from "@/components/limit-dialog"
 
 interface AdminDashboardProps {
   users: User[]
@@ -271,70 +272,14 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                   />
 
                   {user.role === "personal" && (
-                    <Dialog
-                      open={limitDialogOpen === user.id}
-                      onOpenChange={(open) => {
-                        if (open) {
-                          setLimitDialogOpen(user.id)
-                          setLimitChange({ personalId: user.id, newLimit: user.max_students })
-                        } else {
-                          setLimitDialogOpen(null)
-                        }
-                      }}
-                    >
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-gray-900 border-gray-800">
-                        <DialogHeader>
-                          <DialogTitle className="text-white">Alterar Limite de Alunos</DialogTitle>
-                          <DialogDescription className="text-gray-400">
-                            Defina o limite máximo de alunos para {user.full_name}
-                            <br />
-                            <span className="text-orange-400">
-                              Atual: {user.student_count}/{user.max_students} alunos
-                            </span>
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="grid gap-2">
-                            <Label className="text-gray-200">Novo Limite</Label>
-                            <Input
-                              type="number"
-                              min="0"
-                              step="100"
-                              value={limitChange.newLimit}
-                              onChange={(e) =>
-                                setLimitChange({ personalId: user.id, newLimit: Number.parseInt(e.target.value) || 0 })
-                              }
-                              className="bg-gray-800/50 border-gray-700 text-white"
-                            />
-                          </div>
-                        </div>
-                        <DialogFooter>
-                          <Button
-                            variant="outline"
-                            className="border-gray-700 text-gray-300 bg-transparent"
-                            onClick={() => setLimitDialogOpen(null)}
-                          >
-                            Cancelar
-                          </Button>
-                          <Button
-                            onClick={() => handleLimitChange(user.id, limitChange.newLimit)}
-                            className="bg-orange-500 hover:bg-orange-600"
-                            disabled={isProcessing}
-                          >
-                            {isProcessing ? "Salvando..." : "Salvar"}
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
+                    <LimitDialog
+                      personalId={user.id}
+                      personalName={user.full_name}
+                      currentLimit={user.max_students}
+                      currentCount={user.student_count}
+                      onSuccess={() => setSuccess("Limite de alunos alterado com sucesso")}
+                      onError={(error) => setError(error)}
+                    />
                   )}
 
                   {/* Toggle Status */}
