@@ -216,7 +216,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
       case "admin":
         return <Badge className="bg-purple-500/20 text-purple-400">Admin</Badge>
       case "personal":
-        return <Badge className="bg-orange-500/20 text-orange-400">Personal</Badge>
+        return <Badge className="bg-green-500/20 text-green-400">Personal</Badge>
       default:
         return <Badge className="bg-gray-700 text-gray-300">Aluno</Badge>
     }
@@ -242,7 +242,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
               <TableCell className="text-white font-medium">
                 {user.full_name}
                 {user.id === currentUserId && (
-                  <Badge variant="outline" className="ml-2 text-orange-500 border-orange-500">
+                  <Badge variant="outline" className="ml-2 text-green-500 border-green-500">
                     Você
                   </Badge>
                 )}
@@ -356,8 +356,8 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
             </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Dumbbell className="w-8 h-8 text-orange-500" />
-                <Sparkles className="w-4 h-4 text-orange-400 absolute -top-1 -right-1" />
+                <Dumbbell className="w-8 h-8 text-green-500" />
+                <Sparkles className="w-4 h-4 text-green-400 absolute -top-1 -right-1" />
               </div>
               <span className="text-xl font-bold text-white">Painel Admin</span>
             </div>
@@ -368,7 +368,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
               <Shield className="w-4 h-4" />
               <span>{admins.length} Admins</span>
             </div>
-            <div className="flex items-center gap-2 text-orange-400">
+            <div className="flex items-center gap-2 text-green-400">
               <UserCog className="w-4 h-4" />
               <span>{personalTrainers.length} Personais</span>
             </div>
@@ -398,7 +398,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
         <Card className="bg-gray-900/50 border-gray-800 mb-8">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <UserPlus className="w-5 h-5 text-orange-500" />
+              <UserPlus className="w-5 h-5 text-green-500" />
               Adicionar Novo Usuário
             </CardTitle>
             <CardDescription className="text-gray-400">Cadastre admins, personal trainers ou alunos</CardDescription>
@@ -454,7 +454,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                 <Button
                   onClick={handleCreateUser}
                   disabled={isCreating}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  className="w-full bg-green-500 hover:bg-green-600 text-white"
                 >
                   {isCreating ? "Criando..." : "Criar Usuário"}
                 </Button>

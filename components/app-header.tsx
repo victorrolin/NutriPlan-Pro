@@ -27,7 +27,7 @@ export function AppHeader({ session }: AppHeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-14 md:h-16 items-center justify-between">
         <div className="flex items-center gap-2 md:gap-3">
-          <div className="p-1.5 md:p-2 rounded-lg bg-gradient-to-br from-primary to-accent">
+          <div className="p-1.5 md:p-2 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600">
             <Bot className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </div>
           <div>

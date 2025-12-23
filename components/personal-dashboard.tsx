@@ -172,8 +172,8 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
             </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Dumbbell className="w-8 h-8 text-orange-500" />
-                <Sparkles className="w-4 h-4 text-orange-400 absolute -top-1 -right-1" />
+                <Dumbbell className="w-8 h-8 text-green-500" />
+                <Sparkles className="w-4 h-4 text-green-400 absolute -top-1 -right-1" />
               </div>
               <span className="text-xl font-bold text-white">Meus Alunos</span>
             </div>
@@ -204,7 +204,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
         <Card className="bg-gray-900/50 border-gray-800 mb-8">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <Users className="w-5 h-5 text-orange-500" />
+              <Users className="w-5 h-5 text-green-500" />
               Limite de Alunos
             </CardTitle>
             <CardDescription className="text-gray-400">
@@ -221,7 +221,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
               </div>
               <Progress
                 value={limitPercentage}
-                className={`h-2 ${isAtLimit ? "[&>div]:bg-red-500" : "[&>div]:bg-orange-500"}`}
+                className={`h-2 ${isAtLimit ? "[&>div]:bg-red-500" : "[&>div]:bg-green-500"}`}
               />
               {isAtLimit && (
                 <div className="flex items-center gap-2 text-yellow-500 text-sm mt-2">
@@ -237,7 +237,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
         <Card className={`bg-gray-900/50 border-gray-800 mb-8 ${isAtLimit ? "opacity-50" : ""}`}>
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <UserPlus className="w-5 h-5 text-orange-500" />
+              <UserPlus className="w-5 h-5 text-green-500" />
               Adicionar Novo Aluno
             </CardTitle>
             <CardDescription className="text-gray-400">Cadastre um novo aluno para acessar o sistema</CardDescription>
@@ -280,7 +280,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                 <Button
                   onClick={handleCreateStudent}
                   disabled={isCreating || isAtLimit}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:opacity-50"
+                  className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 disabled:opacity-50"
                 >
                   {isCreating ? "Criando..." : "Criar Aluno"}
                 </Button>

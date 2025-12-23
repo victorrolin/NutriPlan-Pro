@@ -18,7 +18,7 @@ export function LandingPage() {
             <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/60 backdrop-blur-xl">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 shadow-lg shadow-orange-500/20">
+                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/20">
                             <Bot className="w-5 h-5 text-white" />
                         </div>
                         <div>
@@ -51,8 +51,8 @@ export function LandingPage() {
             <main className="relative pt-32">
                 {/* Hero Section */}
                 <section className="container mx-auto px-4 text-center pb-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-orange-400 mb-8 animate-fade-in">
-                        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-green-400 mb-8 animate-fade-in">
+                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         <span className="flex items-center gap-1.5">
                             <Bot className="w-3 h-3" />
                             Powered by Artificial Intelligence
@@ -61,7 +61,7 @@ export function LandingPage() {
 
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
                         Seu Personal Trainer <br />
-                        <span className="bg-gradient-to-r from-orange-500 tracking-tighter to-red-600 bg-clip-text text-transparent italic">
+                        <span className="bg-gradient-to-r from-green-400 tracking-tighter to-emerald-500 bg-clip-text text-transparent italic">
                             100% Inteligente
                         </span>
                     </h1>
@@ -73,7 +73,7 @@ export function LandingPage() {
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <Link href="/auth/login">
-                            <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-orange-500 to-red-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group">
+                            <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group">
                                 <Dumbbell className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
                                 Criar Meu Treino com IA
                                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -120,7 +120,7 @@ export function LandingPage() {
                 <section id="beneficios" className="py-24 bg-gradient-to-b from-transparent to-white/[0.02]">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Por que escolher um <span className="text-orange-500">Personal IA</span>?</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Por que escolher um <span className="text-green-500">Personal IA</span>?</h2>
                             <p className="text-gray-400">A tecnologia mais avançada aplicada ao seu desenvolvimento físico.</p>
                         </div>
 
@@ -162,7 +162,7 @@ export function LandingPage() {
                 {/* Social Proof / Call to Action */}
                 <section className="py-24">
                     <div className="container mx-auto px-4">
-                        <div className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-orange-500 to-red-700 p-8 md:p-16 text-center">
+                        <div className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 p-8 md:p-16 text-center">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 relative z-10">
                                 Pronto para transformar seu corpo?
