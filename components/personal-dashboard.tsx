@@ -92,6 +92,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
       password: newStudent.password,
       full_name: newStudent.full_name,
       role: "user",
+      created_by: currentUser.id,
     })
 
     if (error) {
