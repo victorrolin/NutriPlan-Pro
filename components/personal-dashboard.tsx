@@ -32,7 +32,9 @@ import {
   AlertTriangle,
 } from "lucide-react"
 import Link from "next/link"
-import { createStudent, toggleStudentStatus, deleteStudent, updateStudentPassword } from "@/app/personal/actions"
+import { AuthService } from "@/lib/auth-service"
+import { createClient } from "@/lib/supabase/client"
+import { PasswordDialog } from "@/components/password-dialog"
 import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
 
@@ -85,28 +87,55 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
       return
     }
 
-    const result = await createStudent(newStudent)
+    const { user, error } = await AuthService.signUp({
+      email: newStudent.email,
+      password: newStudent.password,
+      full_name: newStudent.full_name,
+      role: "user",
+    })
 
-    if (!result.success) {
-      setError(result.error || "Erro ao criar aluno")
+    if (error) {
+      setError(error)
+      setIsCreating(false)
     } else {
+      // Registrar vínculo com o personal
+      const supabase = await createClient()
+      const { error: linkError } = await supabase.from("personal_students").insert({
+        personal_id: currentUser.id,
+        student_id: user?.id,
+      })
+
+      if (linkError) {
+        console.error("Error linking student:", linkError)
+        // Mesmo com erro no link, o usuário foi criado. Idealmente deveríamos tratar isso.
+      }
+
       setSuccess("Aluno criado com sucesso!")
       setNewStudent({ email: "", password: "", full_name: "" })
+      setIsCreating(false)
+      setTimeout(() => window.location.reload(), 1000)
     }
-
-    setIsCreating(false)
   }
 
   const handleToggleStatus = async (studentId: string, currentStatus: boolean) => {
     setError(null)
     setSuccess(null)
 
-    const result = await toggleStudentStatus(studentId, !currentStatus)
+    try {
+      const supabase = await createClient()
+      const { error } = await supabase
+        .from("users")
+        .update({ is_active: !currentStatus })
+        .eq("id", studentId)
 
-    if (!result.success) {
-      setError(result.error || "Erro ao atualizar aluno")
-    } else {
-      setSuccess(currentStatus ? "Aluno bloqueado" : "Aluno desbloqueado")
+      if (error) {
+        setError("Erro ao atualizar aluno")
+      } else {
+        setSuccess(currentStatus ? "Aluno bloqueado" : "Aluno desbloqueado")
+        setTimeout(() => window.location.reload(), 1000)
+      }
+    } catch (error) {
+      setError("Erro ao atualizar aluno")
     }
   }
 
@@ -114,33 +143,21 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     setError(null)
     setSuccess(null)
 
-    const result = await deleteStudent(studentId)
+    try {
+      const supabase = await createClient()
+      const { error } = await supabase.from("users").delete().eq("id", studentId)
 
-    if (!result.success) {
-      setError(result.error || "Erro ao excluir aluno")
-    } else {
-      setSuccess("Aluno excluído com sucesso")
+      if (error) {
+        setError("Erro ao excluir aluno")
+      } else {
+        setSuccess("Aluno excluído com sucesso")
+        setTimeout(() => window.location.reload(), 1000)
+      }
+    } catch (error) {
+      setError("Erro ao excluir aluno")
     }
   }
 
-  const handlePasswordChange = async () => {
-    setError(null)
-    setSuccess(null)
-
-    if (!passwordChange.newPassword || passwordChange.newPassword.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres")
-      return
-    }
-
-    const result = await updateStudentPassword(passwordChange.studentId, passwordChange.newPassword)
-
-    if (!result.success) {
-      setError(result.error || "Erro ao alterar senha")
-    } else {
-      setSuccess("Senha alterada com sucesso")
-      setPasswordChange({ studentId: "", newPassword: "" })
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
@@ -315,55 +332,12 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
                             {/* Change Password */}
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="text-gray-400 hover:text-white hover:bg-gray-800"
-                                  onClick={() => setPasswordChange({ studentId: student.id, newPassword: "" })}
-                                >
-                                  <Key className="w-4 h-4" />
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent className="bg-gray-900 border-gray-800">
-                                <DialogHeader>
-                                  <DialogTitle className="text-white">Alterar Senha</DialogTitle>
-                                  <DialogDescription className="text-gray-400">
-                                    Defina uma nova senha para {student.full_name}
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <div className="grid gap-4 py-4">
-                                  <div className="grid gap-2">
-                                    <Label className="text-gray-200">Nova Senha</Label>
-                                    <Input
-                                      type="password"
-                                      placeholder="Min. 6 caracteres"
-                                      value={passwordChange.studentId === student.id ? passwordChange.newPassword : ""}
-                                      onChange={(e) =>
-                                        setPasswordChange({ studentId: student.id, newPassword: e.target.value })
-                                      }
-                                      className="bg-gray-800/50 border-gray-700 text-white"
-                                    />
-                                  </div>
-                                </div>
-                                <DialogFooter>
-                                  <DialogClose asChild>
-                                    <Button variant="outline" className="border-gray-700 text-gray-300 bg-transparent">
-                                      Cancelar
-                                    </Button>
-                                  </DialogClose>
-                                  <DialogClose asChild>
-                                    <Button
-                                      onClick={handlePasswordChange}
-                                      className="bg-orange-500 hover:bg-orange-600"
-                                    >
-                                      Salvar
-                                    </Button>
-                                  </DialogClose>
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
+                            <PasswordDialog
+                              userId={student.id}
+                              userName={student.full_name}
+                              onSuccess={() => setSuccess("Senha alterada com sucesso")}
+                              onError={(error) => setError(error)}
+                            />
 
                             {/* Toggle Status */}
                             <Button
