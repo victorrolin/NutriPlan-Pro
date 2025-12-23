@@ -65,6 +65,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
     userId: "",
     newPassword: "",
   })
+  const [tempPassword, setTempPassword] = useState("")
 
   const [limitChange, setLimitChange] = useState({
     personalId: "",
@@ -266,9 +267,11 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                     onOpenChange={(open) => {
                       if (open) {
                         setPasswordDialogOpen(user.id)
+                        setTempPassword("")
                         setPasswordChange({ userId: user.id, newPassword: "" })
                       } else {
                         setPasswordDialogOpen(null)
+                        setTempPassword("")
                       }
                     }}
                   >
@@ -290,8 +293,8 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                           <Input
                             type="password"
                             placeholder="Min. 6 caracteres"
-                            value={passwordChange.newPassword}
-                            onChange={(e) => setPasswordChange((prev) => ({ ...prev, newPassword: e.target.value }))}
+                            value={tempPassword}
+                            onChange={(e) => setTempPassword(e.target.value)}
                             className="bg-gray-800/50 border-gray-700 text-white"
                           />
                         </div>
@@ -305,7 +308,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                           Cancelar
                         </Button>
                         <Button
-                          onClick={() => handlePasswordChange(user.id, passwordChange.newPassword)}
+                          onClick={() => handlePasswordChange(user.id, tempPassword)}
                           className="bg-orange-500 hover:bg-orange-600"
                           disabled={isProcessing}
                         >
