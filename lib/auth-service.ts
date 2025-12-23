@@ -42,8 +42,9 @@ export class AuthService {
         return { user: null, error: "Email já cadastrado" }
       }
 
-      // Hash password
-      const passwordHash = await bcrypt.hash(data.password, 10)
+      // TEMPORARY: Store password as plain text (bcrypt doesn't work in static exports)
+      // TODO: Migrate to Supabase Auth or implement proper server-side authentication
+      const passwordHash = data.password
 
       const { data: newUser, error } = await supabase
         .from("users")
