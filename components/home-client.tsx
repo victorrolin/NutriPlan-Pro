@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { WelcomeScreen } from "@/components/welcome-screen"
 import { AssessmentFlow } from "@/components/assessment-flow"
 import { ResultsScreen } from "@/components/results-screen"
 import { AppHeader } from "@/components/app-header"
@@ -29,7 +28,13 @@ export default function HomeClient({ session }: HomeClientProps) {
   return (
     <main className="min-h-screen bg-background">
       {session && <AppHeader session={session} />}
-      {step === "assessment" && <AssessmentFlow onComplete={handleComplete} />}
+      {step === "assessment" && (
+        <AssessmentFlow
+          userName={session?.fullName || ""}
+          onComplete={handleComplete}
+          onBack={handleRestart}
+        />
+      )}
       {step === "results" && assessmentResult && (
         <ResultsScreen
           userData={assessmentResult.userData}
