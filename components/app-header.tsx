@@ -5,7 +5,7 @@ import { LogOut, Bot, Settings, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import type { SessionData } from "@/lib/session"
-import { logoutAction } from "@/app/auth/logout/actions"
+import { deleteSession } from "@/lib/session"
 
 interface AppHeaderProps {
   session: SessionData | null
@@ -15,8 +15,8 @@ export function AppHeader({ session }: AppHeaderProps) {
   const router = useRouter()
 
   const handleLogout = async () => {
-    await logoutAction()
-    router.refresh()
+    await deleteSession()
+    window.location.href = "/auth/login"
   }
 
   if (!session) {
