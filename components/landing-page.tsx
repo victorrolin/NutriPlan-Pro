@@ -60,9 +60,9 @@ export function LandingPage() {
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-                        Seu Personal Trainer <br />
+                        A Revolução do <br />
                         <span className="bg-gradient-to-r from-green-400 tracking-tighter to-emerald-500 bg-clip-text text-transparent italic">
-                            100% Inteligente
+                            Treino Inteligente
                         </span>
                     </h1>
 
@@ -71,19 +71,19 @@ export function LandingPage() {
                         Responda algumas perguntas e nossa IA irá montar o plano perfeito para seus objetivos.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link href="/auth/login">
-                            <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group">
-                                <Dumbbell className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                                Criar Meu Treino com IA
-                                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                        </Link>
-                        <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
-                            <Play className="w-4 h-4 mr-2 fill-white" />
-                            Ver Demonstração
+                    <Link href="/auth/login">
+                        <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group">
+                            <Dumbbell className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                            Começar Minha Transformação
+                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                         </Button>
-                    </div>
+                    </Link>
+                    <a href="#como-funciona">
+                        <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
+                            <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                            Como Funciona
+                        </Button>
+                    </a>
 
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto py-8 border-y border-white/5">
                         <div className="flex items-center justify-center gap-3">
@@ -109,41 +109,65 @@ export function LandingPage() {
                                 <Brain className="w-5 h-5 text-blue-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">Baseado em Ciência</p>
-                                <p className="text-xs text-gray-500">Periodização inteligente</p>
+                                <p className="text-sm font-bold text-white">Ciência de Ponta</p>
+                                <p className="text-xs text-gray-500">Periodização baseada em dados</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                {/* Features Section */}
-                <section id="beneficios" className="py-24 bg-gradient-to-b from-transparent to-white/[0.02]">
+                {/* How it Works Section */}
+                <section id="como-funciona" className="py-24 border-t border-white/5">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Por que escolher um <span className="text-green-500">Personal IA</span>?</h2>
-                            <p className="text-gray-400">A tecnologia mais avançada aplicada ao seu desenvolvimento físico.</p>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Sua jornada em <span className="text-green-500">3 passos</span></h2>
+                            <p className="text-gray-400">Simples, rápido e extremamente eficiente.</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                            {[
+                                { step: "01", title: "Perfil Detalhado", desc: "Nossa IA analisa seu biotipo, objetivos e limitações através de 20+ perguntas estratégicas." },
+                                { step: "02", title: "Geração por IA", desc: "Algoritmos de ponta criam uma periodização exclusiva, escolhendo os melhores exercícios para você." },
+                                { step: "03", title: "Resultados Reais", desc: "Receba seu treino em PDF pronto para executar, com cargas sugeridas e vídeos de execução." }
+                            ].map((s, i) => (
+                                <div key={i} className="relative group">
+                                    <div className="text-6xl font-black text-white/5 absolute -top-10 -left-4 group-hover:text-green-500/10 transition-colors">{s.step}</div>
+                                    <h3 className="text-xl font-bold mb-4 text-white">{s.title}</h3>
+                                    <p className="text-gray-400 leading-relaxed">{s.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Features Section */}
+                <section id="beneficios" className="py-24 bg-gradient-to-b from-transparent to-white/[0.02] border-t border-white/5">
+                    <div className="container mx-auto px-4">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">A Ciência por trás do <span className="text-green-500">Resultado</span></h2>
+                            <p className="text-gray-400">Por que o FitPlan Pro é superior aos métodos tradicionais?</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
                                 {
-                                    title: "Análise Biométrica",
-                                    desc: "IA analisa seu peso, altura e biotipo para definir o volume ideal.",
+                                    title: "Hipertrofia Otimizada",
+                                    desc: "Cálculos precisos de volume e intensidade para máximo ganho muscular.",
                                     icon: <Target className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Ajuste de Carga",
-                                    desc: "Sugestões de carga baseadas no seu nível de experiência.",
+                                    title: "Economia Inteligente",
+                                    desc: "Tenha a expertise de um Personal Trainer de elite por uma fração do custo.",
                                     icon: <Zap className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Foco Muscular",
-                                    desc: "Priorização automática de grupos musculares específicos.",
+                                    title: "Prevenção de Lesões",
+                                    desc: "IA que respeita suas limitações e sugere progressões seguras.",
                                     icon: <Dumbbell className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Sempre Disponível",
-                                    desc: "Seu treino atualizado a qualquer hora em qualquer lugar.",
+                                    title: "Bio-Feedback",
+                                    desc: "Ajustes constantes baseados na sua evolução e resposta ao treino.",
                                     icon: <Sparkles className="w-6 h-6" />
                                 }
                             ].map((feature, i) => (
