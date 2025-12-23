@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { getSession } from "@/lib/session"
 import HomeClient from "@/components/home-client"
+import { LandingPage } from "@/components/landing-page"
 
 export default function Home() {
   const [session, setSession] = useState<any>(null)
@@ -13,18 +14,20 @@ export default function Home() {
   useEffect(() => {
     async function load() {
       const s = await getSession()
-      if (!s) {
-        router.push("/auth/login")
-        return
+      if (s) {
+        setSession(s)
       }
-      setSession(s)
       setLoading(false)
     }
     load()
-  }, [router])
+  }, [])
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center">Carregando...</div>
+    return <div className="flex h-screen items-center justify-center bg-black text-white">Carregando...</div>
+  }
+
+  if (!session) {
+    return <LandingPage />
   }
 
   return <HomeClient session={session} />
