@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
+import { useEffect, useRef } from "react"
 
 export function LandingPage() {
     return (
@@ -71,19 +72,15 @@ export function LandingPage() {
                         Responda algumas perguntas e nossa IA irá montar o plano perfeito para seus objetivos.
                     </p>
 
-                    <Link href="/auth/login">
-                        <Button size="lg" className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group">
-                            <Dumbbell className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                            Começar Minha Transformação
-                            <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                    </Link>
-                    <a href="#como-funciona">
-                        <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
-                            <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
-                            Como Funciona
-                        </Button>
-                    </a>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <MercadoPagoButton />
+                        <a href="#como-funciona">
+                            <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
+                                <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                                Como Funciona
+                            </Button>
+                        </a>
+                    </div>
 
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto py-8 border-y border-white/5">
                         <div className="flex items-center justify-center gap-3">
@@ -213,4 +210,20 @@ export function LandingPage() {
             <Footer />
         </div>
     )
+}
+
+function MercadoPagoButton() {
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (containerRef.current && containerRef.current.innerHTML === "") {
+            const script = document.createElement("script")
+            script.src = "https://www.mercadopago.com.br/integrations/v1/web-payment-checkout.js"
+            script.setAttribute("data-preference-id", "300429693-2b15a780-5d7f-4875-8d45-5a42d0c0b647")
+            script.setAttribute("data-source", "button")
+            containerRef.current.appendChild(script)
+        }
+    }, [])
+
+    return <div ref={containerRef} className="mp-button-wrapper" />
 }

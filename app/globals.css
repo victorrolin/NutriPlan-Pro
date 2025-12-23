@@ -120,6 +120,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -127,10 +128,12 @@
 
 @layer utilities {
   @keyframes shake {
+
     0%,
     100% {
       transform: translateX(0);
     }
+
     10%,
     30%,
     50%,
@@ -138,6 +141,7 @@
     90% {
       transform: translateX(-4px);
     }
+
     20%,
     40%,
     60%,
@@ -147,10 +151,12 @@
   }
 
   @keyframes glow {
+
     0%,
     100% {
       box-shadow: 0 0 20px rgba(var(--color-primary), 0.3);
     }
+
     50% {
       box-shadow: 0 0 30px rgba(var(--color-primary), 0.6);
     }
@@ -163,4 +169,25 @@
   .animate-glow {
     animation: glow 2s ease-in-out infinite;
   }
+}
+
+/* Mercado Pago Button Customization */
+.mp-button-wrapper .mercadopago-button {
+  background-color: #22c55e !important;
+  /* green-500 */
+  border-radius: 1rem !important;
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important;
+  height: 3.5rem !important;
+  padding: 0 2rem !important;
+  transition: all 0.2s !important;
+  border: none !important;
+  box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.2) !important;
+}
+
+.mp-button-wrapper .mercadopago-button:hover {
+  background-color: #059669 !important;
+  /* emerald-600 */
+  transform: scale(1.05);
 }
