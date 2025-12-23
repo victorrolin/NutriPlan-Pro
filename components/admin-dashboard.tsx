@@ -37,6 +37,7 @@ import { AuthService } from "@/lib/auth-service"
 import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
 import { createClient } from "@/lib/supabase/client"
+import { PasswordDialog } from "@/components/password-dialog"
 
 interface AdminDashboardProps {
   users: User[]
@@ -262,61 +263,12 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
               <TableCell className="text-gray-400">{new Date(user.created_at).toLocaleDateString("pt-BR")}</TableCell>
               <TableCell className="text-right">
                 <div className="flex items-center justify-end gap-2">
-                  <Dialog
-                    open={passwordDialogOpen === user.id}
-                    onOpenChange={(open) => {
-                      if (open) {
-                        setPasswordDialogOpen(user.id)
-                        setTempPassword("")
-                        setPasswordChange({ userId: user.id, newPassword: "" })
-                      } else {
-                        setPasswordDialogOpen(null)
-                        setTempPassword("")
-                      }
-                    }}
-                  >
-                    <DialogTrigger asChild>
-                      <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white hover:bg-gray-800">
-                        <Key className="w-4 h-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-gray-900 border-gray-800">
-                      <DialogHeader>
-                        <DialogTitle className="text-white">Alterar Senha</DialogTitle>
-                        <DialogDescription className="text-gray-400">
-                          Defina uma nova senha para {user.full_name}
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="grid gap-2">
-                          <Label className="text-gray-200">Nova Senha</Label>
-                          <Input
-                            type="password"
-                            placeholder="Min. 6 caracteres"
-                            value={tempPassword}
-                            onChange={(e) => setTempPassword(e.target.value)}
-                            className="bg-gray-800/50 border-gray-700 text-white"
-                          />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <Button
-                          variant="outline"
-                          className="border-gray-700 text-gray-300 bg-transparent"
-                          onClick={() => setPasswordDialogOpen(null)}
-                        >
-                          Cancelar
-                        </Button>
-                        <Button
-                          onClick={() => handlePasswordChange(user.id, tempPassword)}
-                          className="bg-orange-500 hover:bg-orange-600"
-                          disabled={isProcessing}
-                        >
-                          {isProcessing ? "Salvando..." : "Salvar"}
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                  <PasswordDialog
+                    userId={user.id}
+                    userName={user.full_name}
+                    onSuccess={() => setSuccess("Senha alterada com sucesso")}
+                    onError={(error) => setError(error)}
+                  />
 
                   {user.role === "personal" && (
                     <Dialog
