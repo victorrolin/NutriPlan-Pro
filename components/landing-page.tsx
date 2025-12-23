@@ -10,8 +10,8 @@ export function LandingPage() {
         <div className="min-h-screen bg-black text-white selection:bg-orange-500/30">
             {/* Background Decorative Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-600/10 blur-[120px] rounded-full" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-600/10 blur-[120px] rounded-full" />
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green-600/10 blur-[120px] rounded-full" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/10 blur-[120px] rounded-full" />
             </div>
 
             {/* Header */}
@@ -87,8 +87,8 @@ export function LandingPage() {
 
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto py-8 border-y border-white/5">
                         <div className="flex items-center justify-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                                <Zap className="w-5 h-5 text-orange-500" />
+                            <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
+                                <Zap className="w-5 h-5 text-green-500" />
                             </div>
                             <div className="text-left">
                                 <p className="text-sm font-bold text-white">Treino em 30 segundos</p>
@@ -96,8 +96,8 @@ export function LandingPage() {
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-3">
-                            <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-                                <Target className="w-5 h-5 text-red-500" />
+                            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                                <Target className="w-5 h-5 text-emerald-500" />
                             </div>
                             <div className="text-left">
                                 <p className="text-sm font-bold text-white">100% Personalizado</p>
@@ -147,8 +147,8 @@ export function LandingPage() {
                                     icon: <Sparkles className="w-6 h-6" />
                                 }
                             ].map((feature, i) => (
-                                <div key={i} className="p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:border-orange-500/20 transition-all hover:bg-white/[0.05] group">
-                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center mb-6 shadow-lg shadow-orange-500/10 group-hover:scale-110 transition-transform">
+                                <div key={i} className="p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:border-green-500/20 transition-all hover:bg-white/[0.05] group">
+                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-6 shadow-lg shadow-green-500/10 group-hover:scale-110 transition-transform">
                                         {feature.icon}
                                     </div>
                                     <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>

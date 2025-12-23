@@ -47,7 +47,7 @@ export function AppHeader({ session }: AppHeaderProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-2 hover:bg-orange-500/10 hover:text-orange-500 hover:border-orange-500/30 bg-transparent"
+                className="gap-2 hover:bg-green-500/10 hover:text-green-500 hover:border-green-500/30 bg-transparent"
               >
                 <Users className="h-4 w-4" />
                 <span className="hidden sm:inline">Meus Alunos</span>
@@ -60,7 +60,7 @@ export function AppHeader({ session }: AppHeaderProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-2 hover:bg-orange-500/10 hover:text-orange-500 hover:border-orange-500/30 bg-transparent"
+                className="gap-2 hover:bg-green-500/10 hover:text-green-500 hover:border-green-500/30 bg-transparent"
               >
                 <Settings className="h-4 w-4" />
                 <span className="hidden sm:inline">Admin</span>

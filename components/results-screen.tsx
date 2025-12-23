@@ -328,7 +328,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
               <Button
                 size="lg"
                 onClick={handleDownloadPdf}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto"
+                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
               >
                 <ExternalLink className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Abrir Treino em PDF
