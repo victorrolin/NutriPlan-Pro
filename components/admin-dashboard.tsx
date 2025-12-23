@@ -96,12 +96,14 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
 
     if (!result.success) {
       setError(result.error || "Erro ao criar usuário")
+      setIsCreating(false)
     } else {
       setSuccess("Usuário criado com sucesso!")
       setNewUser({ email: "", password: "", full_name: "", role: "user" })
+      setIsCreating(false)
+      // Reload page to refresh user list
+      setTimeout(() => window.location.reload(), 1000)
     }
-
-    setIsCreating(false)
   }
 
   const handleToggleStatus = async (userId: string, currentStatus: boolean) => {
