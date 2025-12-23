@@ -67,7 +67,7 @@ export function LandingPage() {
                     </h1>
 
                     <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed">
-                        Treinos personalizados criados por <span className="text-white font-medium">Inteligência Artificial</span> em segundos.
+                        Treinos personalizados criados por <span className="text-white font-medium">Inteligência Artificial</span> sob medida.
                         Responda algumas perguntas e nossa IA irá montar o plano perfeito para seus objetivos.
                     </p>
 
@@ -91,8 +91,8 @@ export function LandingPage() {
                                 <Zap className="w-5 h-5 text-green-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">Treino em 30 segundos</p>
-                                <p className="text-xs text-gray-500">Agilidade total na montagem</p>
+                                <p className="text-sm font-bold text-white">Treino Prontamente</p>
+                                <p className="text-xs text-gray-500">Geração inteligente em poucos minutos</p>
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-3">
@@ -128,7 +128,7 @@ export function LandingPage() {
                             {[
                                 { step: "01", title: "Perfil Detalhado", desc: "Nossa IA analisa seu biotipo, objetivos e limitações através de 20+ perguntas estratégicas." },
                                 { step: "02", title: "Geração por IA", desc: "Algoritmos de ponta criam uma periodização exclusiva, escolhendo os melhores exercícios para você." },
-                                { step: "03", title: "Resultados Reais", desc: "Receba seu treino em PDF pronto para executar, com cargas sugeridas e vídeos de execução." }
+                                { step: "03", title: "Resultados Reais", desc: "Receba seu treino em PDF pronto para executar, com cargas sugeridas e protocolos detalhados." }
                             ].map((s, i) => (
                                 <div key={i} className="relative group">
                                     <div className="text-6xl font-black text-white/5 absolute -top-10 -left-4 group-hover:text-green-500/10 transition-colors">{s.step}</div>
