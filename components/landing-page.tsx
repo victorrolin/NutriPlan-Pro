@@ -40,11 +40,6 @@ export function LandingPage() {
                                 Entrar
                             </Button>
                         </Link>
-                        <Link href="/auth/login">
-                            <Button className="bg-white text-black hover:bg-gray-200 text-sm font-bold rounded-full px-6">
-                                Começar agora
-                            </Button>
-                        </Link>
                     </div>
                 </div>
             </header>
@@ -72,14 +67,21 @@ export function LandingPage() {
                         Responda algumas perguntas e nossa IA irá montar o plano perfeito para seus objetivos.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <MercadoPagoButton />
-                        <a href="#como-funciona">
-                            <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
-                                <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
-                                Como Funciona
-                            </Button>
-                        </a>
+                    <div className="flex flex-col items-center justify-center gap-6">
+                        <div className="flex flex-col items-center gap-4">
+                            <p className="text-sm text-green-400 font-medium animate-pulse">
+                                Realize o pagamento através do Mercado Pago e receba seu link de acesso na hora.
+                            </p>
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                <MercadoPagoButton />
+                                <a href="#como-funciona">
+                                    <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
+                                        <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                                        Como Funciona
+                                    </Button>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto py-8 border-y border-white/5">
@@ -180,26 +182,22 @@ export function LandingPage() {
                     </div>
                 </section>
 
-                {/* Social Proof / Call to Action */}
+                {/* Action Call to Action */}
                 <section className="py-24">
                     <div className="container mx-auto px-4">
                         <div className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 p-8 md:p-16 text-center">
                             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 relative z-10">
-                                Pronto para transformar seu corpo?
+                                Pronto para a sua melhor versão?
                             </h2>
                             <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto relative z-10">
-                                Junte-se a milhares de usuários que já estão treinando com inteligência artificial.
+                                Libere seu acesso agora e comece a treinar com a ciência da inteligência artificial.
                             </p>
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 relative z-10">
-                                <Link href="/auth/login">
-                                    <Button size="lg" className="h-16 px-10 bg-white text-black hover:bg-gray-100 text-lg font-bold rounded-2xl shadow-2xl">
-                                        Começar Agora Grátis
-                                    </Button>
-                                </Link>
+                            <div className="flex flex-col items-center justify-center gap-6 relative z-10">
+                                <MercadoPagoButton />
                                 <div className="flex items-center gap-2 text-white/90 font-medium">
                                     <CheckCircle2 className="w-5 h-5" />
-                                    Sem cartão de crédito
+                                    Acesso imediato após aprovação
                                 </div>
                             </div>
                         </div>
