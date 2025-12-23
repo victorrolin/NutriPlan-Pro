@@ -13,10 +13,8 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ session }: HomeClientProps) {
-  const [step, setStep] = useState<"welcome" | "assessment" | "results">("welcome")
+  const [step, setStep] = useState<"assessment" | "results">("assessment")
   const [assessmentResult, setAssessmentResult] = useState<AssessmentResult | null>(null)
-
-  const handleStart = () => setStep("assessment")
 
   const handleComplete = (result: AssessmentResult) => {
     setAssessmentResult(result)
@@ -25,13 +23,12 @@ export default function HomeClient({ session }: HomeClientProps) {
 
   const handleRestart = () => {
     setAssessmentResult(null)
-    setStep("welcome")
+    setStep("assessment")
   }
 
   return (
     <main className="min-h-screen bg-background">
       {session && <AppHeader session={session} />}
-      {step === "welcome" && <WelcomeScreen onStart={handleStart} />}
       {step === "assessment" && <AssessmentFlow onComplete={handleComplete} />}
       {step === "results" && assessmentResult && (
         <ResultsScreen
