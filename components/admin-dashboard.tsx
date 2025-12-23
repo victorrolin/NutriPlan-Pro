@@ -291,7 +291,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                             type="password"
                             placeholder="Min. 6 caracteres"
                             value={passwordChange.newPassword}
-                            onChange={(e) => setPasswordChange({ userId: user.id, newPassword: e.target.value })}
+                            onChange={(e) => setPasswordChange((prev) => ({ ...prev, newPassword: e.target.value }))}
                             className="bg-gray-800/50 border-gray-700 text-white"
                           />
                         </div>
