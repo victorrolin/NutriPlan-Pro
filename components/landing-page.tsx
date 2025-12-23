@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer"
 
 export function LandingPage() {
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-orange-500/30">
+        <div className="min-h-screen bg-black text-white selection:bg-green-500/30">
             {/* Background Decorative Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green-600/10 blur-[120px] rounded-full" />
