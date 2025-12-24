@@ -282,11 +282,24 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
 
             if (response.ok) {
                 const textResponse = await response.text()
+
+                const openCheckout = (url: string) => {
+                    const width = 600;
+                    const height = 800;
+                    const left = window.screenX + (window.outerWidth - width) / 2;
+                    const top = window.screenY + (window.outerHeight - height) / 2;
+                    window.open(
+                        url,
+                        'MercadoPagoCheckout',
+                        `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`
+                    );
+                }
+
                 try {
                     // Tenta tratar como JSON primeiro
                     const data = JSON.parse(textResponse)
                     if (data.checkoutUrl) {
-                        window.open(data.checkoutUrl, '_blank')
+                        openCheckout(data.checkoutUrl)
                         onSuccess()
                         return
                     }
@@ -297,7 +310,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                     if (foundUrls && foundUrls.length > 0) {
                         // Pega o último link (geralmente o link do mercado pago no final da mensagem)
                         const checkoutUrl = foundUrls[foundUrls.length - 1]
-                        window.open(checkoutUrl, '_blank')
+                        openCheckout(checkoutUrl)
                         onSuccess()
                         return
                     }
