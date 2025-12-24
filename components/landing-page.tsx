@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Phone, Mail, User } from "lucide-react"
+import { Loader2, Phone, Mail, User, MessageSquare } from "lucide-react"
 
 export function LandingPage() {
     const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
@@ -139,11 +139,19 @@ export function LandingPage() {
 
                                     <div className="flex flex-col gap-4">
                                         <MercadoPagoButton />
-                                        <Link href="/auth/login" className="w-full">
-                                            <Button variant="outline" className="w-full h-12 border-white/10 hover:bg-white/5 text-gray-400 text-sm font-medium rounded-xl">
-                                                Ir para Área do Aluno
-                                            </Button>
-                                        </Link>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Link href="/auth/login" className="w-full">
+                                                <Button variant="outline" className="w-full h-12 border-white/10 hover:bg-white/5 text-gray-400 text-sm font-medium rounded-xl">
+                                                    Área do Aluno
+                                                </Button>
+                                            </Link>
+                                            <a href="https://wa.me/5551995762718" target="_blank" rel="noopener noreferrer" className="w-full">
+                                                <Button variant="outline" className="w-full h-12 border-green-500/20 hover:bg-green-500/5 text-green-500 text-sm font-medium rounded-xl">
+                                                    <MessageSquare className="w-4 h-4 mr-2" />
+                                                    Suporte
+                                                </Button>
+                                            </a>
+                                        </div>
                                     </div>
 
                                     <p className="text-[10px] text-gray-600 mt-6 italic">
