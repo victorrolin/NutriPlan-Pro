@@ -279,18 +279,26 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
             })
 
             if (response.ok) {
-                const data = await response.json()
-                if (data.checkoutUrl) {
-                    window.location.href = data.checkoutUrl
-                } else {
+                try {
+                    const data = await response.json()
+                    if (data.checkoutUrl) {
+                        window.location.href = data.checkoutUrl
+                    } else {
+                        onSuccess()
+                    }
+                } catch (jsonError) {
+                    console.error("Error parsing JSON response:", jsonError)
+                    // If response is OK but not JSON, we still consider it a success
                     onSuccess()
                 }
             } else {
-                alert("Ocorreu um erro ao gerar seu link de pagamento. Por favor, tente novamente.")
+                const errorText = await response.text().catch(() => "Unknown error")
+                console.error("Webhook error response:", response.status, errorText)
+                alert(`Erro no servidor (${response.status}). Por favor, tente novamente.`)
             }
         } catch (error) {
-            console.error("Error saving lead:", error)
-            alert("Erro de conexão. Verifique sua internet.")
+            console.error("Network error saving lead:", error)
+            alert("Erro de conexão. Verifique se o seu n8n permite conexões (CORS) ou se o link do webhook está correto.")
         } finally {
             setLoading(false)
         }
