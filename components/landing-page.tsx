@@ -11,6 +11,7 @@ import { Loader2, Phone, Mail, User } from "lucide-react"
 
 export function LandingPage() {
     const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
+    const [registeredEmail, setRegisteredEmail] = useState("")
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-green-500/30">
@@ -95,25 +96,59 @@ export function LandingPage() {
 
                         {step === "register" && (
                             <div className="w-full max-w-md mx-auto p-1 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl backdrop-blur-xl border border-white/10 animate-in fade-in zoom-in duration-300">
-                                <RegistrationForm onSuccess={() => setStep("payment")} />
+                                <RegistrationForm onSuccess={(email) => {
+                                    setRegisteredEmail(email)
+                                    setStep("payment")
+                                }} />
                             </div>
                         )}
 
                         {step === "payment" && (
                             <div className="flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="p-6 bg-green-500/10 rounded-2xl border border-green-500/20 text-center max-w-sm">
-                                    <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                                    <h3 className="text-xl font-bold text-white mb-2">Quase lá!</h3>
-                                    <p className="text-sm text-gray-400 mb-6">
-                                        Abrimos a página de pagamento em uma nova aba.
-                                        Conclua por lá para liberar seu acesso.
+                                <div className="p-8 bg-black/60 rounded-3xl border border-green-500/30 text-center max-w-md backdrop-blur-2xl shadow-2xl">
+                                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/10">
+                                        <CheckCircle2 className="w-8 h-8 text-green-500 shadow-sm" />
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Pagamento em Andamento!</h3>
+                                    <p className="text-gray-400 mb-8 leading-relaxed">
+                                        Abrimos a janela de pagamento do Mercado Pago para você. Enquanto isso, guarde seus dados de acesso:
                                     </p>
-                                    <div className="flex flex-col gap-3">
-                                        <MercadoPagoButton />
-                                        <p className="text-[10px] text-gray-500 italic">
-                                            Se a aba não abriu, clique no botão acima.
+
+                                    <div className="grid gap-3 mb-8">
+                                        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10 text-left">
+                                            <Mail className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                            <div>
+                                                <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Seu Usuário (E-mail)</p>
+                                                <p className="text-sm text-white font-medium truncate">{registeredEmail}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10 text-left">
+                                            <Lock className="w-5 h-5 text-green-500 flex-shrink-0" />
+                                            <div>
+                                                <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Sua Senha</p>
+                                                <p className="text-sm text-white font-medium italic">A senha que você acabou de criar</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-green-500/5 rounded-2xl border border-green-500/10 mb-8">
+                                        <p className="text-xs text-green-400/90 leading-relaxed font-medium">
+                                            Após concluir o pagamento, seu acesso será liberado instantaneamente.
                                         </p>
                                     </div>
+
+                                    <div className="flex flex-col gap-4">
+                                        <MercadoPagoButton />
+                                        <Link href="/auth/login" className="w-full">
+                                            <Button variant="outline" className="w-full h-12 border-white/10 hover:bg-white/5 text-gray-400 text-sm font-medium rounded-xl">
+                                                Ir para Área do Aluno
+                                            </Button>
+                                        </Link>
+                                    </div>
+
+                                    <p className="text-[10px] text-gray-600 mt-6 italic">
+                                        Se a janela de pagamento não abriu, clique em "Mercado Pago" acima.
+                                    </p>
                                 </div>
                             </div>
                         )}
@@ -260,7 +295,7 @@ export function LandingPage() {
     )
 }
 
-function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
+function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void }) {
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({ name: "", email: "", phone: "", cpf: "", password: "" })
 
@@ -315,7 +350,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                         return
                     }
                 }
-                onSuccess()
+                onSuccess(formData.email)
             } else {
                 const errorText = await response.text().catch(() => "Unknown error")
                 console.error("Webhook error response:", response.status, errorText)
