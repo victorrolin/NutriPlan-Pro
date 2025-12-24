@@ -6,7 +6,7 @@ import { Progress } from "@/components/ui/progress"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { QuestionCard } from "@/components/question-card"
-import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, Check, Loader2, Camera, Upload, X } from "lucide-react"
 import type { UserData, Question, AssessmentResult } from "@/types/assessment"
 import { Footer } from "@/components/footer"
 import { LoadingOverlay } from "./loading-overlay"
@@ -57,7 +57,7 @@ const labelMap: Record<string, string> = {
   // Nível de Atividade
   sedentary: "Sedentário",
   light: "Levemente Ativo",
-  moderate: "Moderadamente Ativo",
+  "moderate-activity": "Moderadamente Ativo",
   very: "Muito Ativo",
   athlete: "Atleta",
   // Biotipo
@@ -66,7 +66,7 @@ const labelMap: Record<string, string> = {
   endomorph: "Endomorfo",
   // Preferência de Treino
   short: "Curto e Intenso",
-  moderate: "Moderado",
+  "moderate-intensity": "Moderado",
   long: "Longo e Moderado",
   // Horário
   morning: "Manhã",
@@ -151,7 +151,7 @@ const questions: Question[] = [
         description: "Atividade leve 1-3x/semana",
       },
       {
-        id: "moderate",
+        id: "moderate-activity",
         label: "Moderadamente Ativo",
         image: "/moderate-activity-jogging.jpg",
         description: "Exercício moderado 3-5x/semana",
@@ -321,7 +321,7 @@ const questions: Question[] = [
         description: "Alta intensidade, menos tempo",
       },
       {
-        id: "moderate",
+        id: "moderate-intensity",
         label: "Moderado",
         image: "/moderate-intensity-workout.jpg",
         description: "Equilíbrio entre intensidade e volume",
@@ -549,13 +549,18 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
     muscleGroups: [],
     limitations: "",
     dietType: "",
+    photos: {
+      front: "",
+      side: "",
+      back: "",
+    },
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const currentQuestion = questions[currentIndex]
   const progress = ((currentIndex + 1) / questions.length) * 100
 
-  const handleAnswer = (value: string | string[]) => {
+  const handleAnswer = (value: any) => {
     setAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: value,
@@ -615,7 +620,6 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {isSubmitting && <LoadingOverlay userName={answers.name || userName} />}
 
-      <AppHeader onLogout={onBack} />
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
         <div className="container mx-auto px-3 md:px-4 py-3 md:py-4">
           <div className="flex items-center justify-between mb-3 md:mb-4">
