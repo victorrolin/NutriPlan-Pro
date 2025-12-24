@@ -279,18 +279,25 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
             })
 
             if (response.ok) {
+                const textResponse = await response.text()
                 try {
-                    const data = await response.json()
+                    // Tenta tratar como JSON primeiro
+                    const data = JSON.parse(textResponse)
                     if (data.checkoutUrl) {
                         window.location.href = data.checkoutUrl
-                    } else {
-                        onSuccess()
+                        return
                     }
-                } catch (jsonError) {
-                    console.error("Error parsing JSON response:", jsonError)
-                    // If response is OK but not JSON, we still consider it a success
-                    onSuccess()
+                } catch (e) {
+                    // Se não for JSON, procura um link direto no texto (comum no n8n)
+                    const urlRegex = /(https?:\/\/[^\s]+)/g
+                    const foundUrls = textResponse.match(urlRegex)
+                    if (foundUrls && foundUrls.length > 0) {
+                        // Pega o último link (geralmente o link do mercado pago no final da mensagem)
+                        window.location.href = foundUrls[foundUrls.length - 1]
+                        return
+                    }
                 }
+                onSuccess()
             } else {
                 const errorText = await response.text().catch(() => "Unknown error")
                 console.error("Webhook error response:", response.status, errorText)
