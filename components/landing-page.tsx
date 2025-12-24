@@ -273,6 +273,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...formData,
+                    cpf: formData.cpf.replace(/\D/g, ""), // Envia apenas dígitos
                     source: "landing_page",
                     timestamp: new Date().toISOString()
                 })
