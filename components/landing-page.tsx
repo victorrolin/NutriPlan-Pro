@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2 } from "lucide-react"
+import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
@@ -261,7 +261,7 @@ export function LandingPage() {
 
 function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState({ name: "", email: "", phone: "" })
+    const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "" })
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -332,6 +332,21 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                         placeholder="(00) 00000-0000"
                         value={formData.phone}
                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
+                    />
+                </div>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="password" className="text-white/70 text-xs uppercase tracking-wider font-bold">Crie uma Senha para Acesso</Label>
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                    <Input
+                        id="password"
+                        type="password"
+                        required
+                        placeholder="Sua senha secreta"
+                        value={formData.password}
+                        onChange={e => setFormData({ ...formData, password: e.target.value })}
                         className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
                     />
                 </div>
