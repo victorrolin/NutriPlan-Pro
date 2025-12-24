@@ -38,6 +38,10 @@ export function LandingPage() {
                         <a href="#como-funciona" className="hover:text-white transition-colors">Como funciona</a>
                         <a href="#beneficios" className="hover:text-white transition-colors">Benefícios</a>
                         <a href="#sobre" className="hover:text-white transition-colors">Sobre</a>
+                        <a href="https://wa.me/5551995762718" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition-colors flex items-center gap-1.5">
+                            <MessageSquare className="w-4 h-4" />
+                            Suporte
+                        </a>
                     </nav>
 
                     <div className="flex items-center gap-3">
@@ -299,6 +303,21 @@ export function LandingPage() {
             </main>
 
             <Footer />
+
+            {/* Floating WhatsApp Button */}
+            <a
+                href="https://wa.me/5551995762718"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed bottom-6 right-6 z-[60] flex items-center gap-3 group animate-in slide-in-from-right-10 duration-500"
+            >
+                <div className="hidden group-hover:flex items-center px-4 py-2 bg-white text-black rounded-full shadow-2xl animate-in fade-in slide-in-from-right-4 duration-300 font-bold text-sm">
+                    Suporte Técnico
+                </div>
+                <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/50 hover:scale-110 active:scale-95 transition-all text-white">
+                    <MessageSquare size={28} />
+                </div>
+            </a>
         </div>
     )
 }
