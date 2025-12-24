@@ -100,19 +100,20 @@ export function LandingPage() {
                         )}
 
                         {step === "payment" && (
-                            <div className="flex flex-col items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <p className="text-sm text-green-400 font-medium animate-pulse flex items-center gap-2">
-                                    <CheckCircle2 className="w-4 h-4" />
-                                    Dados salvos! Realize o pagamento para liberar seu acesso instantâneo.
-                                </p>
-                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                    <MercadoPagoButton />
-                                    <a href="#como-funciona">
-                                        <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
-                                            <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
-                                            Como Funciona
-                                        </Button>
-                                    </a>
+                            <div className="flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                <div className="p-6 bg-green-500/10 rounded-2xl border border-green-500/20 text-center max-w-sm">
+                                    <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                                    <h3 className="text-xl font-bold text-white mb-2">Quase lá!</h3>
+                                    <p className="text-sm text-gray-400 mb-6">
+                                        Abrimos a página de pagamento em uma nova aba.
+                                        Conclua por lá para liberar seu acesso.
+                                    </p>
+                                    <div className="flex flex-col gap-3">
+                                        <MercadoPagoButton />
+                                        <p className="text-[10px] text-gray-500 italic">
+                                            Se a aba não abriu, clique no botão acima.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -285,7 +286,8 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                     // Tenta tratar como JSON primeiro
                     const data = JSON.parse(textResponse)
                     if (data.checkoutUrl) {
-                        window.location.href = data.checkoutUrl
+                        window.open(data.checkoutUrl, '_blank')
+                        onSuccess()
                         return
                     }
                 } catch (e) {
@@ -294,7 +296,9 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                     const foundUrls = textResponse.match(urlRegex)
                     if (foundUrls && foundUrls.length > 0) {
                         // Pega o último link (geralmente o link do mercado pago no final da mensagem)
-                        window.location.href = foundUrls[foundUrls.length - 1]
+                        const checkoutUrl = foundUrls[foundUrls.length - 1]
+                        window.open(checkoutUrl, '_blank')
+                        onSuccess()
                         return
                     }
                 }
