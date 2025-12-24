@@ -279,9 +279,14 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
             })
 
             if (response.ok) {
-                onSuccess()
+                const data = await response.json()
+                if (data.checkoutUrl) {
+                    window.location.href = data.checkoutUrl
+                } else {
+                    onSuccess()
+                }
             } else {
-                alert("Ocorreu um erro ao salvar seus dados. Por favor, tente novamente.")
+                alert("Ocorreu um erro ao gerar seu link de pagamento. Por favor, tente novamente.")
             }
         } catch (error) {
             console.error("Error saving lead:", error)
