@@ -133,7 +133,7 @@ export function LandingPage() {
 
                                     <div className="p-4 bg-green-500/5 rounded-2xl border border-green-500/10 mb-8">
                                         <p className="text-xs text-green-400/90 leading-relaxed font-medium">
-                                            Após concluir o pagamento, seu acesso será liberado instantaneamente.
+                                            Após concluir o pagamento, seu acesso será liberado instantaneamente e você também receberá os dados por e-mail.
                                         </p>
                                     </div>
 
