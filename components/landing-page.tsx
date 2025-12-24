@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock } from "lucide-react"
+import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
@@ -261,7 +261,7 @@ export function LandingPage() {
 
 function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
     const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState({ name: "", email: "", phone: "", password: "" })
+    const [formData, setFormData] = useState({ name: "", email: "", phone: "", cpf: "", password: "" })
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -352,6 +352,28 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                         placeholder="(00) 00000-0000"
                         value={formData.phone}
                         onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
+                    />
+                </div>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="cpf" className="text-white/70 text-xs uppercase tracking-wider font-bold">CPF (Para emissão do Pix)</Label>
+                <div className="relative">
+                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                    <Input
+                        id="cpf"
+                        required
+                        placeholder="000.000.000-00"
+                        value={formData.cpf}
+                        onChange={e => {
+                            let value = e.target.value.replace(/\D/g, "")
+                            if (value.length <= 11) {
+                                value = value.replace(/(\d{3})(\d)/, "$1.$2")
+                                value = value.replace(/(\d{3})(\d)/, "$1.$2")
+                                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+                                setFormData({ ...formData, cpf: value })
+                            }
+                        }}
                         className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
                     />
                 </div>
