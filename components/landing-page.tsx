@@ -4,9 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Loader2, Phone, Mail, User } from "lucide-react"
 
 export function LandingPage() {
+    const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
+
     return (
         <div className="min-h-screen bg-black text-white selection:bg-green-500/30">
             {/* Background Decorative Elements */}
@@ -68,12 +73,17 @@ export function LandingPage() {
                     </p>
 
                     <div className="flex flex-col items-center justify-center gap-6">
-                        <div className="flex flex-col items-center gap-4">
-                            <p className="text-sm text-green-400 font-medium animate-pulse">
-                                Realize o pagamento através do Mercado Pago e receba seu link de acesso na hora.
-                            </p>
+                        {step === "idle" && (
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <MercadoPagoButton />
+                                <Button
+                                    size="lg"
+                                    onClick={() => setStep("register")}
+                                    className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group shadow-lg shadow-green-500/20"
+                                >
+                                    <Zap className="w-5 h-5 mr-2" />
+                                    Começar Agora
+                                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                                </Button>
                                 <a href="#como-funciona">
                                     <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
                                         <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
@@ -81,7 +91,31 @@ export function LandingPage() {
                                     </Button>
                                 </a>
                             </div>
-                        </div>
+                        )}
+
+                        {step === "register" && (
+                            <div className="w-full max-w-md mx-auto p-1 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-3xl backdrop-blur-xl border border-white/10 animate-in fade-in zoom-in duration-300">
+                                <RegistrationForm onSuccess={() => setStep("payment")} />
+                            </div>
+                        )}
+
+                        {step === "payment" && (
+                            <div className="flex flex-col items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                <p className="text-sm text-green-400 font-medium animate-pulse flex items-center gap-2">
+                                    <CheckCircle2 className="w-4 h-4" />
+                                    Dados salvos! Realize o pagamento para liberar seu acesso instantâneo.
+                                </p>
+                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                                    <MercadoPagoButton />
+                                    <a href="#como-funciona">
+                                        <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
+                                            <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
+                                            Como Funciona
+                                        </Button>
+                                    </a>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto py-8 border-y border-white/5">
@@ -194,11 +228,26 @@ export function LandingPage() {
                                 Libere seu acesso agora e comece a treinar com a ciência da inteligência artificial.
                             </p>
                             <div className="flex flex-col items-center justify-center gap-6 relative z-10">
-                                <MercadoPagoButton />
-                                <div className="flex items-center gap-2 text-white/90 font-medium">
-                                    <CheckCircle2 className="w-5 h-5" />
-                                    Acesso imediato após aprovação
-                                </div>
+                                {step !== "payment" ? (
+                                    <Button
+                                        size="lg"
+                                        onClick={() => {
+                                            setStep("register");
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        }}
+                                        className="h-16 px-10 bg-white text-black hover:bg-gray-100 text-lg font-bold rounded-2xl shadow-2xl transition-all hover:scale-105"
+                                    >
+                                        Quero Minha Vaga Agora
+                                    </Button>
+                                ) : (
+                                    <div className="flex flex-col items-center gap-4">
+                                        <MercadoPagoButton />
+                                        <div className="flex items-center gap-2 text-white/90 font-medium">
+                                            <CheckCircle2 className="w-5 h-5" />
+                                            Acesso imediato após aprovação
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -207,6 +256,97 @@ export function LandingPage() {
 
             <Footer />
         </div>
+    )
+}
+
+function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
+    const [loading, setLoading] = useState(false)
+    const [formData, setFormData] = useState({ name: "", email: "", phone: "" })
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+
+        try {
+            const response = await fetch("https://workspace.n8n.automatech.tech/webhook/dadosbanco", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...formData,
+                    source: "landing_page",
+                    timestamp: new Date().toISOString()
+                })
+            })
+
+            if (response.ok) {
+                onSuccess()
+            } else {
+                alert("Ocorreu um erro ao salvar seus dados. Por favor, tente novamente.")
+            }
+        } catch (error) {
+            console.error("Error saving lead:", error)
+            alert("Erro de conexão. Verifique sua internet.")
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-4">
+            <div className="space-y-2">
+                <Label htmlFor="name" className="text-white/70 text-xs uppercase tracking-wider font-bold">Nome Completo</Label>
+                <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                    <Input
+                        id="name"
+                        required
+                        placeholder="Seu nome"
+                        value={formData.name}
+                        onChange={e => setFormData({ ...formData, name: e.target.value })}
+                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
+                    />
+                </div>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="email" className="text-white/70 text-xs uppercase tracking-wider font-bold">E-mail</Label>
+                <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                    <Input
+                        id="email"
+                        type="email"
+                        required
+                        placeholder="seu@e-mail.com"
+                        value={formData.email}
+                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
+                    />
+                </div>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="phone" className="text-white/70 text-xs uppercase tracking-wider font-bold">WhatsApp / Telefone</Label>
+                <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
+                    <Input
+                        id="phone"
+                        required
+                        placeholder="(00) 00000-0000"
+                        value={formData.phone}
+                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
+                    />
+                </div>
+            </div>
+            <Button
+                type="submit"
+                disabled={loading}
+                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/20 transition-all active:scale-[0.98]"
+            >
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Prosseguir para Pagamento"}
+            </Button>
+            <p className="text-[10px] text-center text-white/40 italic">
+                Seus dados estão seguros e serão usados apenas para criar seu acesso.
+            </p>
+        </form>
     )
 }
 

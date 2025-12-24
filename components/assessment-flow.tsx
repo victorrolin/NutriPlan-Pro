@@ -444,6 +444,7 @@ async function sendToWebhook(data: UserData): Promise<{ success: boolean; pdfUrl
       muscleGroups: translateToPortuguese(Array.isArray(data.muscleGroups) ? data.muscleGroups : []),
       limitations: data.limitations || "",
       dietType: translateToPortuguese(data.dietType || ""),
+      photos: data.photos || {},
       submittedAt: new Date().toISOString(),
     }
 
@@ -586,6 +587,7 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
         muscleGroups: answers.muscleGroups || [],
         limitations: answers.limitations || "",
         dietType: answers.dietType || "",
+        photos: answers.photos,
       }
 
       const result = await sendToWebhook(userData)
@@ -726,6 +728,65 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
                   }}
                   multiSelect
                 />
+              ))}
+            </div>
+          )}
+
+          {/* Photo Upload */}
+          {currentQuestion.type === "photo-upload" && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {["front", "side", "back"].map((type) => (
+                <div key={type} className="flex flex-col gap-3">
+                  <span className="text-sm font-semibold uppercase tracking-wider text-muted-foreground text-center">
+                    {type === "front" ? "Frente" : type === "side" ? "Lado" : "Costas"}
+                  </span>
+
+                  <div className="relative aspect-[3/4] rounded-2xl border-2 border-dashed border-border overflow-hidden bg-card hover:border-primary/50 transition-colors group">
+                    {(answers.photos as any)?.[type] ? (
+                      <>
+                        <img
+                          src={(answers.photos as any)[type]}
+                          className="w-full h-full object-cover"
+                          alt={type}
+                        />
+                        <button
+                          onClick={() => {
+                            const newPhotos = { ...(answers.photos || {}) }
+                            delete (newPhotos as any)[type]
+                            handleAnswer(newPhotos)
+                          }}
+                          className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500 text-white shadow-lg hover:bg-red-600 transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </>
+                    ) : (
+                      <label className="flex flex-col items-center justify-center w-full h-full cursor-pointer p-4 text-center">
+                        <div className="p-3 rounded-full bg-primary/10 text-primary mb-3 group-hover:scale-110 transition-transform">
+                          <Camera className="w-6 h-6" />
+                        </div>
+                        <span className="text-sm font-medium">Carregar Foto</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) {
+                              const reader = new FileReader()
+                              reader.onloadend = () => {
+                                const base64String = reader.result as string
+                                const newPhotos = { ...(answers.photos || {}), [type]: base64String }
+                                handleAnswer(newPhotos)
+                              }
+                              reader.readAsDataURL(file)
+                            }
+                          }}
+                        />
+                      </label>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           )}

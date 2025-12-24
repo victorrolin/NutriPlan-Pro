@@ -18,6 +18,11 @@ export interface UserData {
   trainingPreference: string
   preferredTime: string
   dietType: string
+  photos?: {
+    front?: string
+    side?: string
+    back?: string
+  }
 }
 
 export interface AssessmentResult {
@@ -37,7 +42,7 @@ export interface Question {
   id: keyof UserData
   title: string
   subtitle: string
-  type: "card-select" | "multi-select" | "text" | "number"
+  type: "card-select" | "multi-select" | "text" | "number" | "photo-upload"
   options?: QuestionOption[]
   required?: boolean
 }
