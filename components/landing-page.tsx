@@ -349,6 +349,10 @@ function RegistrationForm({ onSuccess }: { onSuccess: () => void }) {
                         onChange={e => setFormData({ ...formData, password: e.target.value })}
                         className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
                     />
+                    <p className="text-[10px] text-white/50 mt-1.5 flex items-center gap-1.5 pl-1">
+                        <span className="w-1 h-1 rounded-full bg-green-500" />
+                        Use esta senha para acessar sua conta após o pagamento.
+                    </p>
                 </div>
             </div>
             <Button
