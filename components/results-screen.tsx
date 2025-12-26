@@ -21,6 +21,7 @@ import {
 import type { UserData } from "@/types/assessment"
 import { Footer } from "@/components/footer"
 import { Browser } from "@capacitor/browser"
+import { Share } from "@capacitor/share"
 
 interface ResultsScreenProps {
   userData: UserData
@@ -68,23 +69,28 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
     if (!pdfUrl) return
 
     try {
-      console.log("[v0] Tentando abrir PDF:", pdfUrl)
-
-      // Blobs não funcionam bem com o Browser nativo do Capacitor em alguns Androids
+      // Diagnóstico básico para o usuário nos informar o que está acontecendo
       if (pdfUrl.startsWith("blob:")) {
-        console.log("[v0] URL é um Blob, usando window.open como fallback")
-        window.open(pdfUrl, "_blank")
+        alert("O sistema gerou um arquivo temporário (Blob). Tentando abrir com compartilhamento nativo...")
+      }
+
+      // Tenta abrir com o Share API primeiro, que é o mais garantido para arquivos locais/blobs no Android
+      const canShare = await Share.canShare()
+      if (canShare.value) {
+        await Share.share({
+          title: "Meu Treino FitPlan Pro",
+          text: "Confira meu novo treino personalizado!",
+          url: pdfUrl,
+          dialogTitle: "Abrir treino com:",
+        })
         return
       }
 
-      // Tenta abrir com o plugin nativo (abre o navegador do sistema)
-      await Browser.open({ url: pdfUrl }).catch((e) => {
-        console.error("[v0] Erro no plugin Browser.open, tentando fallback:", e)
-        window.open(pdfUrl, "_blank")
-      })
+      // Fallback para Browser nativo se o Share não estiver disponível
+      await Browser.open({ url: pdfUrl })
     } catch (error) {
-      console.error("[v0] Falha crítica ao abrir PDF:", error)
-      // Último recurso: tenta abertura web padrão
+      console.error("[v0] Falha ao abrir PDF:", error)
+      // Fallback final
       window.open(pdfUrl, "_blank")
     }
   }
