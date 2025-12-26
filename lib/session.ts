@@ -1,7 +1,5 @@
-import Cookies from "js-cookie"
 
-const SESSION_COOKIE_NAME = "fitplan_session"
-const SESSION_MAX_AGE = 7 // 7 days
+const SESSION_KEY = "fitplan_session"
 
 export interface SessionData {
   userId: string
@@ -11,25 +9,22 @@ export interface SessionData {
 }
 
 export async function createSession(data: SessionData) {
-  const sessionData = JSON.stringify(data)
-  Cookies.set(SESSION_COOKIE_NAME, sessionData, {
-    expires: SESSION_MAX_AGE,
-    path: "/",
-    sameSite: "Lax",
-    secure: process.env.NODE_ENV === "production",
-  })
+  if (typeof window !== "undefined") {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(data))
+  }
 }
 
 export async function getSession(): Promise<SessionData | null> {
-  try {
-    const sessionCookie = Cookies.get(SESSION_COOKIE_NAME)
+  if (typeof window === "undefined") return null
 
-    if (!sessionCookie) {
+  try {
+    const sessionData = localStorage.getItem(SESSION_KEY)
+
+    if (!sessionData) {
       return null
     }
 
-    const sessionData = JSON.parse(sessionCookie) as SessionData
-    return sessionData
+    return JSON.parse(sessionData) as SessionData
   } catch (error) {
     console.error("Error getting session:", error)
     return null
@@ -37,6 +32,8 @@ export async function getSession(): Promise<SessionData | null> {
 }
 
 export async function deleteSession() {
-  Cookies.remove(SESSION_COOKIE_NAME)
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(SESSION_KEY)
+  }
 }
 
