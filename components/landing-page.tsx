@@ -7,7 +7,8 @@ import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Phone, Mail, User, MessageSquare } from "lucide-react"
+import { Loader2, Phone, Mail, User, MessageSquare, Smartphone } from "lucide-react"
+import { Browser } from "@capacitor/browser"
 
 export function LandingPage() {
     const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
@@ -30,7 +31,10 @@ export function LandingPage() {
                         </div>
                         <div>
                             <span className="font-bold text-lg tracking-tight">FitPlan Pro</span>
-                            <p className="text-[10px] text-gray-400 font-medium leading-none">Personal Trainer IA</p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-[10px] text-gray-400 font-medium leading-none">Personal Trainer IA</p>
+                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-500 font-bold uppercase">v1.2.0</span>
+                            </div>
                         </div>
                     </div>
 
@@ -363,16 +367,22 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
             if (response.ok) {
                 const textResponse = await response.text()
 
-                const openCheckout = (url: string) => {
-                    const width = 600;
-                    const height = 800;
-                    const left = window.screenX + (window.outerWidth - width) / 2;
-                    const top = window.screenY + (window.outerHeight - height) / 2;
-                    window.open(
-                        url,
-                        'MercadoPagoCheckout',
-                        `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`
-                    );
+                const openCheckout = async (url: string) => {
+                    // No APK, window.open fica "preso". Usamos o Browser nativo que tem botão de fechar.
+                    try {
+                        await Browser.open({ url })
+                    } catch (e) {
+                        // Fallback para web tradicional
+                        const width = 600;
+                        const height = 800;
+                        const left = window.screenX + (window.outerWidth - width) / 2;
+                        const top = window.screenY + (window.outerHeight - height) / 2;
+                        window.open(
+                            url,
+                            'MercadoPagoCheckout',
+                            `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,status=yes`
+                        );
+                    }
                 }
 
                 try {
