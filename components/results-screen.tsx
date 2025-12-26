@@ -20,6 +20,7 @@ import {
 } from "lucide-react"
 import type { UserData } from "@/types/assessment"
 import { Footer } from "@/components/footer"
+import { Browser } from "@capacitor/browser"
 
 interface ResultsScreenProps {
   userData: UserData
@@ -63,12 +64,9 @@ const muscleLabels: Record<string, string> = {
 }
 
 export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScreenProps) {
-  const handleDownloadPdf = () => {
+  const handleDownloadPdf = async () => {
     if (pdfUrl) {
-      const win = window.open(pdfUrl, "_system") || window.open(pdfUrl, "_blank")
-      if (!win) {
-        window.location.href = pdfUrl
-      }
+      await Browser.open({ url: pdfUrl })
     }
   }
 
@@ -169,15 +167,14 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   </p>
                 </div>
               </div>
-              <a
-                href={pdfUrl}
-                target="_system"
-                rel="noopener noreferrer"
-                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-8 py-3 rounded-lg flex items-center justify-center font-bold text-lg transition-colors"
+              <Button
+                onClick={handleDownloadPdf}
+                size="lg"
+                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto font-bold text-lg h-auto py-4"
               >
-                <ExternalLink className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                <ExternalLink className="mr-2 h-5 w-5" />
                 Abrir Treino em PDF
-              </a>
+              </Button>
             </div>
           </div>
         </div>
@@ -329,15 +326,14 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4 md:pt-6">
             {pdfUrl && (
-              <a
-                href={pdfUrl}
-                target="_system"
-                rel="noopener noreferrer"
-                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-8 py-3 rounded-lg flex items-center justify-center font-bold text-lg transition-colors"
+              <Button
+                onClick={handleDownloadPdf}
+                size="lg"
+                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto font-bold text-lg h-auto py-4"
               >
-                <ExternalLink className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+                <ExternalLink className="mr-2 h-5 w-5" />
                 Abrir Treino em PDF
-              </a>
+              </Button>
             )}
             <Button
               size="lg"
