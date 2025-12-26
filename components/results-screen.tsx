@@ -65,8 +65,27 @@ const muscleLabels: Record<string, string> = {
 
 export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScreenProps) {
   const handleDownloadPdf = async () => {
-    if (pdfUrl) {
-      await Browser.open({ url: pdfUrl })
+    if (!pdfUrl) return
+
+    try {
+      console.log("[v0] Tentando abrir PDF:", pdfUrl)
+
+      // Blobs não funcionam bem com o Browser nativo do Capacitor em alguns Androids
+      if (pdfUrl.startsWith("blob:")) {
+        console.log("[v0] URL é um Blob, usando window.open como fallback")
+        window.open(pdfUrl, "_blank")
+        return
+      }
+
+      // Tenta abrir com o plugin nativo (abre o navegador do sistema)
+      await Browser.open({ url: pdfUrl }).catch((e) => {
+        console.error("[v0] Erro no plugin Browser.open, tentando fallback:", e)
+        window.open(pdfUrl, "_blank")
+      })
+    } catch (error) {
+      console.error("[v0] Falha crítica ao abrir PDF:", error)
+      // Último recurso: tenta abertura web padrão
+      window.open(pdfUrl, "_blank")
     }
   }
 
