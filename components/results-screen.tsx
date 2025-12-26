@@ -16,6 +16,7 @@ import {
   FileText,
   CheckCircle2,
   ExternalLink,
+  Download,
   XCircle,
 } from "lucide-react"
 import type { UserData } from "@/types/assessment"
@@ -118,8 +119,39 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
       }
     } catch (error) {
       console.error("[v0] Falha ao processar PDF:", error)
-      alert("Erro ao preparar o arquivo PDF. Tente novamente.")
-      window.open(pdfUrl, "_blank")
+      // Não exibe alerta, apenas loga o erro. O usuário pode tentar outras opções.
+    }
+  }
+
+  const handleSaveToPermanent = async () => {
+    if (!pdfUrl) return
+
+    try {
+      const response = await fetch(pdfUrl)
+      const blob = await response.blob()
+
+      const reader = new FileReader()
+      const base64Promise = new Promise<string>((resolve) => {
+        reader.onloadend = () => {
+          const base64data = reader.result as string
+          resolve(base64data.split(",")[1])
+        }
+      })
+      reader.readAsDataURL(blob)
+      const base64String = await base64Promise
+
+      const fileName = `Treino_FitPlan_Pro_${Date.now()}.pdf`
+
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64String,
+        directory: Directory.Documents
+      })
+
+      alert(`Treino salvo com sucesso em Seus Documentos!\nNome: ${fileName}`)
+    } catch (error) {
+      console.error("[v0] Falha ao baixar PDF:", error)
+      alert("Não foi possível salvar o arquivo permanentemente. Tente a opção de Compartilhar.")
     }
   }
 
@@ -220,14 +252,25 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   </p>
                 </div>
               </div>
-              <Button
-                onClick={handleDownloadPdf}
-                size="lg"
-                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto font-bold text-lg h-auto py-4"
-              >
-                <ExternalLink className="mr-2 h-5 w-5" />
-                Abrir Treino em PDF
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                <Button
+                  onClick={handleDownloadPdf}
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold text-lg h-auto py-4 flex-1"
+                >
+                  <ExternalLink className="mr-2 h-5 w-5" />
+                  Abrir/Enviar
+                </Button>
+                <Button
+                  onClick={handleSaveToPermanent}
+                  size="lg"
+                  variant="outline"
+                  className="border-green-600 text-green-600 hover:bg-green-50 font-bold text-lg h-auto py-4 flex-1"
+                >
+                  <Download className="mr-2 h-5 w-5" />
+                  Baixar PDF
+                </Button>
+              </div>
             </div>
           </div>
         </div>
