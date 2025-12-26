@@ -22,6 +22,7 @@ import type { UserData } from "@/types/assessment"
 import { Footer } from "@/components/footer"
 import { Browser } from "@capacitor/browser"
 import { Share } from "@capacitor/share"
+import { Filesystem, Directory } from "@capacitor/filesystem"
 
 interface ResultsScreenProps {
   userData: UserData
@@ -69,28 +70,55 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
     if (!pdfUrl) return
 
     try {
-      // Diagnóstico básico para o usuário nos informar o que está acontecendo
+      // Diagnóstico: Se for blob, precisamos ler e salvar fisicamente no celular
       if (pdfUrl.startsWith("blob:")) {
-        alert("O sistema gerou um arquivo temporário (Blob). Tentando abrir com compartilhamento nativo...")
-      }
+        console.log("[v0] Convertendo Blob para arquivo físico...")
 
-      // Tenta abrir com o Share API primeiro, que é o mais garantido para arquivos locais/blobs no Android
-      const canShare = await Share.canShare()
-      if (canShare.value) {
+        // 1. Baixa o blob como ArrayBuffer
+        const response = await fetch(pdfUrl)
+        const blob = await response.blob()
+
+        // 2. Converte blob para Base64 (necessário para o Filesystem.writeFile)
+        const reader = new FileReader()
+        const base64Promise = new Promise<string>((resolve) => {
+          reader.onloadend = () => {
+            const base64data = reader.result as string
+            resolve(base64data.split(",")[1]) // Remove o prefixo data:...base64,
+          }
+        })
+        reader.readAsDataURL(blob)
+        const base64String = await base64Promise
+
+        // 3. Salva no Cache do celular com nome amigável
+        const fileName = `meu-treino-${Date.now()}.pdf`
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: base64String,
+          directory: Directory.Cache
+        })
+
+        // 4. Compartilha a URI nativa do arquivo (que o Android aceita)
         await Share.share({
           title: "Meu Treino FitPlan Pro",
           text: "Confira meu novo treino personalizado!",
-          url: pdfUrl,
-          dialogTitle: "Abrir treino com:",
+          url: savedFile.uri,
         })
         return
       }
 
-      // Fallback para Browser nativo se o Share não estiver disponível
-      await Browser.open({ url: pdfUrl })
+      // Se não for blob (é uma URL externa direta), tenta Share ou Browser
+      const canShare = await Share.canShare()
+      if (canShare.value) {
+        await Share.share({
+          title: "Meu Treino FitPlan Pro",
+          url: pdfUrl,
+        })
+      } else {
+        await Browser.open({ url: pdfUrl })
+      }
     } catch (error) {
-      console.error("[v0] Falha ao abrir PDF:", error)
-      // Fallback final
+      console.error("[v0] Falha ao processar PDF:", error)
+      alert("Erro ao preparar o arquivo PDF. Tente novamente.")
       window.open(pdfUrl, "_blank")
     }
   }
