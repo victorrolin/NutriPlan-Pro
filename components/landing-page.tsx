@@ -37,7 +37,10 @@ export function LandingPage() {
                     <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
                         <a href="#como-funciona" className="hover:text-white transition-colors">Como funciona</a>
                         <a href="#beneficios" className="hover:text-white transition-colors">Benefícios</a>
-                        <a href="#sobre" className="hover:text-white transition-colors">Sobre</a>
+                        <a href="/app/fitplan-pro.apk" download className="text-green-500 hover:text-green-400 font-bold transition-colors flex items-center gap-1.5">
+                            <Zap className="w-4 h-4" />
+                            Baixar App Android
+                        </a>
                         <a href="https://wa.me/5551995762718" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition-colors flex items-center gap-1.5">
                             <MessageSquare className="w-4 h-4" />
                             Suporte
@@ -95,7 +98,22 @@ export function LandingPage() {
                                         Como Funciona
                                     </Button>
                                 </a>
+                                <a href="/app/fitplan-pro.apk" download className="sm:hidden w-full">
+                                    <Button size="lg" variant="outline" className="w-full h-14 border-green-500/20 text-green-500 hover:bg-green-500/5 bg-transparent rounded-2xl text-lg font-bold">
+                                        <Zap className="w-4 h-4 mr-2" />
+                                        Baixar App Android
+                                    </Button>
+                                </a>
                             </div>
+                        )}
+
+                        {step === "idle" && (
+                            <Link href="/app/fitplan-pro.apk" download className="hidden sm:inline-block">
+                                <Button variant="link" className="text-green-500 hover:text-green-400 font-bold gap-2">
+                                    <Zap className="w-4 h-4" />
+                                    Baixar App para Android (Versão APK)
+                                </Button>
+                            </Link>
                         )}
 
                         {step === "register" && (
