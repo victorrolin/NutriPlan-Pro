@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dumbbell, Sparkles, Shield, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import Link from "next/link"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -111,20 +112,20 @@ export default function LoginPage() {
         </Card>
 
         <div className="mt-6 flex justify-center gap-6">
-          <a
-            href="/admin/login"
+          <Link
+            href="/admin/login/"
             className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-400 transition-colors"
           >
             <Shield className="w-4 h-4" />
             Área Administrativa
-          </a>
-          <a
-            href="/personal/login"
+          </Link>
+          <Link
+            href="/personal/login/"
             className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-400 transition-colors"
           >
             <Users className="w-4 h-4" />
             Área do Personal
-          </a>
+          </Link>
         </div>
       </div>
     </div>

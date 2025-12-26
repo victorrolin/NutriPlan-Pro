@@ -45,7 +45,7 @@ export function LandingPage() {
                     </nav>
 
                     <div className="flex items-center gap-3">
-                        <Link href="/auth/login">
+                        <Link href="/auth/login/">
                             <Button variant="ghost" className="text-sm font-medium hover:bg-white/5 text-gray-300">
                                 Entrar
                             </Button>
@@ -144,7 +144,7 @@ export function LandingPage() {
                                     <div className="flex flex-col gap-4">
                                         <MercadoPagoButton />
                                         <div className="grid grid-cols-2 gap-3">
-                                            <Link href="/auth/login" className="w-full">
+                                            <Link href="/auth/login/" className="w-full">
                                                 <Button variant="outline" className="w-full h-12 border-white/10 hover:bg-white/5 text-gray-400 text-sm font-medium rounded-xl">
                                                     Área do Aluno
                                                 </Button>

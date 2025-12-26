@@ -65,7 +65,10 @@ const muscleLabels: Record<string, string> = {
 export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScreenProps) {
   const handleDownloadPdf = () => {
     if (pdfUrl) {
-      window.open(pdfUrl, "_blank")
+      const win = window.open(pdfUrl, "_system") || window.open(pdfUrl, "_blank")
+      if (!win) {
+        window.location.href = pdfUrl
+      }
     }
   }
 
