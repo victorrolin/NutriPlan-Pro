@@ -16,7 +16,7 @@ export function AppHeader({ session }: AppHeaderProps) {
 
   const handleLogout = async () => {
     await deleteSession()
-    window.location.href = "/auth/login"
+    window.location.href = "/auth/login/"
   }
 
   if (!session) {

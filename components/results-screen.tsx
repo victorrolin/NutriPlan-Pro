@@ -169,14 +169,15 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   </p>
                 </div>
               </div>
-              <Button
-                onClick={handleDownloadPdf}
-                size="lg"
-                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+              <a
+                href={pdfUrl}
+                target="_system"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-8 py-3 rounded-lg flex items-center justify-center font-bold text-lg transition-colors"
               >
                 <ExternalLink className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Abrir Treino em PDF
-              </Button>
+              </a>
             </div>
           </div>
         </div>
@@ -328,14 +329,15 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4 md:pt-6">
             {pdfUrl && (
-              <Button
-                size="lg"
-                onClick={handleDownloadPdf}
-                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto"
+              <a
+                href={pdfUrl}
+                target="_system"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto px-8 py-3 rounded-lg flex items-center justify-center font-bold text-lg transition-colors"
               >
                 <ExternalLink className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Abrir Treino em PDF
-              </Button>
+              </a>
             )}
             <Button
               size="lg"
