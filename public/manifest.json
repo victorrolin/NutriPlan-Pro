@@ -1,7 +1,7 @@
 {
     "name": "FitPlan Pro",
     "short_name": "FitPlan Pro",
-    "description": "Seu Personal Trainer Inteligente",
+    "description": "Gere treinos personalizados e periodizações exclusivas em segundos com o poder da Inteligência Artificial.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",

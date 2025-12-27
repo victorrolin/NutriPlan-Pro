@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "FitPlan Pro - Montador de Treinos",
-  description: "App para personal trainers montarem treinos personalizados",
+  title: "FitPlan Pro - Seu Treino Inteligente com IA",
+  description: "Gere treinos personalizados e periodizações exclusivas em segundos com o poder da Inteligência Artificial.",
   generator: "v0.app",
   manifest: "/manifest.json",
   themeColor: "#000000",
