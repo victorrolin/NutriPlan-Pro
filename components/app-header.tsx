@@ -31,8 +31,8 @@ export function AppHeader({ session }: AppHeaderProps) {
             <Bot className="h-4 w-4 md:h-5 md:w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-base md:text-lg font-bold text-foreground">FitPlan Pro</h1>
-            <p className="text-xs text-muted-foreground hidden sm:block">Personal Trainer IA</p>
+            <h1 className="text-base md:text-lg font-bold text-foreground">NutriPlan Pro</h1>
+            <p className="text-xs text-muted-foreground hidden sm:block">Nutricionista IA</p>
           </div>
         </div>
 

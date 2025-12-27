@@ -18,6 +18,12 @@ export interface UserData {
   trainingPreference: string
   preferredTime: string
   dietType: string
+  allergies?: string
+  dislikes?: string
+  mealFrequency?: string
+  waterIntake?: string
+  healthConditions?: string
+  supplements?: string
   photos?: {
     front?: string
     side?: string

@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.trainerworkout.app',
-  appName: 'FitPlan Pro',
+  appId: 'com.nutriplanpro.app',
+  appName: 'NutriPlan Pro',
   webDir: 'out',
   server: {
     allowNavigation: ['*']

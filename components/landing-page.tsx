@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard, Apple, Info } from "lucide-react"
+import { Bot, Sparkles, Apple, Utensils, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard, Info } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
@@ -31,9 +31,9 @@ export function LandingPage() {
                             <Bot className="w-5 h-5 text-white" />
                         </div>
                         <div>
-                            <span className="font-bold text-lg tracking-tight">FitPlan Pro</span>
+                            <span className="font-bold text-lg tracking-tight">NutriPlan Pro</span>
                             <div className="flex items-center gap-2">
-                                <p className="text-[10px] text-gray-400 font-medium leading-none">Personal Trainer IA</p>
+                                <p className="text-[10px] text-gray-400 font-medium leading-none">Nutricionista IA</p>
                                 <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-500 font-bold uppercase">v1.2.0</span>
                             </div>
                         </div>
@@ -74,15 +74,15 @@ export function LandingPage() {
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-                        A Revolução do <br />
+                        A Revolução da <br />
                         <span className="bg-gradient-to-r from-green-400 tracking-tighter to-emerald-500 bg-clip-text text-transparent italic">
-                            Treino Inteligente
+                            Nutrição Inteligente
                         </span>
                     </h1>
 
                     <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed">
-                        Treinos personalizados criados por <span className="text-white font-medium">Inteligência Artificial</span> sob medida.
-                        Responda algumas perguntas e nossa IA irá montar o plano perfeito para seus objetivos.
+                        Planos alimentares personalizados criados por <span className="text-white font-medium">Inteligência Artificial</span> sob medida.
+                        Responda algumas perguntas e nossa IA irá montar a dieta perfeita para seus objetivos e rotina.
                     </p>
 
                     <div className="flex flex-col items-center justify-center gap-6">
@@ -242,7 +242,7 @@ export function LandingPage() {
                                 <Zap className="w-5 h-5 text-green-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">Treino Prontamente</p>
+                                <p className="text-sm font-bold text-white">Dieta Pronta</p>
                                 <p className="text-xs text-gray-500">Geração inteligente em poucos minutos</p>
                             </div>
                         </div>
@@ -277,9 +277,9 @@ export function LandingPage() {
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                             {[
-                                { step: "01", title: "Perfil Detalhado", desc: "Nossa IA analisa seu biotipo, objetivos e limitações através de 20+ perguntas estratégicas." },
-                                { step: "02", title: "Geração por IA", desc: "Algoritmos de ponta criam uma periodização exclusiva, escolhendo os melhores exercícios para você." },
-                                { step: "03", title: "Resultados Reais", desc: "Receba seu treino em PDF pronto para executar, com cargas sugeridas e protocolos detalhados." }
+                                { step: "01", title: "Perfil Nutricional", desc: "Nossa IA analisa sua rotina, objetivos, restrições e preferências através de perguntas estratégicas." },
+                                { step: "02", title: "Análise por IA", desc: "Algoritmos de ponta criam uma estratégia alimentar exclusiva, equilibrando macros e micronutrientes." },
+                                { step: "03", title: "Plano Alimentar", desc: "Receba seu plano em PDF pronto para seguir, com opções de substituições e dicas práticas." }
                             ].map((s, i) => (
                                 <div key={i} className="relative group">
                                     <div className="text-6xl font-black text-white/5 absolute -top-10 -left-4 group-hover:text-green-500/10 transition-colors">{s.step}</div>
@@ -302,23 +302,23 @@ export function LandingPage() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {[
                                 {
-                                    title: "Hipertrofia Otimizada",
-                                    desc: "Cálculos precisos de volume e intensidade para máximo ganho muscular.",
+                                    title: "Saúde Otimizada",
+                                    desc: "Cálculos precisos de calorias e macros para máximo desempenho e saúde.",
                                     icon: <Target className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Economia Inteligente",
-                                    desc: "Tenha a expertise de um Personal Trainer de elite por uma fração do custo.",
+                                    title: "Praticidade Total",
+                                    desc: "Tenha a expertise de um Nutricionista de elite por uma fração do custo.",
                                     icon: <Zap className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Prevenção de Lesões",
-                                    desc: "IA que respeita suas limitações e sugere progressões seguras.",
-                                    icon: <Dumbbell className="w-6 h-6" />
+                                    title: "Sem Restrições Bobas",
+                                    desc: "Uma IA que entende seus gostos e adapta a dieta ao seu estilo de vida.",
+                                    icon: <Utensils className="w-6 h-6" />
                                 },
                                 {
-                                    title: "Bio-Feedback",
-                                    desc: "Ajustes constantes baseados na sua evolução e resposta ao treino.",
+                                    title: "Evolução Constante",
+                                    desc: "Ajustes baseados na sua resposta metabólica e progresso real.",
                                     icon: <Sparkles className="w-6 h-6" />
                                 }
                             ].map((feature, i) => (
@@ -343,7 +343,7 @@ export function LandingPage() {
                                 Pronto para a sua melhor versão?
                             </h2>
                             <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto relative z-10">
-                                Libere seu acesso agora e comece a treinar com a ciência da inteligência artificial.
+                                Libere seu acesso agora e comece a se alimentar com a ciência da inteligência artificial.
                             </p>
                             <div className="flex flex-col items-center justify-center gap-6 relative z-10">
                                 {step !== "payment" ? (

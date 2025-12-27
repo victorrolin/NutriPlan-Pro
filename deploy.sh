@@ -19,11 +19,11 @@ docker build \
   --build-arg NEXT_PUBLIC_SUPABASE_URL="$NEXT_PUBLIC_SUPABASE_URL" \
   --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY="$NEXT_PUBLIC_SUPABASE_ANON_KEY" \
   --no-cache \
-  -t trainer-app .
+  -t nutriplan-pro .
 
 # Deploy using Docker Swarm (fixes network permission issue)
 echo "🚀 Deploying stack..."
-docker stack deploy -c docker-compose.yml trainer-app
+docker stack deploy -c docker-compose.yml nutriplan-pro
 
 # Prune unused images to save space
 echo "🧹 Cleaning up old images..."

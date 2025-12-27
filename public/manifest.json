@@ -1,7 +1,7 @@
 {
-    "name": "FitPlan Pro",
-    "short_name": "FitPlan Pro",
-    "description": "Gere treinos personalizados e periodizações exclusivas em segundos com o poder da Inteligência Artificial.",
+    "name": "NutriPlan Pro",
+    "short_name": "NutriPlan Pro",
+    "description": "Gere planos alimentares personalizados e orientações nutricionais exclusivas em segundos com o poder da Inteligência Artificial.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",

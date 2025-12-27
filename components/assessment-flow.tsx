@@ -20,9 +20,9 @@ const labelMap: Record<string, string> = {
   // Objetivo
   muscle: "Ganho de Massa",
   "weight-loss": "Emagrecimento",
-  conditioning: "Condicionamento",
-  strength: "Força",
-  flexibility: "Flexibilidade",
+  conditioning: "Performance Esportiva",
+  strength: "Saúde e Longevidade",
+  flexibility: "Reeducação Alimentar",
   health: "Saúde Geral",
   // Experiência
   beginner: "Iniciante",
@@ -142,7 +142,7 @@ const questions: Question[] = [
         id: "sedentary",
         label: "Sedentário",
         image: "/sedentary-lifestyle-couch.jpg",
-        description: "Pouca ou nenhuma atividade",
+        description: "Trabalho sentado, pouco movimento",
       },
       {
         id: "light",
@@ -166,7 +166,7 @@ const questions: Question[] = [
         id: "athlete",
         label: "Atleta",
         image: "/athlete-professional-training.jpg",
-        description: "Treinamento profissional",
+        description: "Treinamento profissional/Elite",
       },
     ],
   },
@@ -180,39 +180,39 @@ const questions: Question[] = [
         id: "muscle",
         label: "Ganho de Massa",
         image: "/bodybuilder-muscles-gym.jpg",
-        description: "Hipertrofia muscular",
+        description: "Hipertrofia e força",
       },
       {
         id: "weight-loss",
         label: "Emagrecimento",
         image: "/weight-loss-transformation-fitness.jpg",
-        description: "Perda de gordura",
+        description: "Perda de gordura corporal",
       },
       {
         id: "conditioning",
-        label: "Condicionamento",
+        label: "Performance",
         image: "/cardio-running-athlete.jpg",
-        description: "Resistência cardio",
+        description: "Melhora no desempenho esportivo",
       },
-      { id: "strength", label: "Força", image: "/powerlifting-deadlift-strength.jpg", description: "Força máxima" },
+      { id: "strength", label: "Longevidade", image: "/powerlifting-deadlift-strength.jpg", description: "Saúde a longo prazo" },
       {
         id: "flexibility",
-        label: "Flexibilidade",
-        image: "/yoga-stretching-flexibility.png",
-        description: "Mobilidade",
+        label: "Reeducação",
+        image: "/balanced-diet-healthy-food.jpg",
+        description: "Melhorar hábitos alimentares",
       },
       {
         id: "health",
         label: "Saúde Geral",
         image: "/healthy-lifestyle-wellness-fitness.jpg",
-        description: "Bem-estar",
+        description: "Mais energia e disposição",
       },
     ],
   },
   {
     id: "specificGoal",
-    title: "Qual a meta específica?",
-    subtitle: "Ex: Perder 5kg, ganhar 3kg de massa, correr 5km",
+    title: "Qual seu maior desafio nutricional?",
+    subtitle: "Ex: Fome emocional, falta de tempo para cozinhar, etc.",
     type: "text",
   },
   {
@@ -256,6 +256,44 @@ const questions: Question[] = [
         description: "2+ anos",
       },
     ],
+  },
+  {
+    id: "allergies",
+    title: "Possui alguma alergia ou intolerância?",
+    subtitle: "Ex: Lactose, glúten, frutos do mar, etc.",
+    type: "text",
+  },
+  {
+    id: "dislikes",
+    title: "Existe algum alimento que você não come?",
+    subtitle: "Por gosto pessoal, religião ou ética",
+    type: "text",
+  },
+  {
+    id: "mealFrequency",
+    title: "Quantas refeições faz por dia?",
+    subtitle: "Incluindo pequenos lanches",
+    type: "number",
+    required: true,
+  },
+  {
+    id: "waterIntake",
+    title: "Quanto de água bebe por dia (L)?",
+    subtitle: "Aproximadamente",
+    type: "number",
+    required: true,
+  },
+  {
+    id: "healthConditions",
+    title: "Possui alguma condição de saúde?",
+    subtitle: "Ex: Diabetes, Hipertensão, Gastrite, etc.",
+    type: "text",
+  },
+  {
+    id: "supplements",
+    title: "Faz uso de algum suplemento ou remédio?",
+    subtitle: "Ex: Whey, Creatina, Vitaminas, etc.",
+    type: "text",
   },
   {
     id: "bodyType",
@@ -444,6 +482,12 @@ async function sendToWebhook(data: UserData): Promise<{ success: boolean; pdfUrl
       muscleGroups: translateToPortuguese(Array.isArray(data.muscleGroups) ? data.muscleGroups : []),
       limitations: data.limitations || "",
       dietType: translateToPortuguese(data.dietType || ""),
+      allergies: data.allergies || "",
+      dislikes: data.dislikes || "",
+      mealFrequency: data.mealFrequency || "",
+      waterIntake: data.waterIntake || "",
+      healthConditions: data.healthConditions || "",
+      supplements: data.supplements || "",
       photos: data.photos || {},
       submittedAt: new Date().toISOString(),
     }
@@ -549,6 +593,12 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
     muscleGroups: [],
     limitations: "",
     dietType: "",
+    allergies: "",
+    dislikes: "",
+    mealFrequency: "",
+    waterIntake: "",
+    healthConditions: "",
+    supplements: "",
     photos: {
       front: "",
       side: "",
@@ -592,6 +642,12 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
         muscleGroups: answers.muscleGroups || [],
         limitations: answers.limitations || "",
         dietType: answers.dietType || "",
+        allergies: answers.allergies || "",
+        dislikes: answers.dislikes || "",
+        mealFrequency: answers.mealFrequency || "",
+        waterIntake: answers.waterIntake || "",
+        healthConditions: answers.healthConditions || "",
+        supplements: answers.supplements || "",
         photos: answers.photos,
       }
 
@@ -692,13 +748,33 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
                     ? "Digite a idade"
                     : currentQuestion.id === "weight"
                       ? "Digite o peso em kg"
-                      : "Digite a altura em cm"
+                      : currentQuestion.id === "height"
+                        ? "Digite a altura em cm"
+                        : currentQuestion.id === "mealFrequency"
+                          ? "Quantidade de refeições"
+                          : "Quantidade em litros (água)"
                 }
                 value={(currentValue as string) || ""}
                 onChange={(e) => handleAnswer(e.target.value)}
                 className="h-12 md:h-14 bg-card border-border text-foreground text-base md:text-lg px-4"
-                min={currentQuestion.id === "age" ? "10" : currentQuestion.id === "weight" ? "30" : "100"}
-                max={currentQuestion.id === "age" ? "100" : currentQuestion.id === "weight" ? "300" : "250"}
+                min={
+                  currentQuestion.id === "age"
+                    ? "10"
+                    : currentQuestion.id === "weight"
+                      ? "30"
+                      : currentQuestion.id === "height"
+                        ? "100"
+                        : "1"
+                }
+                max={
+                  currentQuestion.id === "age"
+                    ? "100"
+                    : currentQuestion.id === "weight"
+                      ? "300"
+                      : currentQuestion.id === "height"
+                        ? "250"
+                        : "20"
+                }
               />
             </div>
           )}
