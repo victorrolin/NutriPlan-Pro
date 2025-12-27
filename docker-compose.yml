@@ -1,7 +1,7 @@
 version: "3.7"
 services:
 
-  app:
+  nutriplan-pro:
     image: nutriplan-pro
     build:
       context: .
@@ -17,12 +17,14 @@ services:
         constraints:
           - node.role == manager
       labels:
-        - traefik.enable=true
-        - traefik.http.routers.nutriplan.rule=Host(`nutriplanpro.automatech.tech`)
-        - traefik.http.routers.nutriplan.entrypoints=websecure
-        - traefik.http.routers.nutriplan.tls.certresolver=letsencryptresolver
-        - traefik.http.routers.nutriplan.service=nutriplan
-        - traefik.http.services.nutriplan.loadbalancer.server.port=80
+        - "traefik.enable=true"
+        - "traefik.docker.network=typebotnet"
+        - "traefik.http.routers.nutriplanpro.rule=Host(`nutriplanpro.automatech.tech`)"
+        - "traefik.http.routers.nutriplanpro.entrypoints=websecure"
+        - "traefik.http.routers.nutriplanpro.tls=true"
+        - "traefik.http.routers.nutriplanpro.tls.certresolver=letsencryptresolver"
+        - "traefik.http.routers.nutriplanpro.service=nutriplanpro-service"
+        - "traefik.http.services.nutriplanpro-service.loadbalancer.server.port=80"
 
 networks:
   typebotnet:
