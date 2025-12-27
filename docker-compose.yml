@@ -17,13 +17,13 @@ services:
         constraints:
           - node.role == manager
       labels:
-        - traefik.enable=true
-        - traefik.docker.network=typebotnet
-        - traefik.http.routers.nutriplan.rule=Host(`nutriplanpro.automatech.tech`)
-        - traefik.http.routers.nutriplan.entrypoints=websecure
-        - traefik.http.routers.nutriplan.tls.certresolver=letsencryptresolver
-        - traefik.http.routers.nutriplan.service=nutriplan
-        - traefik.http.services.nutriplan.loadbalancer.server.port=80
+        - "traefik.enable=true"
+        - "traefik.docker.network=typebotnet"
+        - "traefik.http.routers.nutriplan-pro.rule=Host(`nutriplanpro.automatech.tech`)"
+        - "traefik.http.routers.nutriplan-pro.entrypoints=websecure"
+        - "traefik.http.routers.nutriplan-pro.tls.certresolver=letsencryptresolver"
+        - "traefik.http.routers.nutriplan-pro.service=nutriplan-pro"
+        - "traefik.http.services.nutriplan-pro.loadbalancer.server.port=80"
 
 networks:
   typebotnet:
