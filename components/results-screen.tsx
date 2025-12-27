@@ -72,14 +72,22 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
     if (!pdfUrl) return
 
     try {
-      // Se estiver no Navegador (PC ou Mobile Browser), faz download padrão
+      // Se estiver no Navegador (PC ou Mobile Browser)
       if (!Capacitor.isNativePlatform()) {
-        const link = document.createElement("a");
-        link.href = pdfUrl;
-        link.download = `Meu_Treino_FitPlan_Pro_${Date.now()}.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const isMobileBrowser = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobileBrowser) {
+          // No Mobile Browser, abrir em nova aba é mais seguro para evitar 404 de download de blob
+          window.open(pdfUrl, "_blank");
+        } else {
+          // No PC, forçar download direto
+          const link = document.createElement("a");
+          link.href = pdfUrl;
+          link.download = `Meu_Treino_FitPlan_Pro_${Date.now()}.pdf`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
         return;
       }
 
