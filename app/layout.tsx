@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   title: "FitPlan Pro - Montador de Treinos",
   description: "App para personal trainers montarem treinos personalizados",
   generator: "v0.app",
+  manifest: "/manifest.json",
+  themeColor: "#000000",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "FitPlan Pro",
+  },
 }
 
 export default function RootLayout({
