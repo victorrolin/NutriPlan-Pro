@@ -145,9 +145,7 @@ export class AuthService {
     try {
       const supabase = await createClient()
 
-      const passwordHash = await bcrypt.hash(newPassword, 10)
-
-      const { error } = await supabase.from("users").update({ password_hash: passwordHash }).eq("id", userId)
+      const { error } = await supabase.from("users").update({ password_hash: newPassword }).eq("id", userId)
 
       if (error) {
         return { success: false, error: "Erro ao atualizar senha" }
