@@ -24,6 +24,7 @@ import { Footer } from "@/components/footer"
 import { Browser } from "@capacitor/browser"
 import { Share } from "@capacitor/share"
 import { Filesystem, Directory } from "@capacitor/filesystem"
+import { Capacitor } from "@capacitor/core"
 
 interface ResultsScreenProps {
   userData: UserData
@@ -71,26 +72,32 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
     if (!pdfUrl) return
 
     try {
-      // Diagnóstico: Se for blob, precisamos ler e salvar fisicamente no celular
-      if (pdfUrl.startsWith("blob:")) {
-        console.log("[v0] Convertendo Blob para arquivo físico...")
+      // Se estiver no Navegador (PC ou Mobile Browser), faz download padrão
+      if (!Capacitor.isNativePlatform()) {
+        const link = document.createElement("a");
+        link.href = pdfUrl;
+        link.download = `Meu_Treino_FitPlan_Pro_${Date.now()}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return;
+      }
 
-        // 1. Baixa o blob como ArrayBuffer
+      // Se estiver no APK (Android), usa a lógica de Filesystem/Share
+      if (pdfUrl.startsWith("blob:")) {
         const response = await fetch(pdfUrl)
         const blob = await response.blob()
 
-        // 2. Converte blob para Base64 (necessário para o Filesystem.writeFile)
         const reader = new FileReader()
         const base64Promise = new Promise<string>((resolve) => {
           reader.onloadend = () => {
             const base64data = reader.result as string
-            resolve(base64data.split(",")[1]) // Remove o prefixo data:...base64,
+            resolve(base64data.split(",")[1])
           }
         })
         reader.readAsDataURL(blob)
         const base64String = await base64Promise
 
-        // 3. Salva no Cache do celular com nome amigável
         const fileName = `meu-treino-${Date.now()}.pdf`
         const savedFile = await Filesystem.writeFile({
           path: fileName,
@@ -98,7 +105,6 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
           directory: Directory.Cache
         })
 
-        // 4. Compartilha a URI nativa do arquivo (que o Android aceita)
         await Share.share({
           title: "Meu Treino FitPlan Pro",
           text: "Confira meu novo treino personalizado!",
@@ -107,7 +113,6 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
         return
       }
 
-      // Se não for blob (é uma URL externa direta), tenta Share ou Browser
       const canShare = await Share.canShare()
       if (canShare.value) {
         await Share.share({
@@ -119,7 +124,8 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
       }
     } catch (error) {
       console.error("[v0] Falha ao processar PDF:", error)
-      // Não exibe alerta, apenas loga o erro. O usuário pode tentar outras opções.
+      // Fallback final: tenta abrir em uma nova aba
+      window.open(pdfUrl, "_blank")
     }
   }
 
@@ -127,6 +133,12 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
     if (!pdfUrl) return
 
     try {
+      // Se estiver no Navegador, o comportamento do botão é similar ao download padrão
+      if (!Capacitor.isNativePlatform()) {
+        handleDownloadPdf();
+        return;
+      }
+
       const response = await fetch(pdfUrl)
       const blob = await response.blob()
 
