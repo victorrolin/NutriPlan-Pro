@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard } from "lucide-react"
+import { Bot, Sparkles, Dumbbell, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard, Apple, Info } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
@@ -13,6 +13,7 @@ import { Browser } from "@capacitor/browser"
 export function LandingPage() {
     const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
     const [registeredEmail, setRegisteredEmail] = useState("")
+    const [showIosGuide, setShowIosGuide] = useState(false)
 
     return (
         <div className="min-h-screen bg-black text-white selection:bg-green-500/30">
@@ -112,12 +113,59 @@ export function LandingPage() {
                         )}
 
                         {step === "idle" && (
-                            <Link href="/app/fitplan-pro.apk" download className="hidden sm:inline-block">
-                                <Button variant="link" className="text-green-500 hover:text-green-400 font-bold gap-2">
-                                    <Zap className="w-4 h-4" />
-                                    Baixar App para Android (Versão APK)
-                                </Button>
-                            </Link>
+                            <div className="flex flex-col items-center gap-4">
+                                <div className="flex flex-wrap justify-center gap-4">
+                                    <Link href="/app/fitplan-pro.apk" download className="hidden sm:inline-block">
+                                        <Button variant="link" className="text-green-500 hover:text-green-400 font-bold gap-2">
+                                            <Zap className="w-4 h-4" />
+                                            Baixar para Android (APK)
+                                        </Button>
+                                    </Link>
+                                    <Button
+                                        variant="link"
+                                        onClick={() => setShowIosGuide(!showIosGuide)}
+                                        className="text-gray-400 hover:text-white font-medium gap-2"
+                                    >
+                                        <Apple className="w-4 h-4" />
+                                        Instalar no iPhone (iOS)
+                                    </Button>
+                                </div>
+
+                                {showIosGuide && (
+                                    <div className="w-full max-w-sm p-6 bg-white/5 border border-white/10 rounded-3xl animate-in fade-in zoom-in duration-300 text-left">
+                                        <h4 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+                                            <Info className="w-4 h-4 text-green-500" />
+                                            Como instalar no iPhone:
+                                        </h4>
+                                        <ol className="space-y-3 text-xs text-gray-400">
+                                            <li className="flex gap-3">
+                                                <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center flex-shrink-0 font-bold">1</span>
+                                                <span>Acesse este site pelo navegador <strong>Safari</strong>.</span>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center flex-shrink-0 font-bold">2</span>
+                                                <span>Toque no botão de <strong>Compartilhar</strong> (quadrado com seta para cima).</span>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center flex-shrink-0 font-bold">3</span>
+                                                <span>Role para baixo e selecione <strong>"Adicionar à Tela de Início"</strong>.</span>
+                                            </li>
+                                            <li className="flex gap-3">
+                                                <span className="w-5 h-5 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center flex-shrink-0 font-bold">4</span>
+                                                <span>Toque em <strong>Adicionar</strong> no canto superior direito.</span>
+                                            </li>
+                                        </ol>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => setShowIosGuide(false)}
+                                            className="w-full mt-4 text-[10px] text-gray-500 hover:text-white"
+                                        >
+                                            Fechar Guia
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
                         )}
 
                         {step === "register" && (
