@@ -46,7 +46,7 @@ export function LandingPage() {
                             <Zap className="w-4 h-4" />
                             Baixar App Android
                         </a>
-                        <a href="https://wa.me/5551995762718" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition-colors flex items-center gap-1.5">
+                        <a href="https://wa.me/555131994389" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition-colors flex items-center gap-1.5">
                             <MessageSquare className="w-4 h-4" />
                             Suporte
                         </a>
@@ -219,7 +219,7 @@ export function LandingPage() {
                                                     Área do Aluno
                                                 </Button>
                                             </Link>
-                                            <a href="https://wa.me/5551995762718" target="_blank" rel="noopener noreferrer" className="w-full">
+                                            <a href="https://wa.me/555131994389" target="_blank" rel="noopener noreferrer" className="w-full">
                                                 <Button variant="outline" className="w-full h-12 border-green-500/20 hover:bg-green-500/5 text-green-500 text-sm font-medium rounded-xl">
                                                     <MessageSquare className="w-4 h-4 mr-2" />
                                                     Suporte
@@ -376,7 +376,7 @@ export function LandingPage() {
 
             {/* Floating WhatsApp Button */}
             <a
-                href="https://wa.me/5551995762718"
+                href="https://wa.me/555131994389"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="fixed bottom-6 right-6 z-[60] flex items-center gap-3 group animate-in slide-in-from-right-10 duration-500"

@@ -15,7 +15,7 @@ export function Footer() {
         </p>
         <div className="flex justify-center border-t border-border pt-4">
           <a
-            href="https://wa.me/5551995762718"
+            href="https://wa.me/555131994389"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-xs md:text-sm font-medium text-green-500 hover:text-green-400 transition-colors"
