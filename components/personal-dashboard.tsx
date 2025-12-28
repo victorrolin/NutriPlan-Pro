@@ -38,12 +38,14 @@ import {
   Activity,
   UserCheck,
   Calendar,
-  FileText
+  FileText,
+  History
 } from "lucide-react"
 import Link from "next/link"
 import { AuthService } from "@/lib/auth-service"
 import { createClient } from "@/lib/supabase/client"
 import { PasswordDialog } from "@/components/password-dialog"
+import { PatientDetailModal } from "@/components/patient-detail-modal"
 import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
 import { useLanguage } from "@/context/language-context"
@@ -64,7 +66,9 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState(")
+ const [selectedPatient, setSelectedPatient] = useState<User | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // New student form
   const [newStudent, setNewStudent] = useState({
@@ -353,6 +357,18 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                             </TableCell>
                             <TableCell className="text-right">
                               <div className="flex items-center justify-end gap-1">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="text-blue-500/50 hover:text-blue-400 hover:bg-blue-500/10"
+                                  onClick={() => {
+                                    setSelectedPatient(student)
+                                    setIsModalOpen(true)
+                                  }}
+                                  title="Ver Histórico de Planos"
+                                >
+                                  <History className="w-4 h-4" />
+                                </Button>
                                 <PasswordDialog userId={student.id} userName={student.full_name} onSuccess={() => setSuccess(t('dashboard.admin.messages.successPass'))} onError={setError} />
                                 <Button variant="ghost" size="icon" className={student.is_active ? "text-yellow-500/50 hover:text-yellow-400 hover:bg-yellow-500/10" : "text-green-500/50 hover:text-green-400 hover:bg-green-500/10"} onClick={() => handleToggleStatus(student.id, student.is_active)}>
                                   {student.is_active ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
@@ -454,6 +470,17 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           </div>
         </div>
       </main>
+
+      {/* Patient Detail Modal */}
+      <PatientDetailModal
+        patient={selectedPatient}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false)
+          setSelectedPatient(null)
+        }}
+      />
+
       <Footer />
     </div>
   )
