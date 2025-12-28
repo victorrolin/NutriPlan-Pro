@@ -42,9 +42,9 @@ export class AuthService {
         return { user: null, error: "Email já cadastrado" }
       }
 
-      // TEMPORARY: Store password as plain text (bcrypt doesn't work in static exports)
-      // TODO: Migrate to Supabase Auth or implement proper server-side authentication
-      const passwordHash = data.password
+      // Use bcrypt for hashing (bcryptjs works in both server and browser)
+      const salt = bcrypt.genSaltSync(10)
+      const passwordHash = bcrypt.hashSync(data.password, salt)
 
       const { data: newUser, error } = await supabase
         .from("nutri_users")
@@ -94,9 +94,8 @@ export class AuthService {
         return { user: null, error: "Email ou senha incorretos" }
       }
 
-      // TEMPORARY: Direct password comparison (bcrypt doesn't work in static exports)
-      // TODO: Migrate to Supabase Auth or implement proper server-side authentication
-      const isValidPassword = data.password === user.password_hash
+      // Use bcrypt for password comparison
+      const isValidPassword = bcrypt.compareSync(data.password, user.password_hash)
 
       if (!isValidPassword) {
         console.error("[v0] Password mismatch")
