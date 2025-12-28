@@ -44,6 +44,7 @@ export default function HomeClient({ session }: HomeClientProps) {
 
       {step === "assessment" && (
         <AssessmentFlow
+          userId={session?.userId || ""}
           userName={session?.fullName || ""}
           onComplete={handleComplete}
           onBack={handleRestart}

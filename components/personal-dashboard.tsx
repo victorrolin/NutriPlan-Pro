@@ -38,7 +38,8 @@ import {
   TrendingUp,
   Activity,
   UserCheck,
-  Calendar
+  Calendar,
+  FileText
 } from "lucide-react"
 import Link from "next/link"
 import { AuthService } from "@/lib/auth-service"
@@ -303,6 +304,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                         <TableRow className="border-gray-800 hover:bg-transparent">
                           <TableHead className="text-gray-400 uppercase text-[10px] font-bold tracking-widest">{t('dashboard.common.name')}</TableHead>
                           <TableHead className="text-gray-400 uppercase text-[10px] font-bold tracking-widest hidden md:table-cell">{t('dashboard.common.email')}</TableHead>
+                          <TableHead className="text-gray-400 uppercase text-[10px] font-bold tracking-widest">{t('dashboard.common.dietPlan')}</TableHead>
                           <TableHead className="text-gray-400 uppercase text-[10px] font-bold tracking-widest">{t('dashboard.common.status')}</TableHead>
                           <TableHead className="text-gray-400 uppercase text-[10px] font-bold tracking-widest text-right">{t('dashboard.common.actions')}</TableHead>
                         </TableRow>
@@ -322,6 +324,22 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                               </div>
                             </TableCell>
                             <TableCell className="text-gray-400 text-sm hidden md:table-cell">{student.email}</TableCell>
+                            <TableCell>
+                              {student.last_pdf_url ? (
+                                <Link
+                                  href={student.last_pdf_url}
+                                  target="_blank"
+                                  className="flex items-center gap-2 text-green-500 hover:text-green-400 transition-colors group/link"
+                                >
+                                  <div className="p-1.5 bg-green-500/10 rounded-lg group-hover/link:bg-green-500/20 transition-colors">
+                                    <FileText className="w-4 h-4" />
+                                  </div>
+                                  <span className="text-xs font-bold hidden sm:inline">Visualizar</span>
+                                </Link>
+                              ) : (
+                                <span className="text-[10px] text-gray-600 uppercase font-bold tracking-widest">Pendente</span>
+                              )}
+                            </TableCell>
                             <TableCell>
                               <Badge className={student.is_active ? "bg-green-500/10 text-green-400 border-none px-2 py-0.5" : "bg-red-500/10 text-red-400 border-none px-2 py-0.5"}>
                                 {student.is_active ? t('dashboard.common.active') : t('dashboard.common.blocked')}

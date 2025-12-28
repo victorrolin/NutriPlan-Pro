@@ -6,6 +6,7 @@ export interface SessionData {
   email: string
   fullName: string
   role: string
+  lastPdfUrl?: string | null
 }
 
 export async function createSession(data: SessionData) {

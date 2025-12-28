@@ -13,6 +13,7 @@ export interface User {
   created_by: string | null
   max_students: number
   student_count: number
+  last_pdf_url: string | null
 }
 
 export interface SignUpData {
@@ -133,7 +134,7 @@ export class AuthService {
       const { data: user } = await supabase
         .from("nutri_users")
         .select(
-          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
+          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count, last_pdf_url",
         )
         .eq("id", userId)
         .single()
@@ -181,7 +182,7 @@ export class AuthService {
       const { data: users } = await supabase
         .from("nutri_users")
         .select(
-          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
+          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count, last_pdf_url",
         )
         .order("created_at", { ascending: false })
 
@@ -199,7 +200,7 @@ export class AuthService {
       const { data: users } = await supabase
         .from("nutri_users")
         .select(
-          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
+          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count, last_pdf_url",
         )
         .eq("role", "personal")
         .order("created_at", { ascending: false })
@@ -218,7 +219,7 @@ export class AuthService {
       const { data: users } = await supabase
         .from("nutri_users")
         .select(
-          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
+          "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count, last_pdf_url",
         )
         .eq("created_by", personalId)
         .eq("role", "user")
@@ -228,6 +229,30 @@ export class AuthService {
     } catch (error) {
       console.error("Error listing students:", error)
       return []
+    }
+  }
+
+  /**
+   * Update student last PDF URL
+   */
+  static async updateLastPdfUrl(studentId: string, pdfUrl: string): Promise<{ success: boolean; error: string | null }> {
+    try {
+      const supabase = await createClient()
+
+      const { error } = await supabase
+        .from("nutri_users")
+        .update({ last_pdf_url: pdfUrl })
+        .eq("id", studentId)
+
+      if (error) {
+        console.error("Error updating PDF URL:", error)
+        return { success: false, error: "Erro ao atualizar URL do PDF" }
+      }
+
+      return { success: true, error: null }
+    } catch (error) {
+      console.error("Error updating PDF URL:", error)
+      return { success: false, error: "Erro ao atualizar URL do PDF" }
     }
   }
 

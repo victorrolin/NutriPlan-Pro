@@ -87,13 +87,16 @@ async function sendToWebhook(data: UserData, currentLanguage: string, labels: an
   }
 }
 
+import { AuthService } from "@/lib/auth-service"
+
 interface AssessmentFlowProps {
+  userId: string
   userName: string
   onComplete: (result: AssessmentResult) => void
   onBack: () => void
 }
 
-export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowProps) {
+export function AssessmentFlow({ userId, userName, onComplete, onBack }: AssessmentFlowProps) {
   const { t, language } = useLanguage()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -347,6 +350,19 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
       const locales = require("@/lib/locales.json")
       const labels = locales[language].labels
       const result = await sendToWebhook(userData, language, labels)
+
+      if (result.pdfUrl && userId) {
+        // Persistir no banco de dados
+        await AuthService.updateLastPdfUrl(userId, result.pdfUrl)
+
+        // Atualizar sessão local para feedback imediato no dashboard
+        const { getSession, createSession } = await import("@/lib/session")
+        const currentSession = await getSession()
+        if (currentSession) {
+          await createSession({ ...currentSession, lastPdfUrl: result.pdfUrl })
+        }
+      }
+
       setIsSubmitting(false)
       onComplete({ userData, pdfUrl: result.pdfUrl, error: result.error })
     }

@@ -339,6 +339,7 @@
             "common": {
                 "name": "Nome",
                 "email": "Email",
+                "dietPlan": "Plano Alimentar",
                 "status": "Status",
                 "createdAt": "Criado em",
                 "actions": "Ações",
@@ -822,6 +823,7 @@
             "common": {
                 "name": "Name",
                 "email": "Email",
+                "dietPlan": "Diet Plan",
                 "status": "Status",
                 "createdAt": "Created at",
                 "actions": "Actions",
