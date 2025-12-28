@@ -42,10 +42,10 @@ export default function HomeClient({ session }: HomeClientProps) {
             }
             // Se não houver resultado em memória, mas houver PDF salvo na sessão, cria um resultado mínimo
             if (session?.lastPdfUrl) {
+              console.log("Loading PDF from session:", session.lastPdfUrl)
               setAssessmentResult({
                 userData: {
                   name: session.fullName,
-                  email: session.email,
                   age: "0",
                   gender: "male",
                   weight: "0",
@@ -53,7 +53,7 @@ export default function HomeClient({ session }: HomeClientProps) {
                   bodyType: "mesomorph",
                   activityLevel: "moderate",
                   goal: "health",
-                  dietPreference: "balanced",
+                  dietType: "balanced",
                   allergies: "",
                   healthConditions: "",
                   supplements: "",
@@ -63,12 +63,25 @@ export default function HomeClient({ session }: HomeClientProps) {
                   stressLevel: "moderate",
                   cookingHabits: "sometimes",
                   digestion: "",
-                  specificGoal: ""
+                  specificGoal: "",
+                  // Campos obrigatórios do UserData
+                  experience: "",
+                  previousTraining: "",
+                  frequency: "",
+                  equipment: [],
+                  muscleGroups: [],
+                  limitations: "",
+                  availability: "",
+                  trainingPreference: "",
+                  preferredTime: "",
+                  dietType: ""
                 },
                 pdfUrl: session.lastPdfUrl,
                 error: undefined
               })
               setStep("results")
+            } else {
+              console.log("No PDF URL found in session")
             }
           }}
         />
