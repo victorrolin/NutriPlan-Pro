@@ -58,7 +58,7 @@ export default function HomeClient({ session }: HomeClientProps) {
                   healthConditions: "",
                   supplements: "",
                   mealsPerDay: "3",
-                  waterIntake: 2,
+                  waterIntake: "2",
                   sleepQuality: "good",
                   stressLevel: "moderate",
                   cookingHabits: "sometimes",
