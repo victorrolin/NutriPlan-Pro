@@ -356,6 +356,12 @@
                     "students": "alunos",
                     "back": "Voltar"
                 },
+                "stats": {
+                    "totalStudents": "Total de Alunos",
+                    "activeStudents": "Ativos",
+                    "newStudents": "Novos (7d)",
+                    "growth": "Crescimento"
+                },
                 "limitCard": {
                     "title": "Alunos vinculados",
                     "subtitle": "Nutricionista",
@@ -435,6 +441,23 @@
                     "successLimit": "Limite de alunos alterado com sucesso",
                     "deleteTitle": "Excluir Usuário",
                     "deleteConfirm": "Tem certeza que deseja excluir {name}? Esta ação não pode ser desfeita."
+                }
+            },
+            "patient": {
+                "welcome": "Bem-vindo(a), {name}!",
+                "subtitle": "Tudo pronto para a sua evolução de hoje.",
+                "actions": {
+                    "title": "Ações Rápidas",
+                    "start": "Iniciar Nova Avaliação",
+                    "startDesc": "Gerar um novo plano personalizado",
+                    "view": "Ver Minha Dieta",
+                    "viewDesc": "Acesse seu último PDF gerado"
+                },
+                "tips": {
+                    "title": "Dicas de Nutrição",
+                    "tip1": "Beba pelo menos 3L de água por dia para melhores resultados.",
+                    "tip2": "A constância é mais importante que a perfeição.",
+                    "tip3": "Alimentos naturais devem ser a base da sua dieta."
                 }
             }
         },
@@ -816,6 +839,12 @@
                     "students": "students",
                     "back": "Back"
                 },
+                "stats": {
+                    "totalStudents": "Total Students",
+                    "activeStudents": "Active",
+                    "newStudents": "New (7d)",
+                    "growth": "Growth"
+                },
                 "limitCard": {
                     "title": "Linked Students",
                     "subtitle": "Nutritionist",
@@ -895,6 +924,23 @@
                     "successLimit": "Student limit changed successfully",
                     "deleteTitle": "Delete User",
                     "deleteConfirm": "Are you sure you want to delete {name}? This action cannot be undone."
+                }
+            },
+            "patient": {
+                "welcome": "Welcome back, {name}!",
+                "subtitle": "Everything is ready for your evolution.",
+                "actions": {
+                    "title": "Quick Actions",
+                    "start": "Start New Assessment",
+                    "startDesc": "Generate a new personalized plan",
+                    "view": "View My Diet",
+                    "viewDesc": "Access your latest generated PDF"
+                },
+                "tips": {
+                    "title": "Nutrition Tips",
+                    "tip1": "Drink at least 3L of water daily for better results.",
+                    "tip2": "Consistency is more important than perfection.",
+                    "tip3": "Natural foods should be the basis of your diet."
                 }
             }
         },

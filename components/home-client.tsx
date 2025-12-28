@@ -4,6 +4,7 @@ import { useState } from "react"
 import { AssessmentFlow } from "@/components/assessment-flow"
 import { ResultsScreen } from "@/components/results-screen"
 import { AppHeader } from "@/components/app-header"
+import { PatientDashboard } from "@/components/patient-dashboard"
 import type { AssessmentResult } from "@/types/assessment"
 import type { SessionData } from "@/lib/session"
 
@@ -12,7 +13,7 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({ session }: HomeClientProps) {
-  const [step, setStep] = useState<"assessment" | "results">("assessment")
+  const [step, setStep] = useState<"dashboard" | "assessment" | "results">("dashboard")
   const [assessmentResult, setAssessmentResult] = useState<AssessmentResult | null>(null)
 
   const handleComplete = (result: AssessmentResult) => {
@@ -22,12 +23,25 @@ export default function HomeClient({ session }: HomeClientProps) {
 
   const handleRestart = () => {
     setAssessmentResult(null)
-    setStep("assessment")
+    setStep("dashboard")
   }
 
   return (
     <main className="min-h-screen bg-background">
       {session && <AppHeader session={session} />}
+
+      {step === "dashboard" && (
+        <PatientDashboard
+          userName={session?.fullName || ""}
+          onStartAssessment={() => setStep("assessment")}
+          onViewDiet={() => {
+            // Se houver resultado em memória, mostra. Senão, poderíamos buscar do banco.
+            // Por enquanto, apenas muda para results se existir, ou mantém dashboard.
+            if (assessmentResult) setStep("results")
+          }}
+        />
+      )}
+
       {step === "assessment" && (
         <AssessmentFlow
           userName={session?.fullName || ""}
