@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Bot, Sparkles, Apple, Utensils, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard, Info } from "lucide-react"
+import { Bot, Sparkles, Apple, Utensils, Zap, Target, Brain, ArrowRight, Play, CheckCircle2, Lock, CreditCard, Info, Shield } from "lucide-react"
 import Link from "next/link"
 import { Footer } from "@/components/footer"
 import { useEffect, useRef, useState } from "react"
