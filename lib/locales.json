@@ -310,7 +310,8 @@
             "health": "Saúde",
             "obs": "Observações",
             "years": "anos",
-            "liters": "L/dia"
+            "liters": "L/dia",
+            "backToDashboard": "Voltar ao Dashboard"
         },
         "auth": {
             "login": {
@@ -794,7 +795,8 @@
             "health": "Health",
             "obs": "Observations",
             "years": "years",
-            "liters": "L/day"
+            "liters": "L/day",
+            "backToDashboard": "Back to Dashboard"
         },
         "auth": {
             "login": {

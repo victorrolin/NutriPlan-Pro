@@ -21,6 +21,7 @@ import {
   Activity,
   Droplets,
   Clock,
+  Home,
 } from "lucide-react"
 import type { UserData } from "@/types/assessment"
 import { Footer } from "@/components/footer"
@@ -422,6 +423,14 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
           )}
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center pt-4 md:pt-6">
+            <Button
+              size="lg"
+              onClick={onRestart}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground w-full sm:w-auto px-10"
+            >
+              <Home className="mr-2 h-4 w-4 md:h-5 md:w-5" />
+              {t('results.backToDashboard') || "Voltar ao Dashboard"}
+            </Button>
             <Button
               size="lg"
               variant="outline"
