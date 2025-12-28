@@ -57,7 +57,7 @@ export default function HomeClient({ session }: HomeClientProps) {
                   allergies: "",
                   healthConditions: "",
                   supplements: "",
-                  mealsPerDay: "3",
+                  mealFrequency: "3",
                   waterIntake: "2",
                   sleepQuality: "good",
                   stressLevel: "moderate",
@@ -73,8 +73,7 @@ export default function HomeClient({ session }: HomeClientProps) {
                   limitations: "",
                   availability: "",
                   trainingPreference: "",
-                  preferredTime: "",
-                  dietType: ""
+                  preferredTime: ""
                 },
                 pdfUrl: session.lastPdfUrl,
                 error: undefined
