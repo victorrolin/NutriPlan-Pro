@@ -19,94 +19,102 @@ export function LandingPage() {
         <div className="min-h-screen bg-black text-white selection:bg-green-500/30">
             {/* Background Decorative Elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-green-600/10 blur-[120px] rounded-full" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-600/10 blur-[120px] rounded-full" />
+                <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-green-500/10 blur-[150px] rounded-full animate-pulse" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-emerald-500/10 blur-[150px] rounded-full animate-pulse [animation-delay:2s]" />
+                <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-blue-500/5 blur-[100px] rounded-full" />
             </div>
 
+            {/* Mesh Gradient Overlay */}
+            <div className="fixed inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03] pointer-events-none" />
+
             {/* Header */}
-            <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/60 backdrop-blur-xl">
-                <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 shadow-lg shadow-green-500/20">
-                            <Bot className="w-5 h-5 text-white" />
+            <header className="fixed top-0 w-full z-50 border-b border-white/5 bg-black/40 backdrop-blur-2xl transition-all duration-300">
+                <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+                    <div className="flex items-center gap-3 group cursor-pointer">
+                        <div className="p-2 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 shadow-xl shadow-green-500/20 group-hover:scale-110 transition-transform">
+                            <Bot className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <span className="font-bold text-lg tracking-tight">NutriPlan Pro</span>
+                            <span className="font-black text-xl tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">NutriPlan Pro</span>
                             <div className="flex items-center gap-2">
-                                <p className="text-[10px] text-gray-400 font-medium leading-none">Nutricionista IA</p>
-                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-500 font-bold uppercase">v1.2.0</span>
+                                <p className="text-[10px] text-green-500 font-bold leading-none tracking-widest uppercase mb-0.5">AI Nutritionist</p>
+                                <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 font-bold uppercase">Enterprise</span>
                             </div>
                         </div>
                     </div>
 
-                    <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-                        <a href="#como-funciona" className="hover:text-white transition-colors">Como funciona</a>
-                        <a href="#beneficios" className="hover:text-white transition-colors">Benefícios</a>
-                        <a href="/app/fitplan-pro.apk" download className="text-green-500 hover:text-green-400 font-bold transition-colors flex items-center gap-1.5">
-                            <Zap className="w-4 h-4" />
-                            Baixar App Android
+                    <nav className="hidden lg:flex items-center gap-10 text-sm font-semibold text-gray-400">
+                        <a href="#como-funciona" className="hover:text-emerald-400 transition-colors relative group">
+                            Como funciona
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
                         </a>
-                        <a href="https://wa.me/555131994389" target="_blank" rel="noopener noreferrer" className="hover:text-green-500 transition-colors flex items-center gap-1.5">
-                            <MessageSquare className="w-4 h-4" />
-                            Suporte
+                        <a href="#beneficios" className="hover:text-emerald-400 transition-colors relative group">
+                            Benefícios
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
+                        </a>
+                        <a href="/app/fitplan-pro.apk" download className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2">
+                            <Smartphone className="w-4 h-4" />
+                            Download App
                         </a>
                     </nav>
 
-                    <div className="flex items-center gap-3">
-                        <Link href="/auth/login/">
-                            <Button variant="ghost" className="text-sm font-medium hover:bg-white/5 text-gray-300">
+                    <div className="flex items-center gap-4">
+                        <Link href="/auth/login/" className="hidden sm:block">
+                            <Button variant="ghost" className="text-sm font-bold hover:bg-white/5 text-gray-300 px-6">
                                 Entrar
                             </Button>
                         </Link>
+                        <Button
+                            onClick={() => {
+                                setStep("register")
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }}
+                            className="bg-white text-black hover:bg-gray-100 font-bold px-6 rounded-xl hidden md:flex"
+                        >
+                            Começar
+                        </Button>
                     </div>
                 </div>
             </header>
 
             <main className="relative pt-32">
                 {/* Hero Section */}
-                <section className="container mx-auto px-4 text-center pb-20">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-green-400 mb-8 animate-fade-in">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="flex items-center gap-1.5">
-                            <Bot className="w-3 h-3" />
-                            Powered by Artificial Intelligence
-                        </span>
+                <section className="container mx-auto px-4 text-center pb-32">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] md:text-xs font-bold text-emerald-400 mb-10 animate-fade-in tracking-widest uppercase">
+                        <Sparkles className="w-3 h-3 animate-pulse" />
+                        A nova era da alimentação de alta performance
+                        <Sparkles className="w-3 h-3 animate-pulse" />
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-                        A Revolução da <br />
-                        <span className="bg-gradient-to-r from-green-400 tracking-tighter to-emerald-500 bg-clip-text text-transparent italic">
-                            Nutrição Inteligente
+                    <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] text-white">
+                        Sua Dieta Feita <br />
+                        <span className="inline-block relative">
+                            <span className="relative z-10 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent italic px-2">
+                                pela Inteligência Artificial
+                            </span>
+                            <div className="absolute -bottom-2 left-0 w-full h-8 bg-emerald-500/10 blur-2xl -rotate-1" />
                         </span>
                     </h1>
 
-                    <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed">
-                        Planos alimentares personalizados criados por <span className="text-white font-medium">Inteligência Artificial</span> sob medida.
-                        Responda algumas perguntas e nossa IA irá montar a dieta perfeita para seus objetivos e rotina.
+                    <p className="max-w-3xl mx-auto text-lg md:text-2xl text-gray-400 mb-12 leading-relaxed font-medium">
+                        Pare de adivinhar o que comer. O <span className="text-white">NutriPlan Pro</span> molda sua jornada com precisão matemática e nutricional, criando planos 100% personalizados em segundos.
                     </p>
 
-                    <div className="flex flex-col items-center justify-center gap-6">
+                    <div className="flex flex-col items-center justify-center gap-8">
                         {step === "idle" && (
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-2xl px-4">
                                 <Button
                                     size="lg"
                                     onClick={() => setStep("register")}
-                                    className="h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 transition-transform text-lg font-bold rounded-2xl group shadow-lg shadow-green-500/20"
+                                    className="w-full sm:w-auto h-16 px-12 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition-all text-xl font-black rounded-3xl group shadow-[0_20px_50px_rgba(34,197,94,0.3)] hover:scale-105 active:scale-95"
                                 >
-                                    <Zap className="w-5 h-5 mr-2" />
                                     Começar Agora
-                                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
                                 </Button>
-                                <a href="#como-funciona">
-                                    <Button size="lg" variant="outline" className="h-14 px-8 border-white/10 hover:bg-white/5 bg-transparent rounded-2xl text-lg font-bold">
-                                        <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" />
-                                        Como Funciona
-                                    </Button>
-                                </a>
-                                <a href="/app/fitplan-pro.apk" download className="sm:hidden w-full">
-                                    <Button size="lg" variant="outline" className="w-full h-14 border-green-500/20 text-green-500 hover:bg-green-500/5 bg-transparent rounded-2xl text-lg font-bold">
-                                        <Zap className="w-4 h-4 mr-2" />
-                                        Baixar App Android
+                                <a href="#como-funciona" className="w-full sm:w-auto">
+                                    <Button size="lg" variant="outline" className="w-full h-16 px-12 border-white/10 hover:bg-white/5 bg-transparent rounded-3xl text-xl font-bold backdrop-blur-xl">
+                                        Vídeo Demo
+                                        <Play className="w-5 h-5 ml-3 text-emerald-500 fill-emerald-500" />
                                     </Button>
                                 </a>
                             </div>
