@@ -18,71 +18,38 @@ const labelMap: Record<string, string> = {
   female: "Feminino",
   other: "Prefiro não dizer",
   // Objetivo
-  muscle: "Ganho de Massa",
+  muscle: "Hipertrofia",
   "weight-loss": "Emagrecimento",
-  conditioning: "Performance Esportiva",
-  strength: "Saúde e Longevidade",
-  flexibility: "Reeducação Alimentar",
-  health: "Saúde Geral",
-  // Experiência
-  beginner: "Iniciante",
-  intermediate: "Intermediário",
-  advanced: "Avançado",
-  // Frequência
-  "2": "2 dias",
-  "3": "3 dias",
-  "4": "4 dias",
-  "5": "5 dias",
-  "6": "6 dias",
-  // Equipamentos
-  dumbbells: "Halteres",
-  barbells: "Barras",
-  machines: "Máquinas",
-  cables: "Cabos",
-  bodyweight: "Peso Corporal",
-  kettlebell: "Kettlebell",
-  // Grupos Musculares
-  chest: "Peito",
-  back: "Costas",
-  shoulders: "Ombros",
-  arms: "Braços",
-  legs: "Pernas",
-  glutes: "Glúteos",
-  core: "Abdômen",
-  // Disponibilidade
-  "30": "30 minutos",
-  "45": "45 minutos",
-  "60": "1 hora",
-  "90": "1h30",
-  // Nível de Atividade
+  conditioning: "Performance",
+  strength: "Força",
+  flexibility: "Reeducação",
+  health: "Saúde e Energia",
+  // Atividade
   sedentary: "Sedentário",
-  light: "Levemente Ativo",
-  "moderate-activity": "Moderadamente Ativo",
+  light: "Leve",
+  "moderate-activity": "Moderado",
   very: "Muito Ativo",
-  athlete: "Atleta",
+  athlete: "Atleta de Elite",
   // Biotipo
   ectomorph: "Ectomorfo",
   mesomorph: "Mesomorfo",
   endomorph: "Endomorfo",
-  // Preferência de Treino
-  short: "Curto e Intenso",
-  "moderate-intensity": "Moderado",
-  long: "Longo e Moderado",
-  // Horário
-  morning: "Manhã",
-  afternoon: "Tarde",
-  evening: "Noite",
-  flexible: "Flexível",
   // Dieta
   balanced: "Balanceada",
   lowCarb: "Low Carb",
-  highProtein: "High Protein",
+  highProtein: "Alta Proteína",
   vegetarian: "Vegetariana",
   vegan: "Vegana",
-  // Experiência Prévia
-  never: "Nunca Treinei",
-  stopped: "Já Treinei (Parei)",
-  active: "Treino Atualmente",
+  // Sono e Estresse
+  good: "Excelente",
+  moderate: "Moderado",
+  poor: "Ruim",
+  low: "Baixo",
+  high: "Alto",
+  // Hábitos
+  always: "Sempre",
+  sometimes: "Às vezes",
+  never: "Raramente",
 }
 
 function translateToPortuguese(value: string | string[]): string | string[] {
@@ -95,22 +62,22 @@ function translateToPortuguese(value: string | string[]): string | string[] {
 const questions: Question[] = [
   {
     id: "name",
-    title: "Qual o nome do aluno?",
-    subtitle: "Vamos personalizar a experiência",
+    title: "Qual o seu nome?",
+    subtitle: "Vamos começar sua transformação",
     type: "text",
     required: true,
   },
   {
     id: "age",
-    title: "Qual a idade?",
-    subtitle: "Isso nos ajuda a adequar a intensidade",
+    title: "Qual sua idade?",
+    subtitle: "Importante para o cálculo metabólico",
     type: "number",
     required: true,
   },
   {
     id: "gender",
-    title: "Qual o gênero?",
-    subtitle: "Para personalizar os exercícios",
+    title: "Qual seu gênero?",
+    subtitle: "Para personalizar suas necessidades",
     type: "card-select",
     options: [
       { id: "male", label: "Masculino", image: "/muscular-man-fitness-silhouette.jpg" },
@@ -120,343 +87,150 @@ const questions: Question[] = [
   },
   {
     id: "weight",
-    title: "Qual o peso atual (kg)?",
-    subtitle: "Para calcular intensidade e progressão",
+    title: "Qual seu peso atual (kg)?",
+    subtitle: "Precisão é a chave do sucesso",
     type: "number",
     required: true,
   },
   {
     id: "height",
-    title: "Qual a altura (cm)?",
-    subtitle: "Para calcular IMC e adequar exercícios",
+    title: "Qual sua altura (cm)?",
+    subtitle: "Para calcularmos seu IMC",
     type: "number",
     required: true,
   },
   {
-    id: "activityLevel",
-    title: "Qual seu nível de atividade atual?",
-    subtitle: "Considerando todas as atividades do dia a dia",
+    id: "bodyType",
+    title: "Qual seu biotipo corporal?",
+    subtitle: "Como você descreveria sua estrutura?",
     type: "card-select",
     options: [
-      {
-        id: "sedentary",
-        label: "Sedentário",
-        image: "/sedentary-lifestyle-couch.jpg",
-        description: "Trabalho sentado, pouco movimento",
-      },
-      {
-        id: "light",
-        label: "Levemente Ativo",
-        image: "/light-activity-walking.jpg",
-        description: "Atividade leve 1-3x/semana",
-      },
-      {
-        id: "moderate-activity",
-        label: "Moderadamente Ativo",
-        image: "/moderate-activity-jogging.jpg",
-        description: "Exercício moderado 3-5x/semana",
-      },
-      {
-        id: "very",
-        label: "Muito Ativo",
-        image: "/very-active-intense-training.jpg",
-        description: "Exercício intenso 6-7x/semana",
-      },
-      {
-        id: "athlete",
-        label: "Atleta",
-        image: "/athlete-professional-training.jpg",
-        description: "Treinamento profissional/Elite",
-      },
+      { id: "ectomorph", label: "Ectomorfo", image: "/ectomorph-body-type.jpg", description: "Magro, dificuldade em ganhar peso" },
+      { id: "mesomorph", label: "Mesomorfo", image: "/mesomorph-body-type.jpg", description: "Atlético, fácil ganho de massa" },
+      { id: "endomorph", label: "Endomorfo", image: "/endomorph-body-type.jpg", description: "Largo, facilidade em acumular gordura" },
+    ],
+  },
+  {
+    id: "activityLevel",
+    title: "Seu nível de atividade diária?",
+    subtitle: "Incluindo trabalho e exercícios",
+    type: "card-select",
+    options: [
+      { id: "sedentary", label: "Sedentário", image: "/sedentary-lifestyle-couch.jpg", description: "Trabalho sentado, pouco movimento" },
+      { id: "light", label: "Levemente Ativo", image: "/light-activity-walking.jpg", description: "Caminhadas leves ou 1-2x treino" },
+      { id: "moderate-activity", label: "Moderado", image: "/moderate-activity-jogging.jpg", description: "Treino regular 3-5x por semana" },
+      { id: "very", label: "Muito Ativo", image: "/very-active-intense-training.jpg", description: "Treino intenso diariamente" },
+      { id: "athlete", label: "Atleta de Elite", image: "/athlete-professional-training.jpg", description: "Treino profissional" },
     ],
   },
   {
     id: "goal",
-    title: "Qual o objetivo principal?",
-    subtitle: "Escolha o foco do treino",
+    title: "Qual seu objetivo principal?",
+    subtitle: "Onde quer chegar?",
     type: "card-select",
     options: [
-      {
-        id: "muscle",
-        label: "Ganho de Massa",
-        image: "/bodybuilder-muscles-gym.jpg",
-        description: "Hipertrofia e força",
-      },
-      {
-        id: "weight-loss",
-        label: "Emagrecimento",
-        image: "/weight-loss-transformation-fitness.jpg",
-        description: "Perda de gordura corporal",
-      },
-      {
-        id: "conditioning",
-        label: "Performance",
-        image: "/cardio-running-athlete.jpg",
-        description: "Melhora no desempenho esportivo",
-      },
-      { id: "strength", label: "Longevidade", image: "/powerlifting-deadlift-strength.jpg", description: "Saúde a longo prazo" },
-      {
-        id: "flexibility",
-        label: "Reeducação",
-        image: "/balanced-diet-healthy-food.jpg",
-        description: "Melhorar hábitos alimentares",
-      },
-      {
-        id: "health",
-        label: "Saúde Geral",
-        image: "/healthy-lifestyle-wellness-fitness.jpg",
-        description: "Mais energia e disposição",
-      },
+      { id: "weight-loss", label: "Emagrecimento", image: "/weight-loss-transformation-fitness.jpg", description: "Redução de gordura" },
+      { id: "muscle", label: "Hipertrofia", image: "/bodybuilder-muscles-gym.jpg", description: "Ganho de massa muscular" },
+      { id: "health", label: "Saúde e Energia", image: "/healthy-lifestyle-wellness-fitness.jpg", description: "Vitalidade no dia a dia" },
+      { id: "conditioning", label: "Performance", image: "/cardio-running-athlete.jpg", description: "Desempenho esportivo" },
+      { id: "flexibility", label: "Reeducação", image: "/balanced-diet-healthy-food.jpg", description: "Melhores hábitos" },
     ],
   },
   {
-    id: "specificGoal",
-    title: "Qual seu maior desafio nutricional?",
-    subtitle: "Ex: Fome emocional, falta de tempo para cozinhar, etc.",
-    type: "text",
-  },
-  {
-    id: "previousTraining",
-    title: "Você já treinou antes?",
-    subtitle: "Experiência prévia com treinos",
+    id: "dietType",
+    title: "Qual sua preferência alimentar?",
+    subtitle: "Respeitamos seu estilo de vida",
     type: "card-select",
     options: [
-      { id: "never", label: "Nunca Treinei", image: "/beginner-first-day-gym.jpg", description: "Primeira vez" },
-      {
-        id: "stopped",
-        label: "Já Treinei (Parei)",
-        image: "/comeback-fitness-return.jpg",
-        description: "Retornando aos treinos",
-      },
-      {
-        id: "active",
-        label: "Treino Atualmente",
-        image: "/active-training-current.jpg",
-        description: "Ativo regularmente",
-      },
+      { id: "balanced", label: "Balanceada", image: "/balanced-diet-healthy-food.jpg", description: "Sem restrições específicas" },
+      { id: "lowCarb", label: "Low Carb", image: "/low-carb-diet-food.jpg", description: "Redução de carboidratos" },
+      { id: "vegetarian", label: "Vegetariana", image: "/vegetarian-diet-food.jpg", description: "Sem carne animal" },
+      { id: "vegan", label: "Vegana", image: "/vegan-diet-plant-based.jpg", description: "100% à base de plantas" },
+      { id: "highProtein", label: "Alta Proteína", image: "/high-protein-diet-food.jpg", description: "Foco em construção muscular" },
     ],
-  },
-  {
-    id: "experience",
-    title: "Qual o nível de experiência?",
-    subtitle: "Isso define a complexidade dos exercícios",
-    type: "card-select",
-    options: [
-      { id: "beginner", label: "Iniciante", image: "/beginner-gym-first-time-workout.jpg", description: "0-6 meses" },
-      {
-        id: "intermediate",
-        label: "Intermediário",
-        image: "/intermediate-gym-training-workout.jpg",
-        description: "6 meses - 2 anos",
-      },
-      {
-        id: "advanced",
-        label: "Avançado",
-        image: "/advanced-athlete-professional-training.jpg",
-        description: "2+ anos",
-      },
-    ],
-  },
-  {
-    id: "allergies",
-    title: "Possui alguma alergia ou intolerância?",
-    subtitle: "Ex: Lactose, glúten, frutos do mar, etc.",
-    type: "text",
-  },
-  {
-    id: "dislikes",
-    title: "Existe algum alimento que você não come?",
-    subtitle: "Por gosto pessoal, religião ou ética",
-    type: "text",
   },
   {
     id: "mealFrequency",
     title: "Quantas refeições faz por dia?",
-    subtitle: "Incluindo pequenos lanches",
+    subtitle: "Conte tudo, inclusive lanches",
     type: "number",
     required: true,
   },
   {
     id: "waterIntake",
-    title: "Quanto de água bebe por dia (L)?",
+    title: "Consumo diário de água (Litros)?",
     subtitle: "Aproximadamente",
     type: "number",
     required: true,
   },
   {
+    id: "allergies",
+    title: "Possui alergias ou intolerâncias?",
+    subtitle: "Ex: Lactose, Glúten, Castanhas, Frutos do mar",
+    type: "text",
+  },
+  {
+    id: "dislikes",
+    title: "Alimentos que você não come?",
+    subtitle: "Aquilo que você simplesmente detesta",
+    type: "text",
+  },
+  {
     id: "healthConditions",
-    title: "Possui alguma condição de saúde?",
-    subtitle: "Ex: Diabetes, Hipertensão, Gastrite, etc.",
+    title: "Alguma condição de saúde?",
+    subtitle: "Diabetes, Gastrite, Pressão Alta, etc.",
     type: "text",
   },
   {
     id: "supplements",
-    title: "Faz uso de algum suplemento ou remédio?",
-    subtitle: "Ex: Whey, Creatina, Vitaminas, etc.",
+    title: "Usa suplementos ou remédios?",
+    subtitle: "Whey, Creatina, Vitaminas, etc.",
     type: "text",
   },
   {
-    id: "bodyType",
-    title: "Qual seu biotipo corporal?",
-    subtitle: "Tipo físico predominante",
+    id: "sleepQuality",
+    title: "Como você avalia seu sono?",
+    subtitle: "A qualidade do descanso",
     type: "card-select",
     options: [
-      {
-        id: "ectomorph",
-        label: "Ectomorfo",
-        image: "/ectomorph-body-type.jpg",
-        description: "Magro, dificuldade para ganhar peso",
-      },
-      {
-        id: "mesomorph",
-        label: "Mesomorfo",
-        image: "/mesomorph-body-type.jpg",
-        description: "Atlético, ganha massa facilmente",
-      },
-      {
-        id: "endomorph",
-        label: "Endomorfo",
-        image: "/endomorph-body-type.jpg",
-        description: "Estrutura maior, tende a acumular gordura",
-      },
+      { id: "good", label: "Excelente", image: "/timer-60-minutes-workout.jpg", description: "Acordo descansado" },
+      { id: "moderate", label: "Médio", image: "/timer-45-minutes-workout.jpg", description: "Sono interrompido às vezes" },
+      { id: "poor", label: "Ruim", image: "/timer-30-minutes-workout.jpg", description: "Sempre cansado" },
     ],
   },
   {
-    id: "frequency",
-    title: "Quantos dias por semana?",
-    subtitle: "Disponibilidade para treinar",
+    id: "stressLevel",
+    title: "Como está seu nível de estresse?",
+    subtitle: "No trabalho e na vida pessoal",
     type: "card-select",
     options: [
-      { id: "2", label: "2 dias", image: "/calendar-two-days-workout-schedule.jpg", description: "Treino full body" },
-      { id: "3", label: "3 dias", image: "/calendar-three-days-workout-schedule.jpg", description: "ABC clássico" },
-      { id: "4", label: "4 dias", image: "/calendar-four-days-workout-schedule.jpg", description: "Upper/Lower" },
-      { id: "5", label: "5 dias", image: "/calendar-five-days-workout-schedule.jpg", description: "Push/Pull/Legs" },
-      { id: "6", label: "6 dias", image: "/calendar-six-days-workout-schedule.jpg", description: "Alto volume" },
+      { id: "low", label: "Baixo", image: "/yoga-stretching-flexibility.jpg", description: "Me sinto tranquilo" },
+      { id: "moderate", label: "Moderado", image: "/moderate-intensity-workout.jpg", description: "Alguns dias tensos" },
+      { id: "high", label: "Alto", image: "/hiit-intense-workout.jpg", description: "Muito estressado" },
     ],
   },
   {
-    id: "availability",
-    title: "Quanto tempo por sessão?",
-    subtitle: "Duração média de cada treino",
+    id: "cookingHabits",
+    title: "Com que frequência você cozinha?",
+    subtitle: "Isso ajuda na viabilidade do plano",
     type: "card-select",
     options: [
-      { id: "30", label: "30 minutos", image: "/timer-30-minutes-workout.jpg" },
-      { id: "45", label: "45 minutos", image: "/timer-45-minutes-workout.jpg" },
-      { id: "60", label: "1 hora", image: "/timer-60-minutes-workout.jpg" },
-      { id: "90", label: "1h30", image: "/timer-90-minutes-workout.jpg" },
+      { id: "always", label: "Sempre", image: "/flexible-diet-variety-food.jpg", description: "Prepararo minhas refeições" },
+      { id: "sometimes", label: "Às vezes", image: "/comeback-fitness-return.jpg", description: "Cozinho mas também como fora" },
+      { id: "never", label: "Raramente", image: "/sedentary-lifestyle-couch.jpg", description: "Peço delivery ou como fora" },
     ],
   },
   {
-    id: "trainingPreference",
-    title: "Preferência de intensidade?",
-    subtitle: "Estilo de treino que mais te motiva",
-    type: "card-select",
-    options: [
-      {
-        id: "short",
-        label: "Curto e Intenso",
-        image: "/hiit-intense-workout.jpg",
-        description: "Alta intensidade, menos tempo",
-      },
-      {
-        id: "moderate-intensity",
-        label: "Moderado",
-        image: "/moderate-intensity-workout.jpg",
-        description: "Equilíbrio entre intensidade e volume",
-      },
-      {
-        id: "long",
-        label: "Longo e Moderado",
-        image: "/long-moderate-workout.jpg",
-        description: "Mais volume, intensidade controlada",
-      },
-    ],
-  },
-  {
-    id: "preferredTime",
-    title: "Horário preferido para treinar?",
-    subtitle: "Quando você tem mais energia e disposição",
-    type: "card-select",
-    options: [
-      { id: "morning", label: "Manhã", image: "/morning-workout-sunrise.jpg", description: "5h - 11h" },
-      { id: "afternoon", label: "Tarde", image: "/afternoon-workout.jpg", description: "12h - 17h" },
-      { id: "evening", label: "Noite", image: "/evening-workout-night.jpg", description: "18h - 22h" },
-      { id: "flexible", label: "Flexível", image: "/flexible-schedule-workout.jpg", description: "Qualquer horário" },
-    ],
-  },
-  {
-    id: "equipment",
-    title: "Quais equipamentos disponíveis?",
-    subtitle: "Selecione todos que tiver acesso",
-    type: "multi-select",
-    options: [
-      { id: "dumbbells", label: "Halteres", image: "/dumbbells-gym-equipment.jpg" },
-      { id: "barbells", label: "Barras", image: "/barbell-gym-equipment.jpg" },
-      { id: "machines", label: "Máquinas", image: "/gym-machines-equipment.jpg" },
-      { id: "cables", label: "Cabos", image: "/cable-machine-gym.jpg" },
-      { id: "bodyweight", label: "Peso Corporal", image: "/bodyweight-exercise-calisthenics.jpg" },
-      { id: "kettlebell", label: "Kettlebell", image: "/kettlebell-gym-equipment.jpg" },
-    ],
-  },
-  {
-    id: "muscleGroups",
-    title: "Quais grupos musculares focar?",
-    subtitle: "Selecione as prioridades do aluno",
-    type: "multi-select",
-    options: [
-      { id: "chest", label: "Peito", image: "/chest-muscles-anatomy.jpg" },
-      { id: "back", label: "Costas", image: "/back-muscles-anatomy.jpg" },
-      { id: "shoulders", label: "Ombros", image: "/shoulder-muscles-anatomy.jpg" },
-      { id: "arms", label: "Braços", image: "/arm-muscles-biceps.jpg" },
-      { id: "legs", label: "Pernas", image: "/leg-muscles-anatomy.jpg" },
-      { id: "glutes", label: "Glúteos", image: "/glutes-muscles-fitness.jpg" },
-      { id: "core", label: "Abdômen", image: "/core-abs-muscles.jpg" },
-    ],
-  },
-  {
-    id: "limitations",
-    title: "Possui alguma limitação física?",
-    subtitle: "Lesões, restrições médicas ou condições especiais",
+    id: "digestion",
+    title: "Como está sua digestão?",
+    subtitle: "Regularidade, inchaço, azia, etc.",
     type: "text",
   },
   {
-    id: "dietType",
-    title: "Qual seu estilo alimentar?",
-    subtitle: "Isso ajuda a complementar o treino",
-    type: "card-select",
-    options: [
-      {
-        id: "balanced",
-        label: "Balanceada",
-        image: "/balanced-diet-healthy-food.jpg",
-        description: "Todos os grupos alimentares",
-      },
-      {
-        id: "lowCarb",
-        label: "Low Carb",
-        image: "/low-carb-diet-food.jpg",
-        description: "Redução de carboidratos",
-      },
-      {
-        id: "highProtein",
-        label: "High Protein",
-        image: "/high-protein-diet-food.jpg",
-        description: "Alta proteína",
-      },
-      {
-        id: "vegetarian",
-        label: "Vegetariana",
-        image: "/vegetarian-diet-food.jpg",
-        description: "Sem carnes",
-      },
-      { id: "vegan", label: "Vegana", image: "/vegan-diet-plant-based.jpg", description: "100% vegetal" },
-      {
-        id: "flexible",
-        label: "Sem Restrições",
-        image: "/flexible-diet-variety-food.jpg",
-        description: "Como de tudo",
-      },
-    ],
+    id: "specificGoal",
+    title: "Algum detalhe adicional?",
+    subtitle: "O que mais a IA deve saber?",
+    type: "text",
   },
 ]
 
@@ -470,26 +244,22 @@ async function sendToWebhook(data: UserData): Promise<{ success: boolean; pdfUrl
       height: data.height || "",
       activityLevel: translateToPortuguese(data.activityLevel || ""),
       goal: translateToPortuguese(data.goal || ""),
-      specificGoal: data.specificGoal || "",
-      previousTraining: translateToPortuguese(data.previousTraining || ""),
-      experience: translateToPortuguese(data.experience || ""),
       bodyType: translateToPortuguese(data.bodyType || ""),
-      frequency: translateToPortuguese(data.frequency || ""),
-      availability: translateToPortuguese(data.availability || ""),
-      trainingPreference: translateToPortuguese(data.trainingPreference || ""),
-      preferredTime: translateToPortuguese(data.preferredTime || ""),
-      equipment: translateToPortuguese(Array.isArray(data.equipment) ? data.equipment : []),
-      muscleGroups: translateToPortuguese(Array.isArray(data.muscleGroups) ? data.muscleGroups : []),
-      limitations: data.limitations || "",
       dietType: translateToPortuguese(data.dietType || ""),
-      allergies: data.allergies || "",
-      dislikes: data.dislikes || "",
       mealFrequency: data.mealFrequency || "",
       waterIntake: data.waterIntake || "",
+      allergies: data.allergies || "",
+      dislikes: data.dislikes || "",
       healthConditions: data.healthConditions || "",
       supplements: data.supplements || "",
+      sleepQuality: translateToPortuguese(data.sleepQuality || ""),
+      stressLevel: translateToPortuguese(data.stressLevel || ""),
+      cookingHabits: translateToPortuguese(data.cookingHabits || ""),
+      digestion: data.digestion || "",
+      specificGoal: data.specificGoal || "",
       photos: data.photos || {},
       submittedAt: new Date().toISOString(),
+      source: "nutriplan_pro_anamnese",
     }
 
     console.log("[v0] Enviando dados para webhook:", payload)
@@ -581,24 +351,19 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
     height: "",
     activityLevel: "",
     goal: "",
-    specificGoal: "",
-    previousTraining: "",
-    experience: "",
     bodyType: "",
-    frequency: "",
-    availability: "",
-    trainingPreference: "",
-    preferredTime: "",
-    equipment: [],
-    muscleGroups: [],
-    limitations: "",
     dietType: "",
-    allergies: "",
-    dislikes: "",
     mealFrequency: "",
     waterIntake: "",
+    allergies: "",
+    dislikes: "",
     healthConditions: "",
     supplements: "",
+    sleepQuality: "",
+    stressLevel: "",
+    cookingHabits: "",
+    digestion: "",
+    specificGoal: "",
     photos: {
       front: "",
       side: "",
@@ -630,25 +395,30 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
         height: answers.height || "",
         activityLevel: answers.activityLevel || "",
         goal: answers.goal || "",
-        specificGoal: answers.specificGoal || "",
-        previousTraining: answers.previousTraining || "",
-        experience: answers.experience || "",
         bodyType: answers.bodyType || "",
-        frequency: answers.frequency || "",
-        availability: answers.availability || "",
-        trainingPreference: answers.trainingPreference || "",
-        preferredTime: answers.preferredTime || "",
-        equipment: answers.equipment || [],
-        muscleGroups: answers.muscleGroups || [],
-        limitations: answers.limitations || "",
         dietType: answers.dietType || "",
-        allergies: answers.allergies || "",
-        dislikes: answers.dislikes || "",
         mealFrequency: answers.mealFrequency || "",
         waterIntake: answers.waterIntake || "",
+        allergies: answers.allergies || "",
+        dislikes: answers.dislikes || "",
         healthConditions: answers.healthConditions || "",
         supplements: answers.supplements || "",
+        sleepQuality: answers.sleepQuality || "",
+        stressLevel: answers.stressLevel || "",
+        cookingHabits: answers.cookingHabits || "",
+        digestion: answers.digestion || "",
+        specificGoal: answers.specificGoal || "",
         photos: answers.photos,
+        // Mantendo compatibilidade com campos antigos se necessário
+        experience: "",
+        previousTraining: "",
+        frequency: "",
+        equipment: [],
+        muscleGroups: [],
+        limitations: "",
+        availability: "",
+        trainingPreference: "",
+        preferredTime: "",
       }
 
       const result = await sendToWebhook(userData)
@@ -704,37 +474,40 @@ export function AssessmentFlow({ userName, onComplete, onBack }: AssessmentFlowP
             <p className="text-sm md:text-base text-muted-foreground">{currentQuestion.subtitle}</p>
           </div>
 
-          {/* Text Input */}
-          {currentQuestion.type === "text" && currentQuestion.id === "limitations" && (
+          {/* Text Input - Generic rendering to fix missing inputs */}
+          {currentQuestion.type === "text" && (
             <div className="max-w-xl mx-auto">
-              <Textarea
-                placeholder="Descreva qualquer limitação física, lesão ou condição especial (opcional)"
-                value={(currentValue as string) || ""}
-                onChange={(e) => handleAnswer(e.target.value)}
-                className="min-h-28 md:min-h-32 bg-card border-border text-foreground text-base"
-              />
-            </div>
-          )}
-
-          {currentQuestion.type === "text" && currentQuestion.id === "name" && (
-            <div className="max-w-xl mx-auto">
-              <Input
-                placeholder="Digite o nome do aluno"
-                value={(currentValue as string) || ""}
-                onChange={(e) => handleAnswer(e.target.value)}
-                className="h-12 md:h-14 bg-card border-border text-foreground text-base md:text-lg px-4"
-              />
-            </div>
-          )}
-
-          {currentQuestion.type === "text" && currentQuestion.id === "specificGoal" && (
-            <div className="max-w-xl mx-auto">
-              <Input
-                placeholder="Ex: Perder 5kg, ganhar 3kg de massa, correr 5km"
-                value={(currentValue as string) || ""}
-                onChange={(e) => handleAnswer(e.target.value)}
-                className="h-12 md:h-14 bg-card border-border text-foreground text-base md:text-lg px-4"
-              />
+              {currentQuestion.id === "specificGoal" || currentQuestion.id === "digestion" ? (
+                <Textarea
+                  placeholder={
+                    currentQuestion.id === "digestion"
+                      ? "Frequência, inchaço, azia ou qualquer desconforto..."
+                      : "Ex: Mais disposição, melhorar exames, performance esportiva..."
+                  }
+                  value={(currentValue as string) || ""}
+                  onChange={(e) => handleAnswer(e.target.value)}
+                  className="min-h-28 md:min-h-32 bg-card border-border text-foreground text-base"
+                />
+              ) : (
+                <Input
+                  placeholder={
+                    currentQuestion.id === "name"
+                      ? "Seu nome completo"
+                      : currentQuestion.id === "allergies"
+                        ? "Ex: Lactose, Glúten, Castanhas..."
+                        : currentQuestion.id === "dislikes"
+                          ? "Fígado, coentro, carne vermelha..."
+                          : currentQuestion.id === "healthConditions"
+                            ? "Diabetes, Tireoide, Anemia..."
+                            : currentQuestion.id === "supplements"
+                              ? "Vitaminas, Creatina, Whey..."
+                              : "Sua resposta..."
+                  }
+                  value={(currentValue as string) || ""}
+                  onChange={(e) => handleAnswer(e.target.value)}
+                  className="h-12 md:h-14 bg-card border-border text-foreground text-base md:text-lg px-4"
+                />
+              )}
             </div>
           )}
 

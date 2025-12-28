@@ -24,6 +24,10 @@ export interface UserData {
   waterIntake?: string
   healthConditions?: string
   supplements?: string
+  sleepQuality?: string
+  stressLevel?: string
+  cookingHabits?: string
+  digestion?: string
   photos?: {
     front?: string
     side?: string
