@@ -264,7 +264,7 @@ async function sendToWebhook(data: UserData): Promise<{ success: boolean; pdfUrl
 
     console.log("[v0] Enviando dados para webhook:", payload)
 
-    const response = await fetch("https://workspace.n8n.automatech.tech/webhook/perguntaspersonal", {
+    const response = await fetch("https://workspace.n8n.automatech.tech/webhook/perguntasnutri", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
