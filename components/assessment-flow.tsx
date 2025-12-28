@@ -88,6 +88,7 @@ async function sendToWebhook(data: UserData, currentLanguage: string, labels: an
 }
 
 import { AuthService } from "@/lib/auth-service"
+import { DietPlanService } from "@/lib/diet-plan-service"
 
 interface AssessmentFlowProps {
   userId: string
@@ -352,7 +353,29 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
       const result = await sendToWebhook(userData, language, labels)
 
       if (result.pdfUrl && userId) {
-        // Persistir no banco de dados
+        // Salvar plano completo no histórico
+        await DietPlanService.createPlan({
+          userId: userId,
+          pdfUrl: result.pdfUrl,
+          planName: `Plano ${new Date().toLocaleDateString('pt-BR')}`,
+          goal: userData.goal,
+          dietType: userData.dietType,
+          activityLevel: userData.activityLevel,
+          metadata: {
+            age: userData.age,
+            gender: userData.gender,
+            weight: userData.weight,
+            height: userData.height,
+            bodyType: userData.bodyType,
+            mealFrequency: userData.mealFrequency,
+            waterIntake: userData.waterIntake,
+            sleepQuality: userData.sleepQuality,
+            stressLevel: userData.stressLevel,
+            cookingHabits: userData.cookingHabits
+          }
+        })
+
+        // Persistir no banco de dados (compatibilidade)
         await AuthService.updateLastPdfUrl(userId, result.pdfUrl)
 
         // Atualizar sessão local para feedback imediato no dashboard

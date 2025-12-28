@@ -2,16 +2,17 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Apple, ClipboardCheck, FileText, Sparkles, TrendingUp, Droplets, Target } from "lucide-react"
+import { Apple, ClipboardCheck, Sparkles, TrendingUp, Droplets, Target } from "lucide-react"
 import { useLanguage } from "@/context/language-context"
+import { DietPlanHistory } from "@/components/diet-plan-history"
 
 interface PatientDashboardProps {
+    userId: string
     userName: string
     onStartAssessment: () => void
-    onViewDiet: () => void
 }
 
-export function PatientDashboard({ userName, onStartAssessment, onViewDiet }: PatientDashboardProps) {
+export function PatientDashboard({ userId, userName, onStartAssessment }: PatientDashboardProps) {
     const { t } = useLanguage()
 
     return (
@@ -44,18 +45,6 @@ export function PatientDashboard({ userName, onStartAssessment, onViewDiet }: Pa
                             <div className="text-left">
                                 <div className="font-bold leading-tight">{t('dashboard.patient.actions.start')}</div>
                                 <div className="text-xs font-normal opacity-80">{t('dashboard.patient.actions.startDesc')}</div>
-                            </div>
-                        </Button>
-
-                        <Button
-                            variant="outline"
-                            onClick={onViewDiet}
-                            className="w-full border-gray-700 hover:bg-gray-800 h-16 text-lg gap-3 bg-transparent text-white"
-                        >
-                            <FileText className="w-6 h-6 text-orange-400" />
-                            <div className="text-left">
-                                <div className="font-bold leading-tight">{t('dashboard.patient.actions.view')}</div>
-                                <div className="text-xs font-normal text-gray-400">{t('dashboard.patient.actions.viewDesc')}</div>
                             </div>
                         </Button>
                     </CardContent>
@@ -104,6 +93,11 @@ export function PatientDashboard({ userName, onStartAssessment, onViewDiet }: Pa
                         </div>
                     </Card>
                 ))}
+            </div>
+
+            {/* Diet Plan History */}
+            <div className="mt-8">
+                <DietPlanHistory userId={userId} />
             </div>
         </div>
     )

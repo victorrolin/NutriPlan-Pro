@@ -32,57 +32,9 @@ export default function HomeClient({ session }: HomeClientProps) {
 
       {step === "dashboard" && (
         <PatientDashboard
+          userId={session?.userId || ""}
           userName={session?.fullName || ""}
           onStartAssessment={() => setStep("assessment")}
-          onViewDiet={() => {
-            // Se houver resultado em memória, mostra
-            if (assessmentResult) {
-              setStep("results")
-              return
-            }
-            // Se não houver resultado em memória, mas houver PDF salvo na sessão, cria um resultado mínimo
-            if (session?.lastPdfUrl) {
-              console.log("Loading PDF from session:", session.lastPdfUrl)
-              setAssessmentResult({
-                userData: {
-                  name: session.fullName,
-                  age: "0",
-                  gender: "male",
-                  weight: "0",
-                  height: "0",
-                  bodyType: "mesomorph",
-                  activityLevel: "moderate",
-                  goal: "health",
-                  dietType: "balanced",
-                  allergies: "",
-                  healthConditions: "",
-                  supplements: "",
-                  mealFrequency: "3",
-                  waterIntake: "2",
-                  sleepQuality: "good",
-                  stressLevel: "moderate",
-                  cookingHabits: "sometimes",
-                  digestion: "",
-                  specificGoal: "",
-                  // Campos obrigatórios do UserData
-                  experience: "",
-                  previousTraining: "",
-                  frequency: "",
-                  equipment: [],
-                  muscleGroups: [],
-                  limitations: "",
-                  availability: "",
-                  trainingPreference: "",
-                  preferredTime: ""
-                },
-                pdfUrl: session.lastPdfUrl,
-                error: undefined
-              })
-              setStep("results")
-            } else {
-              console.log("No PDF URL found in session")
-            }
-          }}
         />
       )}
 
