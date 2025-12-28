@@ -27,11 +27,22 @@ export interface SignInData {
   password: string
 }
 
+// Assuming deleteSession is a function that needs to be imported or defined.
+// For the purpose of this edit, we'll assume it's available in scope.
+async function deleteSession() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+}
+
 export class AuthService {
   /**
    * Sign up a new user
    */
-  static async signUp(data: SignUpData): Promise<{ user: User | null; error: string | null }> {
+  static async logout() {
+    await deleteSession()
+  }
+
+  static async signUp(data: SignUpDto): Promise<{ user: User | null; error: string | null }> {
     try {
       const supabase = await createClient()
 

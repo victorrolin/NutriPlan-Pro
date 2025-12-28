@@ -89,6 +89,11 @@ export function AdminDashboard({ initialUsers, currentUserType }: AdminDashboard
     }
   }
 
+  const handleLogout = async () => {
+    await AuthService.logout()
+    window.location.href = "/"
+  }
+
   const handleToggleStatus = async (userId: string, currentStatus: boolean) => {
     setError(null); setSuccess(null);
     try {
@@ -124,8 +129,8 @@ export function AdminDashboard({ initialUsers, currentUserType }: AdminDashboard
             <LayoutDashboard className="w-8 h-8 text-orange-500" />
             <span className="text-xl font-bold text-white tracking-tight">NutriPlan <span className="text-orange-500">Admin</span></span>
           </div>
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-6 border-r border-gray-800 pr-6 mr-6">
+          <div className="flex items-center gap-2 md:gap-6">
+            <div className="hidden lg:flex items-center gap-6 border-r border-gray-800 pr-6 mr-6">
               <div className="text-right">
                 <p className="text-[10px] text-gray-500 uppercase font-bold tracking-widest">{t('dashboard.admin.header.admins')}</p>
                 <p className="text-lg font-bold text-white leading-none mt-1">{filteredByRole("admin").length}</p>
@@ -139,6 +144,17 @@ export function AdminDashboard({ initialUsers, currentUserType }: AdminDashboard
                 <p className="text-lg font-bold text-white leading-none mt-1">{filteredByRole("user").length}</p>
               </div>
             </div>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </Button>
+
             <div className="w-10 h-10 rounded-full bg-orange-600 flex items-center justify-center border border-white/10 shadow-lg">
               <ShieldCheck className="w-6 h-6 text-white" />
             </div>

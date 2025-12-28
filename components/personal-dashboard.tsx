@@ -148,6 +148,11 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     } catch (e) { setError(t('dashboard.personal.messages.errorUpdate')) }
   }
 
+  const handleLogout = async () => {
+    await AuthService.logout()
+    window.location.href = "/"
+  }
+
   const handleDelete = async (studentId: string) => {
     setError(null)
     setSuccess(null)
@@ -168,10 +173,6 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
       <header className="border-b border-gray-800 bg-gray-950/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">{t('dashboard.personal.header.back')}</span>
-            </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
                 <Utensils className="w-8 h-8 text-green-500" />
@@ -180,12 +181,23 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
               <span className="text-xl font-bold text-white tracking-tight">NutriPlan <span className="text-green-500">Pro</span></span>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex flex-col items-end">
+          <div className="flex items-center gap-2 md:gap-4">
+            <div className="hidden md:flex flex-col items-end border-r border-gray-800 pr-4">
               <span className="text-sm font-bold text-white leading-none">{currentUser.fullName}</span>
               <span className="text-[10px] text-green-500 uppercase font-bold tracking-widest mt-1">Nutritionist</span>
             </div>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center border border-white/10 shadow-lg">
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="text-gray-400 hover:text-red-400 hover:bg-red-400/10 gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sair</span>
+            </Button>
+
+            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center border border-white/10 shadow-lg">
               <span className="text-white font-bold">{currentUser.fullName[0]}</span>
             </div>
           </div>
