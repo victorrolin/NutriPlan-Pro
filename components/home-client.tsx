@@ -35,9 +35,41 @@ export default function HomeClient({ session }: HomeClientProps) {
           userName={session?.fullName || ""}
           onStartAssessment={() => setStep("assessment")}
           onViewDiet={() => {
-            // Se houver resultado em memória, mostra. Senão, poderíamos buscar do banco.
-            // Por enquanto, apenas muda para results se existir, ou mantém dashboard.
-            if (assessmentResult) setStep("results")
+            // Se houver resultado em memória, mostra
+            if (assessmentResult) {
+              setStep("results")
+              return
+            }
+            // Se não houver resultado em memória, mas houver PDF salvo na sessão, cria um resultado mínimo
+            if (session?.lastPdfUrl) {
+              setAssessmentResult({
+                userData: {
+                  name: session.fullName,
+                  email: session.email,
+                  age: "0",
+                  gender: "male",
+                  weight: "0",
+                  height: "0",
+                  bodyType: "mesomorph",
+                  activityLevel: "moderate",
+                  goal: "health",
+                  dietPreference: "balanced",
+                  allergies: "",
+                  healthConditions: "",
+                  supplements: "",
+                  mealsPerDay: "3",
+                  waterIntake: 2,
+                  sleepQuality: "good",
+                  stressLevel: "moderate",
+                  cookingHabits: "sometimes",
+                  digestion: "",
+                  specificGoal: ""
+                },
+                pdfUrl: session.lastPdfUrl,
+                error: undefined
+              })
+              setStep("results")
+            }
           }}
         />
       )}
