@@ -8,9 +8,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Apple, Sparkles, Utensils, ArrowLeft } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useLanguage } from "@/context/language-context"
+import { getSession } from "@/lib/session"
+import { useRouter } from "next/navigation"
 
 export default function PersonalLoginPage() {
   const { t } = useLanguage()
@@ -18,6 +20,17 @@ export default function PersonalLoginPage() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    async function checkSession() {
+      const session = await getSession()
+      if (session && (session.role === "personal" || session.role === "admin")) {
+        router.push("/personal")
+      }
+    }
+    checkSession()
+  }, [router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,15 +63,6 @@ export default function PersonalLoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 relative">
-      {/* Back to Home Button */}
-      <div className="absolute top-4 left-4 md:top-8 md:left-8">
-        <Link href="/">
-          <Button variant="ghost" className="text-gray-400 hover:text-white transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {t('auth.login.backToHome')}
-          </Button>
-        </Link>
-      </div>
 
       <div className="w-full max-w-md">
         <div className="text-center mb-8">

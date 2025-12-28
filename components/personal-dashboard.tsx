@@ -33,7 +33,6 @@ import {
   CheckCircle2,
   XCircle,
   Apple,
-  ArrowLeft,
   AlertTriangle,
   TrendingUp,
   Activity,

@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getSession } from "@/lib/session"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -20,6 +21,16 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    async function checkSession() {
+      const session = await getSession()
+      if (session && session.role === "admin") {
+        router.push("/admin")
+      }
+    }
+    checkSession()
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,15 +64,6 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
-      {/* Back to Home Button */}
-      <div className="absolute top-4 left-4 md:top-8 md:left-8">
-        <Link href="/">
-          <Button variant="ghost" className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {t('auth.login.backToHome')}
-          </Button>
-        </Link>
-      </div>
 
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
