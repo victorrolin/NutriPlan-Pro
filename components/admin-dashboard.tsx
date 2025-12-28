@@ -27,10 +27,12 @@ import {
   Trash2,
   Key,
   ArrowLeft,
-  Dumbbell,
+  Apple,
   Sparkles,
   UserCog,
   Plus,
+  ChefHat,
+  Utensils,
 } from "lucide-react"
 import Link from "next/link"
 import { AuthService } from "@/lib/auth-service"
@@ -122,7 +124,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
     try {
       const supabase = await createClient()
       const { error } = await supabase
-        .from("users")
+        .from("nutri_users")
         .update({ is_active: !currentStatus, updated_at: new Date().toISOString() })
         .eq("id", userId)
 
@@ -144,7 +146,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
 
     try {
       const supabase = await createClient()
-      const { error } = await supabase.from("users").delete().eq("id", userId)
+      const { error } = await supabase.from("nutri_users").delete().eq("id", userId)
 
       if (error) {
         setError("Erro ao excluir usuário")
@@ -356,7 +358,7 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
             </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Dumbbell className="w-8 h-8 text-green-500" />
+                <Apple className="w-8 h-8 text-green-500" />
                 <Sparkles className="w-4 h-4 text-green-400 absolute -top-1 -right-1" />
               </div>
               <span className="text-xl font-bold text-white">Painel Admin</span>
@@ -369,8 +371,8 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
               <span>{admins.length} Admins</span>
             </div>
             <div className="flex items-center gap-2 text-green-400">
-              <UserCog className="w-4 h-4" />
-              <span>{personalTrainers.length} Personais</span>
+              <Utensils className="w-4 h-4" />
+              <span>{personalTrainers.length} Nutris</span>
             </div>
             <div className="flex items-center gap-2 text-gray-400">
               <Users className="w-4 h-4" />
@@ -444,8 +446,8 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-gray-800 border-gray-700">
-                    <SelectItem value="user">Aluno</SelectItem>
-                    <SelectItem value="personal">Personal Trainer</SelectItem>
+                    <SelectItem value="user">Paciente</SelectItem>
+                    <SelectItem value="personal">Nutricionista</SelectItem>
                     <SelectItem value="admin">Administrador</SelectItem>
                   </SelectContent>
                 </Select>
@@ -470,13 +472,13 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <CardTitle className="text-white">Gerenciar Usuários</CardTitle>
                 <TabsList className="bg-gray-800 border-gray-700">
-                  <TabsTrigger value="personals" className="data-[state=active]:bg-orange-500">
-                    Personal Trainers
+                  <TabsTrigger value="personals" className="data-[state=active]:bg-emerald-500">
+                    Nutricionistas
                   </TabsTrigger>
-                  <TabsTrigger value="students" className="data-[state=active]:bg-orange-500">
-                    Alunos
+                  <TabsTrigger value="students" className="data-[state=active]:bg-emerald-500">
+                    Pacientes
                   </TabsTrigger>
-                  <TabsTrigger value="admins" className="data-[state=active]:bg-orange-500">
+                  <TabsTrigger value="admins" className="data-[state=active]:bg-emerald-500">
                     Administradores
                   </TabsTrigger>
                 </TabsList>

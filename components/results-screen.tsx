@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
-  Dumbbell,
+  Apple,
+  Utensils,
   Target,
   Calendar,
   Clock,
@@ -18,6 +19,8 @@ import {
   ExternalLink,
   Download,
   XCircle,
+  Salad,
+  ChefHat,
 } from "lucide-react"
 import type { UserData } from "@/types/assessment"
 import { Footer } from "@/components/footer"
@@ -83,7 +86,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
           // No PC, forçar download direto
           const link = document.createElement("a");
           link.href = pdfUrl;
-          link.download = `Meu_Treino_FitPlan_Pro_${Date.now()}.pdf`;
+          link.download = `Meu_Plano_NutriPlan_Pro_${Date.now()}.pdf`;
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -114,8 +117,8 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
         })
 
         await Share.share({
-          title: "Meu Treino FitPlan Pro",
-          text: "Confira meu novo treino personalizado!",
+          title: "Meu Plano NutriPlan Pro",
+          text: "Confira meu novo plano alimentar personalizado!",
           url: savedFile.uri,
         })
         return
@@ -124,7 +127,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
       const canShare = await Share.canShare()
       if (canShare.value) {
         await Share.share({
-          title: "Meu Treino FitPlan Pro",
+          title: "Meu Plano NutriPlan Pro",
           url: pdfUrl,
         })
       } else {
@@ -160,7 +163,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
       reader.readAsDataURL(blob)
       const base64String = await base64Promise
 
-      const fileName = `Treino_FitPlan_Pro_${Date.now()}.pdf`
+      const fileName = `Plano_NutriPlan_Pro_${Date.now()}.pdf`
 
       const savedFile = await Filesystem.writeFile({
         path: fileName,
@@ -168,7 +171,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
         directory: Directory.Documents
       })
 
-      alert(`Treino salvo com sucesso em Seus Documentos!\nNome: ${fileName}`)
+      alert(`Plano salvo com sucesso em Seus Documentos!\nNome: ${fileName}`)
     } catch (error) {
       console.error("[v0] Falha ao baixar PDF:", error)
       alert("Não foi possível salvar o arquivo permanentemente. Tente a opção de Compartilhar.")
@@ -188,7 +191,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
             </div>
             <div className="min-w-0">
               <h1 className="text-xl md:text-3xl font-bold text-foreground truncate">
-                {error ? "Ops! Houve um problema" : pdfUrl ? "Seu Treino Está Pronto!" : "Dados Recebidos!"}
+                {error ? "Ops! Houve um problema" : pdfUrl ? "Seu Plano Está Pronto!" : "Dados Recebidos!"}
               </h1>
               <p className="text-sm md:text-base text-muted-foreground truncate">
                 Olá <span className="text-primary font-semibold">{userData.name}</span>,{" "}
@@ -196,7 +199,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   {error
                     ? "verifique o erro abaixo"
                     : pdfUrl
-                      ? "a IA criou seu treino personalizado!"
+                      ? "a IA criou seu plano alimentar personalizado!"
                       : "a IA está analisando seu perfil..."}
                 </span>
               </p>
@@ -236,7 +239,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   <AlertCircle className="h-5 w-5 md:h-6 md:w-6 text-red-400" />
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-sm md:text-base text-foreground">Erro ao gerar o treino</p>
+                  <p className="font-bold text-sm md:text-base text-foreground">Erro ao gerar o plano</p>
                   <p className="text-xs md:text-sm text-muted-foreground">{error}</p>
                 </div>
               </div>
@@ -266,7 +269,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   <FileText className="h-5 w-5 md:h-6 md:w-6 text-green-400" />
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-sm md:text-base text-foreground">Treino personalizado pronto!</p>
+                  <p className="font-bold text-sm md:text-base text-foreground">Plano personalizado pronto!</p>
                   <p className="text-xs md:text-sm text-muted-foreground hidden sm:block">
                     Criado pela nossa IA especialmente para você
                   </p>
@@ -302,7 +305,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
             <div className="flex items-center justify-center gap-2 md:gap-4 text-center">
               <Sparkles className="h-4 w-4 md:h-6 md:w-6 text-primary animate-pulse flex-shrink-0" />
               <p className="text-sm md:text-base text-foreground">
-                <span className="font-bold">Nossa IA está criando seu treino.</span>
+                <span className="font-bold">Nossa IA está criando seu plano alimentar.</span>
                 <span className="text-muted-foreground ml-1 hidden sm:inline">Você receberá em instantes!</span>
               </p>
               <Sparkles className="h-4 w-4 md:h-6 md:w-6 text-primary animate-pulse flex-shrink-0" />
@@ -343,8 +346,8 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
           <Card className="bg-card border-border">
             <CardHeader className="pb-2 md:pb-4">
               <CardTitle className="flex items-center gap-2 text-foreground text-base md:text-lg">
-                <Target className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                Perfil de Treino
+                <Salad className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                Perfil Nutricional
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 md:space-y-4">
@@ -356,9 +359,9 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                   </p>
                 </div>
                 <div className="p-3 md:p-4 rounded-lg bg-secondary/50">
-                  <p className="text-xs md:text-sm text-muted-foreground mb-0.5 md:mb-1">Experiência</p>
-                  <p className="text-sm md:text-lg font-semibold text-foreground">
-                    {experienceLabels[userData.experience] || userData.experience}
+                  <p className="text-xs md:text-sm text-muted-foreground mb-0.5 md:mb-1">Estilo Alimentar</p>
+                  <p className="text-sm md:text-lg font-semibold text-foreground capitalize">
+                    {userData.dietType || "Não informado"}
                   </p>
                 </div>
               </div>
@@ -387,21 +390,20 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
             <Card className="bg-card border-border">
               <CardHeader className="pb-2 md:pb-4">
                 <CardTitle className="flex items-center gap-2 text-foreground text-base md:text-lg">
-                  <Dumbbell className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                  Equipamentos
+                  <ChefHat className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                  Preferências e Hábitos
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-wrap gap-1.5 md:gap-2">
-                  {userData.equipment?.map((eq) => (
-                    <Badge
-                      key={eq}
-                      variant="secondary"
-                      className="bg-secondary text-secondary-foreground text-xs md:text-sm"
-                    >
-                      {equipmentLabels[eq] || eq}
-                    </Badge>
-                  ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-1">Alergias/Restrições</p>
+                    <p className="text-sm text-foreground">{userData.allergies || "Nenhuma"}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs md:text-sm text-muted-foreground mb-1">Frequência de Refeições</p>
+                    <p className="text-sm text-foreground">{userData.mealFrequency ? `${userData.mealFrequency}x ao dia` : "Não informada"}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -448,7 +450,7 @@ export function ResultsScreen({ userData, pdfUrl, error, onRestart }: ResultsScr
                 className="bg-green-600 hover:bg-green-700 text-white w-full sm:w-auto font-bold text-lg h-auto py-4"
               >
                 <ExternalLink className="mr-2 h-5 w-5" />
-                Abrir Treino em PDF
+                Abrir Plano em PDF
               </Button>
             )}
             <Button

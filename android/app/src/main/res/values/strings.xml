@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">FitPlan Pro</string>
-    <string name="title_activity_main">FitPlan Pro</string>
-    <string name="package_name">com.trainerworkout.app</string>
-    <string name="custom_url_scheme">com.trainerworkout.app</string>
+    <string name="app_name">NutriPlan Pro</string>
+    <string name="title_activity_main">NutriPlan Pro</string>
+    <string name="package_name">com.nutriplanpro.app</string>
+    <string name="custom_url_scheme">com.nutriplanpro.app</string>
 </resources>

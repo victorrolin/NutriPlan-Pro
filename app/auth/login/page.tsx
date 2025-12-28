@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Dumbbell, Sparkles, Shield, Users } from "lucide-react"
+import { Apple, Sparkles, Shield, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Link from "next/link"
@@ -48,12 +48,12 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="relative">
-              <Dumbbell className="w-12 h-12 text-orange-500" />
-              <Sparkles className="w-6 h-6 text-orange-400 absolute -top-1 -right-1 animate-pulse" />
+              <Apple className="w-12 h-12 text-emerald-500" />
+              <Sparkles className="w-6 h-6 text-emerald-400 absolute -top-1 -right-1 animate-pulse" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">FitPlan Pro</h1>
-          <p className="text-gray-400">Personal Trainer com IA</p>
+          <h1 className="text-3xl font-bold text-white mb-2">NutriPlan Pro</h1>
+          <p className="text-gray-400">Nutricionista com IA</p>
         </div>
 
         <Card className="bg-gray-900/50 border-gray-800 backdrop-blur">
@@ -101,7 +101,7 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold"
+                  className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold"
                   disabled={isLoading}
                 >
                   {isLoading ? "Entrando..." : "Entrar"}
@@ -114,17 +114,17 @@ export default function LoginPage() {
         <div className="mt-6 flex justify-center gap-6">
           <Link
             href="/admin/login/"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-400 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-400 transition-colors"
           >
             <Shield className="w-4 h-4" />
             Área Administrativa
           </Link>
           <Link
             href="/personal/login/"
-            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-orange-400 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-400 transition-colors"
           >
             <Users className="w-4 h-4" />
-            Área do Personal
+            Área do Nutri
           </Link>
         </div>
       </div>

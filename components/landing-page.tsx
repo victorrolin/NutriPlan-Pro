@@ -296,7 +296,7 @@ export function LandingPage() {
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
                             <h2 className="text-3xl md:text-4xl font-bold mb-4">A Ciência por trás do <span className="text-green-500">Resultado</span></h2>
-                            <p className="text-gray-400">Por que o FitPlan Pro é superior aos métodos tradicionais?</p>
+                            <p className="text-gray-400">Por que o NutriPlan Pro é superior aos métodos tradicionais?</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -438,7 +438,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                     const data = JSON.parse(textResponse)
                     if (data.checkoutUrl) {
                         openCheckout(data.checkoutUrl)
-                        onSuccess()
+                        onSuccess(formData.email)
                         return
                     }
                 } catch (e) {
@@ -449,7 +449,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                         // Pega o último link (geralmente o link do mercado pago no final da mensagem)
                         const checkoutUrl = foundUrls[foundUrls.length - 1]
                         openCheckout(checkoutUrl)
-                        onSuccess()
+                        onSuccess(formData.email)
                         return
                     }
                 }

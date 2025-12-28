@@ -1,14 +1,41 @@
-require('dotenv').config();
+```javascript
 const { createClient } = require('@supabase/supabase-js');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
+
+// Função para ler o arquivo .env
+function loadEnv() {
+  const envPath = path.join(__dirname, '..', '.env');
+  if (!fs.existsSync(envPath)) {
+    console.error("Erro: Arquivo .env não encontrado na raiz do projeto.");
+    console.log("Certifique-se de que o arquivo .env existe em:", path.dirname(envPath));
+    process.exit(1);
+  }
+
+  const envContent = fs.readFileSync(envPath, 'utf-8');
+  const envVars = {};
+  
+  envContent.split('\n').forEach(line => {
+    const trimmed = line.trim();
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...valueParts] = trimmed.split('=');
+      if (key && valueParts.length > 0) {
+        envVars[key.trim()] = valueParts.join('=').trim();
+      }
+    }
+  });
+
+  return envVars;
+}
 
 async function createAdmin() {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const env = loadEnv();
+    const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-        console.error("Erro: Variáveis de ambiente NEXT_PUBLIC_SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não encontradas.");
-        console.log("Certifique-se de que o arquivo .env existe nesta pasta.");
+        console.error("Erro: Variáveis NEXT_PUBLIC_SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY não encontradas no .env");
         return;
     }
 

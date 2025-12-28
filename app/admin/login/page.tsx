@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Dumbbell, Shield, AlertCircle, Loader2 } from "lucide-react"
+import { Apple, Shield, AlertCircle, Loader2 } from "lucide-react"
 import { loginAction } from "@/app/auth/login/actions"
 
 export default function AdminLoginPage() {
@@ -54,8 +54,8 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-2">
-            <Dumbbell className="h-10 w-10 text-primary" />
-            <h1 className="text-3xl font-bold text-primary">FitPlan Pro</h1>
+            <Apple className="h-10 w-10 text-primary" />
+            <h1 className="text-3xl font-bold text-primary">NutriPlan Pro</h1>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Shield className="h-5 w-5" />
@@ -82,7 +82,7 @@ export default function AdminLoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@fitplan.com"
+                  placeholder="admin@nutriplanpro.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

@@ -7,7 +7,7 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 async function createAdmin() {
   const supabase = createClient(supabaseUrl, supabaseKey)
 
-  const email = "admin@fitplan.com"
+  const email = "admin@nutriplanpro.com"
   const password = "admin123"
   const fullName = "Administrador"
 
@@ -18,11 +18,11 @@ async function createAdmin() {
   console.log("Hash gerado:", passwordHash)
 
   // Deletar admin existente se houver
-  await supabase.from("users").delete().eq("email", email)
+  await supabase.from("nutri_users").delete().eq("email", email)
 
   // Inserir novo admin
   const { data, error } = await supabase
-    .from("users")
+    .from("nutri_users")
     .insert({
       email,
       full_name: fullName,

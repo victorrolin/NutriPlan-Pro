@@ -1,6 +1,7 @@
 import { AuthService } from "@/lib/auth-service"
 import { createClient } from "@/lib/supabase/client"
 import { getSession } from "@/lib/session"
+import { revalidatePath } from "next/cache"
 
 export async function createStudent(formData: {
   email: string
@@ -53,14 +54,14 @@ export async function toggleStudentStatus(studentId: string, isActive: boolean) 
     const supabase = await createClient()
 
     // Verificar se o aluno pertence a este personal
-    const { data: student } = await supabase.from("users").select("created_by").eq("id", studentId).single()
+    const { data: student } = await supabase.from("nutri_users").select("created_by").eq("id", studentId).single()
 
     if (!student || student.created_by !== session.userId) {
       return { success: false, error: "Aluno não encontrado" }
     }
 
     const { error } = await supabase
-      .from("users")
+      .from("nutri_users")
       .update({ is_active: isActive, updated_at: new Date().toISOString() })
       .eq("id", studentId)
 
@@ -87,13 +88,13 @@ export async function deleteStudent(studentId: string) {
     const supabase = await createClient()
 
     // Verificar se o aluno pertence a este personal
-    const { data: student } = await supabase.from("users").select("created_by").eq("id", studentId).single()
+    const { data: student } = await supabase.from("nutri_users").select("created_by").eq("id", studentId).single()
 
     if (!student || student.created_by !== session.userId) {
       return { success: false, error: "Aluno não encontrado" }
     }
 
-    const { error } = await supabase.from("users").delete().eq("id", studentId)
+    const { error } = await supabase.from("nutri_users").delete().eq("id", studentId)
 
     if (error) {
       return { success: false, error: "Erro ao excluir aluno" }
@@ -121,7 +122,7 @@ export async function updateStudentPassword(studentId: string, newPassword: stri
     const supabase = await createClient()
 
     // Verificar se o aluno pertence a este personal
-    const { data: student } = await supabase.from("users").select("created_by").eq("id", studentId).single()
+    const { data: student } = await supabase.from("nutri_users").select("created_by").eq("id", studentId).single()
 
     if (!student || student.created_by !== session.userId) {
       return { success: false, error: "Aluno não encontrado" }

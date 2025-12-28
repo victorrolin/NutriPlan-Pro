@@ -36,7 +36,7 @@ export class AuthService {
       const supabase = await createClient()
 
       // Check if user already exists
-      const { data: existingUser } = await supabase.from("users").select("id").eq("email", data.email).maybeSingle()
+      const { data: existingUser } = await supabase.from("nutri_users").select("id").eq("email", data.email).maybeSingle()
 
       if (existingUser) {
         return { user: null, error: "Email já cadastrado" }
@@ -47,7 +47,7 @@ export class AuthService {
       const passwordHash = data.password
 
       const { data: newUser, error } = await supabase
-        .from("users")
+        .from("nutri_users")
         .insert({
           email: data.email,
           password_hash: passwordHash,
@@ -64,7 +64,7 @@ export class AuthService {
       }
 
       if (data.created_by) {
-        await supabase.rpc("increment_student_count", { personal_id: data.created_by })
+        await supabase.rpc("increment_nutri_student_count", { personal_id: data.created_by })
       }
 
       return { user: newUser as User, error: null }
@@ -83,7 +83,7 @@ export class AuthService {
 
       // Get user by email
       const { data: user, error } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select("*")
         .eq("email", data.email)
         .eq("is_active", true)
@@ -121,7 +121,7 @@ export class AuthService {
       const supabase = await createClient()
 
       const { data: user } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select(
           "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
         )
@@ -145,7 +145,7 @@ export class AuthService {
     try {
       const supabase = await createClient()
 
-      const { error } = await supabase.from("users").update({ password_hash: newPassword }).eq("id", userId)
+      const { error } = await supabase.from("nutri_users").update({ password_hash: newPassword }).eq("id", userId)
 
       if (error) {
         return { success: false, error: "Erro ao atualizar senha" }
@@ -166,7 +166,7 @@ export class AuthService {
       const supabase = await createClient()
 
       const { data: users } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select(
           "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
         )
@@ -184,7 +184,7 @@ export class AuthService {
       const supabase = await createClient()
 
       const { data: users } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select(
           "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
         )
@@ -203,7 +203,7 @@ export class AuthService {
       const supabase = await createClient()
 
       const { data: users } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select(
           "id, email, full_name, role, is_active, created_at, updated_at, created_by, max_students, student_count",
         )
@@ -223,7 +223,7 @@ export class AuthService {
       const supabase = await createClient()
 
       // Get max students allowed
-      const { data: personal } = await supabase.from("users").select("max_students").eq("id", personalId).single()
+      const { data: personal } = await supabase.from("nutri_users").select("max_students").eq("id", personalId).single()
 
       if (!personal) {
         return { canAdd: false, current: 0, max: 0 }
@@ -231,7 +231,7 @@ export class AuthService {
 
       // Count actual students
       const { count } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select("*", { count: "exact", head: true })
         .eq("created_by", personalId)
         .eq("role", "user")
@@ -257,7 +257,7 @@ export class AuthService {
       const supabase = await createClient()
 
       const { error } = await supabase
-        .from("users")
+        .from("nutri_users")
         .update({ max_students: newLimit, updated_at: new Date().toISOString() })
         .eq("id", personalId)
 
@@ -278,14 +278,14 @@ export class AuthService {
 
       // Contar alunos ativos
       const { count } = await supabase
-        .from("users")
+        .from("nutri_users")
         .select("id", { count: "exact" })
         .eq("created_by", personalId)
         .eq("role", "user")
 
       // Atualizar contador
       await supabase
-        .from("users")
+        .from("nutri_users")
         .update({ student_count: count || 0 })
         .eq("id", personalId)
     } catch (error) {

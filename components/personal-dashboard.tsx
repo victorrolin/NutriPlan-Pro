@@ -20,15 +20,21 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import {
-  Users,
+  Utensils,
   UserPlus,
+  Users,
+  Settings,
   Shield,
   ShieldOff,
   Trash2,
   Key,
-  ArrowLeft,
-  Dumbbell,
+  LogOut,
   Sparkles,
+  Search,
+  CheckCircle2,
+  XCircle,
+  Apple,
+  ArrowLeft,
   AlertTriangle,
 } from "lucide-react"
 import Link from "next/link"
@@ -101,7 +107,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     } else {
       // Registrar vínculo com o personal
       const supabase = await createClient()
-      const { error: linkError } = await supabase.from("personal_students").insert({
+      const { error: linkError } = await supabase.from("nutri_personal_students").insert({
         personal_id: currentUser.id,
         student_id: user?.id,
       })
@@ -125,7 +131,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     try {
       const supabase = await createClient()
       const { error } = await supabase
-        .from("users")
+        .from("nutri_users")
         .update({ is_active: !currentStatus })
         .eq("id", studentId)
 
@@ -146,7 +152,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
 
     try {
       const supabase = await createClient()
-      const { error } = await supabase.from("users").delete().eq("id", studentId)
+      const { error } = await supabase.from("nutri_users").delete().eq("id", studentId)
 
       if (error) {
         setError("Erro ao excluir aluno")
@@ -172,10 +178,10 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
             </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
-                <Dumbbell className="w-8 h-8 text-green-500" />
+                <Utensils className="w-8 h-8 text-green-500" />
                 <Sparkles className="w-4 h-4 text-green-400 absolute -top-1 -right-1" />
               </div>
-              <span className="text-xl font-bold text-white">Meus Alunos</span>
+              <span className="text-xl font-bold text-white">NutriPlan Pro</span>
             </div>
           </div>
 
@@ -205,16 +211,16 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-green-500" />
-              Limite de Alunos
+              <CardTitle className="text-white text-base">Alunos vinculados</CardTitle>
             </CardTitle>
-            <CardDescription className="text-gray-400">
-              Você pode cadastrar até {currentUser.maxStudents} alunos
+            <CardDescription className="text-gray-400 text-xs text-emerald-400 font-medium">
+              Nutricionista: {currentUser.fullName}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Alunos cadastrados</span>
+                <p className="text-gray-400 text-sm">Painel do Nutricionista</p>
                 <span className={isAtLimit ? "text-red-400" : "text-green-400"}>
                   {currentUser.studentCount} / {currentUser.maxStudents}
                 </span>

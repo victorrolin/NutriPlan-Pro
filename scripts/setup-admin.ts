@@ -16,15 +16,15 @@ async function setupAdmin() {
 
   // Atualizar o admin com o hash correto
   const { error } = await supabase
-    .from("users")
+    .from("nutri_users")
     .update({ password_hash: passwordHash })
-    .eq("email", "admin@fitplan.com")
+    .eq("email", "admin@nutriplanpro.com")
 
   if (error) {
     console.error("[v0] Erro ao atualizar:", error)
   } else {
     console.log("[v0] Admin atualizado com sucesso!")
-    console.log("[v0] Email: admin@fitplan.com")
+    console.log("[v0] Email: admin@nutriplanpro.com")
     console.log("[v0] Senha: admin123")
   }
 }

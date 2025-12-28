@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Dumbbell, Sparkles, Users } from "lucide-react"
+import { Apple, Sparkles, Users, Utensils } from "lucide-react"
 import { useState } from "react"
 
 export default function PersonalLoginPage() {
@@ -32,7 +32,7 @@ export default function PersonalLoginPage() {
 
       // Verificar se é personal ou admin
       if (result.role !== "personal" && result.role !== "admin") {
-        setError("Acesso não autorizado. Esta área é exclusiva para Personal Trainers.")
+        setError("Acesso não autorizado. Esta área é exclusiva para Nutricionistas.")
         setIsLoading(false)
         return
       }
@@ -51,21 +51,21 @@ export default function PersonalLoginPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <div className="relative">
-              <Dumbbell className="w-12 h-12 text-green-500" />
+              <Apple className="w-12 h-12 text-green-500" />
               <Sparkles className="w-6 h-6 text-green-400 absolute -top-1 -right-1 animate-pulse" />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">FitPlan Pro</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">NutriPlan Pro</h1>
           <div className="flex items-center justify-center gap-2 text-gray-400">
-            <Users className="w-5 h-5 text-green-400" />
-            <p>Área do Personal Trainer</p>
+            <Utensils className="w-5 h-5 text-green-400" />
+            <p>Área do Nutricionista</p>
           </div>
         </div>
 
         <Card className="bg-gray-900/50 border-gray-800 backdrop-blur">
           <CardHeader>
-            <CardTitle className="text-2xl text-white">Login Personal</CardTitle>
-            <CardDescription className="text-gray-400">Entre com suas credenciais de Personal Trainer</CardDescription>
+            <CardTitle className="text-2xl text-white">Login Nutri</CardTitle>
+            <CardDescription className="text-gray-400">Entre com suas credenciais de Nutricionista</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin}>
@@ -77,7 +77,7 @@ export default function PersonalLoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="personal@email.com"
+                    placeholder="nutri@email.com"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -119,7 +119,7 @@ export default function PersonalLoginPage() {
 
         <div className="mt-6 text-center">
           <a href="/auth/login" className="text-sm text-gray-500 hover:text-green-400 transition-colors">
-            ← Voltar para login de alunos
+            ← Voltar para login de pacientes
           </a>
         </div>
       </div>

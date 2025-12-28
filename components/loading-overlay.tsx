@@ -1,28 +1,28 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Dumbbell, Brain, FileText, Sparkles } from "lucide-react"
+import { Apple, Brain, FileText, Sparkles } from "lucide-react"
 
 const loadingSteps = [
   {
     icon: Brain,
-    title: "Analisando seu perfil...",
+    title: "Analisando seu perfil nutricional...",
     description: "Nossa IA está processando suas informações",
   },
   {
-    icon: Dumbbell,
-    title: "Selecionando exercícios...",
-    description: "Escolhendo os melhores exercícios para seus objetivos",
+    icon: Apple,
+    title: "Calculando macronutrientes...",
+    description: "Equilibrando proteínas, carboidratos e gorduras",
   },
   {
     icon: Sparkles,
-    title: "Personalizando seu treino...",
-    description: "Ajustando séries, repetições e descanso",
+    title: "Personalizando sua dieta...",
+    description: "Ajustando calorias e preferências alimentares",
   },
   {
     icon: FileText,
-    title: "Gerando seu PDF...",
-    description: "Preparando seu plano de treino completo",
+    title: "Gerando seu plano alimentar...",
+    description: "Preparando seu guia de nutrição completo",
   },
 ]
 
@@ -100,9 +100,8 @@ export function LoadingOverlay({ userName }: LoadingOverlayProps) {
           {loadingSteps.map((step, index) => (
             <div
               key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index <= currentStep ? "bg-primary" : "bg-muted-foreground/30"
-              }`}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${index <= currentStep ? "bg-primary" : "bg-muted-foreground/30"
+                }`}
             />
           ))}
         </div>

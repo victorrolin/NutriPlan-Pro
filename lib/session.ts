@@ -1,5 +1,5 @@
 
-const SESSION_KEY = "fitplan_session"
+const SESSION_KEY = "nutriplan_session"
 
 export interface SessionData {
   userId: string

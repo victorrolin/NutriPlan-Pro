@@ -1,7 +1,7 @@
 import { AuthService } from "@/lib/auth-service"
 import { createClient } from "@/lib/supabase/client"
 import { getSession } from "@/lib/session"
-// import { revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 export async function getUsers() {
   const session = await getSession()
@@ -57,7 +57,7 @@ export async function toggleUserStatus(userId: string, isActive: boolean) {
     const supabase = await createClient()
 
     const { error } = await supabase
-      .from("users")
+      .from("nutri_users")
       .update({ is_active: isActive, updated_at: new Date().toISOString() })
       .eq("id", userId)
 
@@ -88,7 +88,7 @@ export async function deleteUser(userId: string) {
   try {
     const supabase = await createClient()
 
-    const { error } = await supabase.from("users").delete().eq("id", userId)
+    const { error } = await supabase.from("nutri_users").delete().eq("id", userId)
 
     if (error) {
       return { success: false, error: "Erro ao excluir usuário" }
