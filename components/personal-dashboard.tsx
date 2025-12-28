@@ -66,8 +66,8 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
-  const [searchTerm, setSearchTerm] = useState(")
- const [selectedPatient, setSelectedPatient] = useState<User | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedPatient, setSelectedPatient] = useState<User | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   // New student form
