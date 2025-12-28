@@ -186,14 +186,16 @@ export function LandingPage() {
                         )}
 
                         {step === "payment" && (
-                            <div className="flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                                <div className="p-8 bg-black/60 rounded-3xl border border-green-500/30 text-center max-w-md backdrop-blur-2xl shadow-2xl">
-                                    <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/10">
-                                        <CheckCircle2 className="w-8 h-8 text-green-500 shadow-sm" />
+                            <div className="flex flex-col items-center gap-6 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                                <div className="p-10 bg-gray-900/40 rounded-[40px] border border-green-500/20 text-center max-w-md backdrop-blur-3xl shadow-[0_30px_60px_rgba(0,0,0,0.5)] relative overflow-hidden group">
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-green-500 to-transparent opacity-50" />
+
+                                    <div className="w-20 h-20 bg-green-500/10 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner border border-green-500/20 group-hover:rotate-12 transition-transform duration-500">
+                                        <CheckCircle2 className="w-10 h-10 text-green-400 group-hover:scale-110 transition-transform" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">Pagamento em Andamento!</h3>
-                                    <p className="text-gray-400 mb-8 leading-relaxed">
-                                        Abrimos a janela de pagamento do Mercado Pago para você. Enquanto isso, guarde seus dados de acesso:
+                                    <h3 className="text-3xl font-black text-white mb-4 tracking-tight">Pagamento em Andamento</h3>
+                                    <p className="text-gray-400 mb-8 leading-relaxed font-medium">
+                                        Abrimos a janela segura do Mercado Pago. Guarde seus dados abaixo para acessar assim que concluir:
                                     </p>
 
                                     <div className="grid gap-3 mb-8">
@@ -307,35 +309,41 @@ export function LandingPage() {
                             <p className="text-gray-400">Por que o NutriPlan Pro é superior aos métodos tradicionais?</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {[
                                 {
-                                    title: "Saúde Otimizada",
-                                    desc: "Cálculos precisos de calorias e macros para máximo desempenho e saúde.",
-                                    icon: <Target className="w-6 h-6" />
+                                    title: "Cálculo de Macros Pro",
+                                    desc: "Fórmulas avançadas que calculam exatamente o que seu corpo precisa para cada objetivo.",
+                                    icon: <Target className="w-8 h-8 text-white" />,
+                                    color: "from-green-500 to-emerald-600"
                                 },
                                 {
-                                    title: "Praticidade Total",
-                                    desc: "Tenha a expertise de um Nutricionista de elite por uma fração do custo.",
-                                    icon: <Zap className="w-6 h-6" />
+                                    title: "Economia Inteligente",
+                                    desc: "Tenha a expertise de um Nutricionista top por menos do que você gasta em um lanche.",
+                                    icon: <Zap className="w-8 h-8 text-white" />,
+                                    color: "from-blue-500 to-cyan-600"
                                 },
                                 {
-                                    title: "Sem Restrições Bobas",
-                                    desc: "Uma IA que entende seus gostos e adapta a dieta ao seu estilo de vida.",
-                                    icon: <Utensils className="w-6 h-6" />
+                                    title: "Dieta Sem Tortura",
+                                    desc: "Nossa IA aprende seus gostos e cria prazer no processo de emagrecimento ou ganho.",
+                                    icon: <Utensils className="w-8 h-8 text-white" />,
+                                    color: "from-orange-500 to-red-600"
                                 },
                                 {
-                                    title: "Evolução Constante",
-                                    desc: "Ajustes baseados na sua resposta metabólica e progresso real.",
-                                    icon: <Sparkles className="w-6 h-6" />
+                                    title: "Suporte 24/7 com IA",
+                                    desc: "Dúvidas sobre o que comer? Nossa IA está sempre online para te orientar.",
+                                    icon: <Sparkles className="w-8 h-8 text-white" />,
+                                    color: "from-purple-500 to-indigo-600"
                                 }
                             ].map((feature, i) => (
-                                <div key={i} className="p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:border-green-500/20 transition-all hover:bg-white/[0.05] group">
-                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mb-6 shadow-lg shadow-green-500/10 group-hover:scale-110 transition-transform">
+                                <div key={i} className="group relative p-8 rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-500 hover:bg-white/[0.04] overflow-hidden">
+                                    <div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity duration-500`} />
+
+                                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-8 shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-3`}>
                                         {feature.icon}
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-                                    <p className="text-gray-400 leading-relaxed text-sm">{feature.desc}</p>
+                                    <h3 className="text-2xl font-black mb-4 text-white tracking-tight">{feature.title}</h3>
+                                    <p className="text-gray-400 leading-relaxed font-medium group-hover:text-gray-300 transition-colors">{feature.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -476,100 +484,113 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
     }
 
     return (
-        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-4">
-            <div className="space-y-2">
-                <Label htmlFor="name" className="text-white/70 text-xs uppercase tracking-wider font-bold">Nome Completo</Label>
-                <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
-                    <Input
-                        id="name"
-                        required
-                        placeholder="Seu nome"
-                        value={formData.name}
-                        onChange={e => setFormData({ ...formData, name: e.target.value })}
-                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
-                    />
+        <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-6 relative overflow-hidden group">
+            {/* Form Glow Effect */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 blur-[80px] -mr-16 -mt-16 pointer-events-none" />
+
+            <div className="text-center mb-8">
+                <h3 className="text-2xl font-black text-white mb-2 tracking-tight">Crie sua Conta</h3>
+                <p className="text-gray-400 text-sm font-medium">Inicie sua transformação agora</p>
+            </div>
+
+            <div className="space-y-4">
+                <div className="space-y-2 group">
+                    <Label htmlFor="name" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">Nome Completo</Label>
+                    <div className="relative">
+                        <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
+                        <Input
+                            id="name"
+                            required
+                            placeholder="Ex: João Silva"
+                            value={formData.name}
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                            className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
+                        />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2 group">
+                        <Label htmlFor="email" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">E-mail de Acesso</Label>
+                        <div className="relative">
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
+                            <Input
+                                id="email"
+                                type="email"
+                                required
+                                placeholder="seu@email.com"
+                                value={formData.email}
+                                onChange={e => setFormData({ ...formData, email: e.target.value })}
+                                className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
+                            />
+                        </div>
+                    </div>
+                    <div className="space-y-2 group">
+                        <Label htmlFor="phone" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">WhatsApp</Label>
+                        <div className="relative">
+                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
+                            <Input
+                                id="phone"
+                                required
+                                placeholder="(00) 00000-0000"
+                                value={formData.phone}
+                                onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                                className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-2 group">
+                    <Label htmlFor="cpf" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">CPF (Para o Pix)</Label>
+                    <div className="relative">
+                        <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
+                        <Input
+                            id="cpf"
+                            required
+                            placeholder="000.000.000-00"
+                            value={formData.cpf}
+                            onChange={e => {
+                                let value = e.target.value.replace(/\D/g, "")
+                                if (value.length <= 11) {
+                                    value = value.replace(/(\d{3})(\d)/, "$1.$2")
+                                    value = value.replace(/(\d{3})(\d)/, "$1.$2")
+                                    value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+                                    setFormData({ ...formData, cpf: value })
+                                }
+                            }}
+                            className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-2 group">
+                    <Label htmlFor="password" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">Criar Senha Secreta</Label>
+                    <div className="relative">
+                        <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
+                        <Input
+                            id="password"
+                            type="password"
+                            required
+                            placeholder="••••••••"
+                            value={formData.password}
+                            onChange={e => setFormData({ ...formData, password: e.target.value })}
+                            className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="email" className="text-white/70 text-xs uppercase tracking-wider font-bold">E-mail</Label>
-                <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
-                    <Input
-                        id="email"
-                        type="email"
-                        required
-                        placeholder="seu@e-mail.com"
-                        value={formData.email}
-                        onChange={e => setFormData({ ...formData, email: e.target.value })}
-                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
-                    />
-                </div>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="phone" className="text-white/70 text-xs uppercase tracking-wider font-bold">WhatsApp / Telefone</Label>
-                <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
-                    <Input
-                        id="phone"
-                        required
-                        placeholder="(00) 00000-0000"
-                        value={formData.phone}
-                        onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
-                    />
-                </div>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="cpf" className="text-white/70 text-xs uppercase tracking-wider font-bold">CPF (Para emissão do Pix)</Label>
-                <div className="relative">
-                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
-                    <Input
-                        id="cpf"
-                        required
-                        placeholder="000.000.000-00"
-                        value={formData.cpf}
-                        onChange={e => {
-                            let value = e.target.value.replace(/\D/g, "")
-                            if (value.length <= 11) {
-                                value = value.replace(/(\d{3})(\d)/, "$1.$2")
-                                value = value.replace(/(\d{3})(\d)/, "$1.$2")
-                                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
-                                setFormData({ ...formData, cpf: value })
-                            }
-                        }}
-                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
-                    />
-                </div>
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="password" className="text-white/70 text-xs uppercase tracking-wider font-bold">Crie uma Senha para Acesso</Label>
-                <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />
-                    <Input
-                        id="password"
-                        type="password"
-                        required
-                        placeholder="Sua senha secreta"
-                        value={formData.password}
-                        onChange={e => setFormData({ ...formData, password: e.target.value })}
-                        className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/20 h-12 rounded-xl focus:ring-green-500/50"
-                    />
-                    <p className="text-[10px] text-white/50 mt-1.5 flex items-center gap-1.5 pl-1">
-                        <span className="w-1 h-1 rounded-full bg-green-500" />
-                        Use esta senha para acessar sua conta após o pagamento.
-                    </p>
-                </div>
-            </div>
+
             <Button
                 type="submit"
                 disabled={loading}
-                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white font-bold rounded-xl shadow-lg shadow-green-500/20 transition-all active:scale-[0.98]"
+                className="w-full h-16 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-lg font-black rounded-3xl shadow-[0_20px_40px_rgba(34,197,94,0.2)] transition-all active:scale-[0.98] mt-4"
             >
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Prosseguir para Pagamento"}
+                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Prosseguir para Checkout"}
             </Button>
-            <p className="text-[10px] text-center text-white/40 italic">
-                Seus dados estão seguros e serão usados apenas para criar seu acesso.
+
+            <p className="text-[10px] text-center text-gray-500 font-bold uppercase tracking-widest italic group-hover:text-green-500/50 transition-colors">
+                🔐 Conexão 100% Criptografada via SSL
             </p>
         </form>
     )
