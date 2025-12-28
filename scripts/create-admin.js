@@ -5,27 +5,25 @@ const path = require('path');
 
 // Função para ler o arquivo .env
 function loadEnv() {
+  const envVars = { ...process.env }; // Começa com as variáveis do sistema
   const envPath = path.join(__dirname, '..', '.env');
-  if (!fs.existsSync(envPath)) {
-    console.error("Erro: Arquivo .env não encontrado na raiz do projeto.");
-    console.log("Certifique-se de que o arquivo .env existe em:", path.dirname(envPath));
-    process.exit(1);
-  }
 
-  const envContent = fs.readFileSync(envPath, 'utf-8');
-  const envVars = {};
-
-  envContent.split('\n').forEach(line => {
-    const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#')) {
-      const parts = trimmed.split('=');
-      const key = parts[0].trim();
-      const value = parts.slice(1).join('=').trim();
-      if (key && value) {
-        envVars[key] = value.replace(/^["']|["']$/g, ''); // Remove quotes if present
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    envContent.split('\n').forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        const parts = trimmed.split('=');
+        const key = parts[0].trim();
+        const value = parts.slice(1).join('=').trim();
+        if (key && value) {
+          envVars[key] = value.replace(/^["']|["']$/g, '');
+        }
       }
-    }
-  });
+    });
+  } else {
+    console.log("Aviso: Arquivo .env não encontrado, usando variáveis de ambiente do sistema.");
+  }
 
   return envVars;
 }
