@@ -278,23 +278,33 @@ export function LandingPage() {
                 </section>
 
                 {/* How it Works Section */}
-                <section id="como-funciona" className="py-24 border-t border-white/5">
-                    <div className="container mx-auto px-4">
-                        <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Sua jornada em <span className="text-green-500">3 passos</span></h2>
-                            <p className="text-gray-400">Simples, rápido e extremamente eficiente.</p>
+                <section id="como-funciona" className="py-32 relative overflow-hidden">
+                    <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/10 to-transparent" />
+                    <div className="container mx-auto px-4 relative z-10">
+                        <div className="text-center mb-24">
+                            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Sua jornada em <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">3 passos</span></h2>
+                            <p className="text-xl text-gray-400 font-medium">O caminho mais curto entre você e seu corpo ideal.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
                             {[
-                                { step: "01", title: "Perfil Nutricional", desc: "Nossa IA analisa sua rotina, objetivos, restrições e preferências através de perguntas estratégicas." },
-                                { step: "02", title: "Análise por IA", desc: "Algoritmos de ponta criam uma estratégia alimentar exclusiva, equilibrando macros e micronutrientes." },
-                                { step: "03", title: "Plano Alimentar", desc: "Receba seu plano em PDF pronto para seguir, com opções de substituições e dicas práticas." }
+                                { step: "01", title: "Perfil Nutricional", desc: "Nossa IA analisa sua rotina, objetivos, restrições e preferências através de perguntas estratégicas.", icon: <Brain className="w-6 h-6 text-white" /> },
+                                { step: "02", title: "Análise por IA", desc: "Algoritmos de ponta criam uma estratégia alimentar exclusiva, equilibrando macros e micronutrientes.", icon: <Bot className="w-6 h-6 text-white" /> },
+                                { step: "03", title: "Plano Alimentar", desc: "Receba seu plano em PDF pronto para seguir, com opções de substituições e dicas práticas.", icon: <Sparkles className="w-6 h-6 text-white" /> }
                             ].map((s, i) => (
-                                <div key={i} className="relative group">
-                                    <div className="text-6xl font-black text-white/5 absolute -top-10 -left-4 group-hover:text-green-500/10 transition-colors">{s.step}</div>
-                                    <h3 className="text-xl font-bold mb-4 text-white">{s.title}</h3>
-                                    <p className="text-gray-400 leading-relaxed">{s.desc}</p>
+                                <div key={i} className="relative flex flex-col items-center group">
+                                    <div className="w-24 h-24 rounded-[32px] bg-white/[0.03] border border-white/5 flex items-center justify-center mb-8 relative z-10 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all duration-500">
+                                        <div className="absolute -top-4 -right-4 text-xs font-black px-2 py-1 bg-emerald-500 text-black rounded-lg shadow-lg group-hover:scale-110 transition-transform">
+                                            {s.step}
+                                        </div>
+                                        {s.icon}
+                                    </div>
+                                    <h3 className="text-2xl font-black mb-4 text-white text-center tracking-tight">{s.title}</h3>
+                                    <p className="text-gray-400 leading-relaxed text-center font-medium px-4">{s.desc}</p>
+
+                                    {i < 2 && (
+                                        <div className="hidden md:block absolute top-12 left-[calc(50%+4rem)] w-[calc(100%-8rem)] h-px bg-gradient-to-r from-emerald-500/50 to-transparent" />
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -351,34 +361,49 @@ export function LandingPage() {
                 </section>
 
                 {/* Action Call to Action */}
-                <section className="py-24">
+                <section className="py-32 relative overflow-hidden">
                     <div className="container mx-auto px-4">
-                        <div className="relative rounded-[40px] overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 p-8 md:p-16 text-center">
-                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
-                            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-6 relative z-10">
-                                Pronto para a sua melhor versão?
+                        <div className="relative rounded-[60px] overflow-hidden bg-gray-900 border border-white/5 p-12 md:p-24 text-center group">
+                            {/* Animated Background Blur */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-emerald-500/5 blur-[120px] rounded-full group-hover:bg-emerald-500/10 transition-colors duration-1000" />
+
+                            <h2 className="text-5xl md:text-7xl font-black text-white mb-8 relative z-10 tracking-tighter">
+                                Pronto para a sua <br />
+                                <span className="text-emerald-500 italic">melhor versão?</span>
                             </h2>
-                            <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto relative z-10">
-                                Libere seu acesso agora e comece a se alimentar com a ciência da inteligência artificial.
+                            <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto relative z-10 font-medium leading-relaxed">
+                                Junte-se a milhares de pessoas que já transformaram seus corpos com a precisão da Inteligência Artificial.
                             </p>
                             <div className="flex flex-col items-center justify-center gap-6 relative z-10">
                                 {step !== "payment" ? (
-                                    <Button
-                                        size="lg"
-                                        onClick={() => {
-                                            setStep("register");
-                                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                                        }}
-                                        className="h-16 px-10 bg-white text-black hover:bg-gray-100 text-lg font-bold rounded-2xl shadow-2xl transition-all hover:scale-105"
-                                    >
-                                        Quero Minha Vaga Agora
-                                    </Button>
+                                    <div className="flex flex-col items-center gap-6">
+                                        <Button
+                                            size="lg"
+                                            onClick={() => {
+                                                setStep("register");
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            }}
+                                            className="h-20 px-16 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-2xl font-black rounded-3xl shadow-[0_30px_60px_rgba(34,197,94,0.3)] hover:scale-105 active:scale-95 transition-all"
+                                        >
+                                            Quero Começar Agora
+                                        </Button>
+                                        <div className="flex items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
+                                            <div className="flex -space-x-2">
+                                                {[1, 2, 3, 4].map(i => (
+                                                    <div key={i} className="w-8 h-8 rounded-full border-2 border-gray-900 bg-gray-800 flex items-center justify-center overflow-hidden">
+                                                        <User className="w-4 h-4 text-gray-400" />
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <span>+5.000 alunos transformados</span>
+                                        </div>
+                                    </div>
                                 ) : (
-                                    <div className="flex flex-col items-center gap-4">
+                                    <div className="flex flex-col items-center gap-6 p-8 bg-green-500/5 rounded-[40px] border border-green-500/20 backdrop-blur-3xl">
                                         <MercadoPagoButton />
-                                        <div className="flex items-center gap-2 text-white/90 font-medium">
-                                            <CheckCircle2 className="w-5 h-5" />
-                                            Acesso imediato após aprovação
+                                        <div className="flex items-center gap-3 text-green-400 font-black text-sm uppercase tracking-widest">
+                                            <Shield className="w-5 h-5" />
+                                            Acesso Vitalício Liberado
                                         </div>
                                     </div>
                                 )}
