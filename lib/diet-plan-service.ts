@@ -1,4 +1,4 @@
-import { createClient } from \"@/lib/supabase/client\"
+import { createClient } from "@/lib/supabase/client"
 
 export interface DietPlan {
     id: string
@@ -28,30 +28,36 @@ export class DietPlanService {
      */
     static async createPlan(data: CreateDietPlanData): Promise<{ plan: DietPlan | null; error: string | null }> {
         try {
+            console.log("[DietPlanService] Creating plan with data:", data)
             const supabase = await createClient()
+            console.log("[DietPlanService] Supabase client created")
+
+            const insertData = {
+                user_id: data.userId,
+                pdf_url: data.pdfUrl,
+                plan_name: data.planName || `Plano ${new Date().toLocaleDateString('pt-BR')}`,
+                goal: data.goal,
+                diet_type: data.dietType,
+                activity_level: data.activityLevel,
+                metadata: data.metadata || {}
+            }
+            console.log("[DietPlanService] Insert data:", insertData)
 
             const { data: newPlan, error } = await supabase
                 .from("nutri_diet_plans")
-                .insert({
-                    user_id: data.userId,
-                    pdf_url: data.pdfUrl,
-                    plan_name: data.planName || `Plano ${new Date().toLocaleDateString('pt-BR')}`,
-                    goal: data.goal,
-                    diet_type: data.dietType,
-                    activity_level: data.activityLevel,
-                    metadata: data.metadata || {}
-                })
+                .insert(insertData)
                 .select()
                 .single()
 
             if (error) {
-                console.error("Error creating diet plan:", error)
-                return { plan: null, error: "Erro ao salvar plano alimentar" }
+                console.error("[DietPlanService] Error creating diet plan:", error)
+                return { plan: null, error: `Erro ao salvar plano alimentar: ${error.message}` }
             }
 
+            console.log("[DietPlanService] Plan created successfully:", newPlan)
             return { plan: newPlan, error: null }
         } catch (error: any) {
-            console.error("DietPlanService.createPlan error:", error)
+            console.error("[DietPlanService] Exception in createPlan:", error)
             return { plan: null, error: error?.message || "Erro ao salvar plano" }
         }
     }
@@ -61,6 +67,7 @@ export class DietPlanService {
      */
     static async getUserPlans(userId: string): Promise<{ plans: DietPlan[]; error: string | null }> {
         try {
+            console.log("[DietPlanService] Fetching plans for user:", userId)
             const supabase = await createClient()
 
             const { data: plans, error } = await supabase
@@ -70,13 +77,14 @@ export class DietPlanService {
                 .order("created_at", { ascending: false })
 
             if (error) {
-                console.error("Error fetching diet plans:", error)
+                console.error("[DietPlanService] Error fetching diet plans:", error)
                 return { plans: [], error: "Erro ao carregar planos" }
             }
 
+            console.log("[DietPlanService] Plans fetched:", plans)
             return { plans: plans || [], error: null }
         } catch (error: any) {
-            console.error("DietPlanService.getUserPlans error:", error)
+            console.error("[DietPlanService] Exception in getUserPlans:", error)
             return { plans: [], error: error?.message || "Erro ao carregar planos" }
         }
     }
@@ -97,13 +105,13 @@ export class DietPlanService {
                 .maybeSingle()
 
             if (error) {
-                console.error("Error fetching latest plan:", error)
+                console.error("[DietPlanService] Error fetching latest plan:", error)
                 return { plan: null, error: "Erro ao carregar último plano" }
             }
 
             return { plan, error: null }
         } catch (error: any) {
-            console.error("DietPlanService.getLatestPlan error:", error)
+            console.error("[DietPlanService] Exception in getLatestPlan:", error)
             return { plan: null, error: error?.message || "Erro ao carregar plano" }
         }
     }
@@ -121,13 +129,13 @@ export class DietPlanService {
                 .eq("id", planId)
 
             if (error) {
-                console.error("Error deleting diet plan:", error)
+                console.error("[DietPlanService] Error deleting diet plan:", error)
                 return { success: false, error: "Erro ao deletar plano" }
             }
 
             return { success: true, error: null }
         } catch (error: any) {
-            console.error("DietPlanService.deletePlan error:", error)
+            console.error("[DietPlanService] Exception in deletePlan:", error)
             return { success: false, error: error?.message || "Erro ao deletar plano" }
         }
     }

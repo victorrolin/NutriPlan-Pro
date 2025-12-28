@@ -353,8 +353,9 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
       const result = await sendToWebhook(userData, language, labels)
 
       if (result.pdfUrl && userId) {
+        console.log("[AssessmentFlow] PDF generated, saving to history...")
         // Salvar plano completo no histórico
-        await DietPlanService.createPlan({
+        const planResult = await DietPlanService.createPlan({
           userId: userId,
           pdfUrl: result.pdfUrl,
           planName: `Plano ${new Date().toLocaleDateString('pt-BR')}`,
@@ -374,6 +375,12 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
             cookingHabits: userData.cookingHabits
           }
         })
+
+        if (planResult.error) {
+          console.error("[AssessmentFlow] Error saving plan to history:", planResult.error)
+        } else {
+          console.log("[AssessmentFlow] Plan saved successfully:", planResult.plan)
+        }
 
         // Persistir no banco de dados (compatibilidade)
         await AuthService.updateLastPdfUrl(userId, result.pdfUrl)
