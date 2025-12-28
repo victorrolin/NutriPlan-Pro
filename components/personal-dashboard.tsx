@@ -149,7 +149,14 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
   }
 
   const handleLogout = async () => {
-    await AuthService.logout()
+    // Clear session first
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("nutriplan_session")
+    }
+    // Sign out from Supabase
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+    // Force a hard redirect to clear any cached state
     window.location.href = "/"
   }
 
