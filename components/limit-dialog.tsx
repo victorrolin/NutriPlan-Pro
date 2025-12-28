@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Plus } from "lucide-react"
 import { AuthService } from "@/lib/auth-service"
+import { useLanguage } from "@/context/language-context"
 
 interface LimitDialogProps {
     personalId: string
@@ -33,13 +34,14 @@ export function LimitDialog({
     onSuccess,
     onError,
 }: LimitDialogProps) {
+    const { t } = useLanguage()
     const [open, setOpen] = useState(false)
     const [newLimit, setNewLimit] = useState(currentLimit)
     const [isProcessing, setIsProcessing] = useState(false)
 
     const handleSave = async () => {
         if (newLimit < 0) {
-            onError("O limite deve ser maior ou igual a zero")
+            onError(t('dashboard.admin.messages.errorLimit'))
             return
         }
 
@@ -48,7 +50,7 @@ export function LimitDialog({
         const result = await AuthService.updateStudentLimit(personalId, newLimit)
 
         if (!result.success) {
-            onError(result.error || "Erro ao alterar limite")
+            onError(result.error || t('dashboard.admin.messages.errorLimit'))
             setIsProcessing(false)
         } else {
             onSuccess()
@@ -75,18 +77,20 @@ export function LimitDialog({
             </DialogTrigger>
             <DialogContent className="bg-gray-900 border-gray-800">
                 <DialogHeader>
-                    <DialogTitle className="text-white">Alterar Limite de Alunos</DialogTitle>
+                    <DialogTitle className="text-white">{t('dialogs.limit.title')}</DialogTitle>
                     <DialogDescription className="text-gray-400">
-                        Defina o limite máximo de alunos para {personalName}
+                        {t('dialogs.limit.description').replace('{name}', personalName)}
                         <br />
                         <span className="text-orange-400">
-                            Atual: {currentCount}/{currentLimit} alunos
+                            {t('dialogs.limit.current')
+                                .replace('{count}', currentCount.toString())
+                                .replace('{limit}', currentLimit.toString())}
                         </span>
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label className="text-gray-200">Novo Limite</Label>
+                        <Label className="text-gray-200">{t('dialogs.limit.label')}</Label>
                         <Input
                             type="number"
                             min="0"
@@ -103,10 +107,10 @@ export function LimitDialog({
                         className="border-gray-700 text-gray-300 bg-transparent"
                         onClick={() => setOpen(false)}
                     >
-                        Cancelar
+                        {t('dashboard.common.cancel')}
                     </Button>
                     <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600" disabled={isProcessing}>
-                        {isProcessing ? "Salvando..." : "Salvar"}
+                        {isProcessing ? t('dialogs.password.saving') : t('dashboard.common.save')}
                     </Button>
                 </DialogFooter>
             </DialogContent>

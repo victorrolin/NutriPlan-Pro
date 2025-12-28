@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Dialog,
   DialogContent,
@@ -14,49 +15,47 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
-  Users,
-  UserPlus,
   Shield,
   ShieldOff,
+  UserPlus,
+  Users,
+  Search,
   Trash2,
-  Key,
-  ArrowLeft,
+  Settings,
+  ShieldCheck,
   Apple,
-  Sparkles,
-  UserCog,
-  Plus,
-  ChefHat,
   Utensils,
+  LayoutDashboard,
+  LogOut,
+  Key,
 } from "lucide-react"
-import Link from "next/link"
 import { AuthService } from "@/lib/auth-service"
 import type { User } from "@/lib/auth-service"
-import { Footer } from "@/components/footer"
 import { createClient } from "@/lib/supabase/client"
 import { PasswordDialog } from "@/components/password-dialog"
 import { LimitDialog } from "@/components/limit-dialog"
+import { Footer } from "@/components/footer"
+import { useLanguage } from "@/context/language-context"
 
 interface AdminDashboardProps {
-  users: User[]
-  currentUserId: string
+  initialUsers: User[]
+  currentUserType: string
 }
 
-export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
+export function AdminDashboard({ initialUsers, currentUserType }: AdminDashboardProps) {
+  const { t } = useLanguage()
+  const [users, setUsers] = useState<User[]>(initialUsers)
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
 
-  const personalTrainers = users.filter((u) => u.role === "personal")
-  const students = users.filter((u) => u.role === "user")
-  const admins = users.filter((u) => u.role === "admin")
-
-  // New user form - Incluindo personal como opção
+  // New user form
   const [newUser, setNewUser] = useState({
     email: "",
     password: "",
@@ -64,55 +63,26 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
     role: "user" as "admin" | "personal" | "user",
   })
 
-  // Password change
-  const [passwordChange, setPasswordChange] = useState({
-    userId: "",
-    newPassword: "",
-  })
-  const [tempPassword, setTempPassword] = useState("")
-
-  const [limitChange, setLimitChange] = useState({
-    personalId: "",
-    newLimit: 100,
-  })
-
-  const [passwordDialogOpen, setPasswordDialogOpen] = useState<string | null>(null)
-  const [limitDialogOpen, setLimitDialogOpen] = useState<string | null>(null)
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState<string | null>(null)
-  const [isProcessing, setIsProcessing] = useState(false)
-
   const handleCreateUser = async () => {
     setError(null)
     setSuccess(null)
     setIsCreating(true)
 
     if (!newUser.email || !newUser.password || !newUser.full_name) {
-      setError("Preencha todos os campos")
+      setError(t('dashboard.personal.messages.fillAll'))
       setIsCreating(false)
       return
     }
 
-    if (newUser.password.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres")
-      setIsCreating(false)
-      return
-    }
-
-    const { user, error } = await AuthService.signUp({
-      email: newUser.email,
-      password: newUser.password,
-      full_name: newUser.full_name,
-      role: newUser.role,
-    })
+    const { user, error } = await AuthService.signUp(newUser)
 
     if (error) {
       setError(error)
       setIsCreating(false)
     } else {
-      setSuccess("Usuário criado com sucesso!")
+      setSuccess(t('dashboard.admin.messages.successCreated'))
       setNewUser({ email: "", password: "", full_name: "", role: "user" })
       setIsCreating(false)
-      // Reload page to refresh user list
       setTimeout(() => window.location.reload(), 1000)
     }
   }
@@ -125,258 +95,65 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
       const supabase = await createClient()
       const { error } = await supabase
         .from("nutri_users")
-        .update({ is_active: !currentStatus, updated_at: new Date().toISOString() })
+        .update({ is_active: !currentStatus })
         .eq("id", userId)
 
       if (error) {
-        setError("Erro ao atualizar usuário")
+        setError(t('dashboard.admin.messages.errorUpdate'))
       } else {
-        setSuccess(currentStatus ? "Usuário bloqueado" : "Usuário desbloqueado")
+        setSuccess(currentStatus ? t('dashboard.admin.messages.successBlocked') : t('dashboard.admin.messages.successUnblocked'))
         setTimeout(() => window.location.reload(), 1000)
       }
     } catch (error) {
-      setError("Erro ao atualizar usuário")
+      setError(t('dashboard.admin.messages.errorUpdate'))
     }
   }
 
   const handleDelete = async (userId: string) => {
     setError(null)
     setSuccess(null)
-    setIsProcessing(true)
 
     try {
       const supabase = await createClient()
       const { error } = await supabase.from("nutri_users").delete().eq("id", userId)
 
       if (error) {
-        setError("Erro ao excluir usuário")
-        setIsProcessing(false)
+        setError(t('dashboard.admin.messages.errorDelete'))
       } else {
-        setSuccess("Usuário excluído com sucesso")
-        setDeleteDialogOpen(null)
-        setIsProcessing(false)
+        setSuccess(t('dashboard.admin.messages.successDelete'))
         setTimeout(() => window.location.reload(), 1000)
       }
     } catch (error) {
-      setError("Erro ao excluir usuário")
-      setIsProcessing(false)
+      setError(t('dashboard.admin.messages.errorDelete'))
     }
   }
 
-  const handlePasswordChange = async (userId: string, password: string) => {
-    setError(null)
-    setSuccess(null)
-    setIsProcessing(true)
-
-    if (!password || password.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres")
-      setIsProcessing(false)
-      return
-    }
-
-    const { success, error } = await AuthService.updatePassword(userId, password)
-
-    if (!success) {
-      setError(error || "Erro ao alterar senha")
-      setIsProcessing(false)
-    } else {
-      setSuccess("Senha alterada com sucesso")
-      setPasswordDialogOpen(null)
-      setPasswordChange({ userId: "", newPassword: "" })
-      setIsProcessing(false)
-      setTimeout(() => window.location.reload(), 1000)
-    }
-  }
-
-  const handleLimitChange = async (personalId: string, newLimit: number) => {
-    setError(null)
-    setSuccess(null)
-    setIsProcessing(true)
-
-    if (newLimit < 0) {
-      setError("O limite deve ser maior ou igual a zero")
-      setIsProcessing(false)
-      return
-    }
-
-    const result = await AuthService.updateStudentLimit(personalId, newLimit)
-
-    if (!result.success) {
-      setError(result.error || "Erro ao alterar limite")
-      setIsProcessing(false)
-    } else {
-      setSuccess("Limite de alunos alterado com sucesso")
-      setLimitDialogOpen(null)
-      setLimitChange({ personalId: "", newLimit: 100 })
-      setIsProcessing(false)
-      setTimeout(() => window.location.reload(), 1000)
-    }
-  }
-
-  const getRoleBadge = (role: string) => {
-    switch (role) {
-      case "admin":
-        return <Badge className="bg-purple-500/20 text-purple-400">Admin</Badge>
-      case "personal":
-        return <Badge className="bg-green-500/20 text-green-400">Personal</Badge>
-      default:
-        return <Badge className="bg-gray-700 text-gray-300">Aluno</Badge>
-    }
-  }
-
-  const UserTable = ({ userList, showLimit = false }: { userList: User[]; showLimit?: boolean }) => (
-    <div className="overflow-x-auto">
-      <Table>
-        <TableHeader>
-          <TableRow className="border-gray-800 hover:bg-gray-800/50">
-            <TableHead className="text-gray-400">Nome</TableHead>
-            <TableHead className="text-gray-400">Email</TableHead>
-            <TableHead className="text-gray-400">Tipo</TableHead>
-            {showLimit && <TableHead className="text-gray-400">Alunos</TableHead>}
-            <TableHead className="text-gray-400">Status</TableHead>
-            <TableHead className="text-gray-400">Criado em</TableHead>
-            <TableHead className="text-gray-400 text-right">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {userList.map((user) => (
-            <TableRow key={user.id} className="border-gray-800 hover:bg-gray-800/30">
-              <TableCell className="text-white font-medium">
-                {user.full_name}
-                {user.id === currentUserId && (
-                  <Badge variant="outline" className="ml-2 text-green-500 border-green-500">
-                    Você
-                  </Badge>
-                )}
-              </TableCell>
-              <TableCell className="text-gray-300">{user.email}</TableCell>
-              <TableCell>{getRoleBadge(user.role)}</TableCell>
-              {showLimit && (
-                <TableCell className="text-gray-300">
-                  <span className={user.student_count >= user.max_students ? "text-red-400" : "text-green-400"}>
-                    {user.student_count}/{user.max_students}
-                  </span>
-                </TableCell>
-              )}
-              <TableCell>
-                <Badge className={user.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
-                  {user.is_active ? "Ativo" : "Bloqueado"}
-                </Badge>
-              </TableCell>
-              <TableCell className="text-gray-400">{new Date(user.created_at).toLocaleDateString("pt-BR")}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-2">
-                  <PasswordDialog
-                    userId={user.id}
-                    userName={user.full_name}
-                    onSuccess={() => setSuccess("Senha alterada com sucesso")}
-                    onError={(error) => setError(error)}
-                  />
-
-                  {user.role === "personal" && (
-                    <LimitDialog
-                      personalId={user.id}
-                      personalName={user.full_name}
-                      currentLimit={user.max_students}
-                      currentCount={user.student_count}
-                      onSuccess={() => setSuccess("Limite de alunos alterado com sucesso")}
-                      onError={(error) => setError(error)}
-                    />
-                  )}
-
-                  {/* Toggle Status */}
-                  {user.id !== currentUserId && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className={
-                        user.is_active
-                          ? "text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10"
-                          : "text-green-500 hover:text-green-400 hover:bg-green-500/10"
-                      }
-                      onClick={() => handleToggleStatus(user.id, user.is_active)}
-                      title={user.is_active ? "Bloquear" : "Desbloquear"}
-                    >
-                      {user.is_active ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
-                    </Button>
-                  )}
-
-                  {user.id !== currentUserId && (
-                    <Dialog
-                      open={deleteDialogOpen === user.id}
-                      onOpenChange={(open) => setDeleteDialogOpen(open ? user.id : null)}
-                    >
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-red-500 hover:text-red-400 hover:bg-red-500/10"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-gray-900 border-gray-800">
-                        <DialogHeader>
-                          <DialogTitle className="text-white">Excluir Usuário</DialogTitle>
-                          <DialogDescription className="text-gray-400">
-                            Tem certeza que deseja excluir {user.full_name}? Esta ação não pode ser desfeita.
-                          </DialogDescription>
-                        </DialogHeader>
-                        <DialogFooter>
-                          <Button
-                            variant="outline"
-                            className="border-gray-700 text-gray-300 bg-transparent"
-                            onClick={() => setDeleteDialogOpen(null)}
-                          >
-                            Cancelar
-                          </Button>
-                          <Button variant="destructive" onClick={() => handleDelete(user.id)} disabled={isProcessing}>
-                            {isProcessing ? "Excluindo..." : "Excluir"}
-                          </Button>
-                        </DialogFooter>
-                      </DialogContent>
-                    </Dialog>
-                  )}
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  )
+  const filteredUsers = (role: string) => users.filter((u) => u.role === role)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-black">
       {/* Header */}
       <header className="border-b border-gray-800 bg-gray-950/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Voltar</span>
-            </Link>
-            <div className="flex items-center gap-2">
-              <div className="relative">
-                <Apple className="w-8 h-8 text-green-500" />
-                <Sparkles className="w-4 h-4 text-green-400 absolute -top-1 -right-1" />
-              </div>
-              <span className="text-xl font-bold text-white">Painel Admin</span>
-            </div>
+          <div className="flex items-center gap-2">
+            <LayoutDashboard className="w-8 h-8 text-orange-500" />
+            <span className="text-xl font-bold text-white">NutriPlan Pro {t('dashboard.admin.header.title')}</span>
           </div>
 
-          <div className="flex items-center gap-4 text-sm">
-            <div className="flex items-center gap-2 text-purple-400">
-              <Shield className="w-4 h-4" />
-              <span>{admins.length} Admins</span>
-            </div>
-            <div className="flex items-center gap-2 text-green-400">
-              <Utensils className="w-4 h-4" />
-              <span>{personalTrainers.length} Nutris</span>
-            </div>
-            <div className="flex items-center gap-2 text-gray-400">
-              <Users className="w-4 h-4" />
-              <span>{students.length} Alunos</span>
+          <div className="flex gap-4">
+            <div className="hidden md:flex items-center gap-6">
+              <div className="text-center">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">{t('dashboard.admin.header.admins')}</p>
+                <p className="text-lg font-bold text-white">{filteredUsers("admin").length}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">{t('dashboard.admin.header.nutris')}</p>
+                <p className="text-lg font-bold text-white">{filteredUsers("personal").length}</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-gray-500 uppercase tracking-wider">{t('dashboard.admin.header.students')}</p>
+                <p className="text-lg font-bold text-white">{filteredUsers("user").length}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -400,44 +177,44 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
         <Card className="bg-gray-900/50 border-gray-800 mb-8">
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
-              <UserPlus className="w-5 h-5 text-green-500" />
-              Adicionar Novo Usuário
+              <UserPlus className="w-5 h-5 text-orange-500" />
+              {t('dashboard.admin.addUser.title')}
             </CardTitle>
-            <CardDescription className="text-gray-400">Cadastre admins, personal trainers ou alunos</CardDescription>
+            <CardDescription className="text-gray-400">{t('dashboard.admin.addUser.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
               <div className="grid gap-2">
-                <Label className="text-gray-200">Nome Completo</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.nameLabel')}</Label>
                 <Input
-                  placeholder="Nome do usuário"
+                  placeholder={t('dashboard.personal.addStudent.namePlaceholder')}
                   value={newUser.full_name}
                   onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-gray-200">Email</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.emailLabel')}</Label>
                 <Input
                   type="email"
-                  placeholder="email@exemplo.com"
+                  placeholder={t('dashboard.personal.addStudent.emailPlaceholder')}
                   value={newUser.email}
                   onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-gray-200">Senha</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.passwordLabel')}</Label>
                 <Input
                   type="password"
-                  placeholder="Min. 6 caracteres"
+                  placeholder={t('dashboard.personal.addStudent.passwordPlaceholder')}
                   value={newUser.password}
                   onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-gray-200">Tipo</Label>
+                <Label className="text-gray-200">{t('dashboard.admin.addUser.typeLabel')}</Label>
                 <Select
                   value={newUser.role}
                   onValueChange={(value: "admin" | "personal" | "user") => setNewUser({ ...newUser, role: value })}
@@ -445,10 +222,10 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                   <SelectTrigger className="bg-gray-800/50 border-gray-700 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-800 border-gray-700">
-                    <SelectItem value="user">Paciente</SelectItem>
-                    <SelectItem value="personal">Nutricionista</SelectItem>
-                    <SelectItem value="admin">Administrador</SelectItem>
+                  <SelectContent className="bg-gray-900 border-gray-800 text-white">
+                    <SelectItem value="user">{t('dashboard.admin.addUser.roles.patient')}</SelectItem>
+                    <SelectItem value="personal">{t('dashboard.admin.addUser.roles.nutri')}</SelectItem>
+                    <SelectItem value="admin">{t('dashboard.admin.addUser.roles.admin')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -456,71 +233,210 @@ export function AdminDashboard({ users, currentUserId }: AdminDashboardProps) {
                 <Button
                   onClick={handleCreateUser}
                   disabled={isCreating}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white"
+                  className="w-full bg-orange-600 hover:bg-orange-700"
                 >
-                  {isCreating ? "Criando..." : "Criar Usuário"}
+                  {isCreating ? t('dashboard.admin.addUser.loading') : t('dashboard.admin.addUser.button')}
                 </Button>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Users Tabs */}
-        <Card className="bg-gray-900/50 border-gray-800">
-          <Tabs defaultValue="personals" className="w-full">
-            <CardHeader>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <CardTitle className="text-white">Gerenciar Usuários</CardTitle>
-                <TabsList className="bg-gray-800 border-gray-700">
-                  <TabsTrigger value="personals" className="data-[state=active]:bg-emerald-500">
-                    Nutricionistas
-                  </TabsTrigger>
-                  <TabsTrigger value="students" className="data-[state=active]:bg-emerald-500">
-                    Pacientes
-                  </TabsTrigger>
-                  <TabsTrigger value="admins" className="data-[state=active]:bg-emerald-500">
-                    Administradores
-                  </TabsTrigger>
-                </TabsList>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <TabsContent value="personals" className="mt-0">
-                {personalTrainers.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <UserCog className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Nenhum personal trainer cadastrado</p>
-                  </div>
-                ) : (
-                  <UserTable userList={personalTrainers} showLimit={true} />
-                )}
-              </TabsContent>
-              <TabsContent value="students" className="mt-0">
-                {students.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Nenhum aluno cadastrado</p>
-                  </div>
-                ) : (
-                  <UserTable userList={students} />
-                )}
-              </TabsContent>
-              <TabsContent value="admins" className="mt-0">
-                {admins.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    <Shield className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                    <p>Nenhum administrador cadastrado</p>
-                  </div>
-                ) : (
-                  <UserTable userList={admins} />
-                )}
-              </TabsContent>
-            </CardContent>
-          </Tabs>
-        </Card>
+        {/* Users Management */}
+        <Tabs defaultValue="personal" className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <TabsList className="bg-gray-900/50 border border-gray-800 p-1">
+              <TabsTrigger value="personal" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white">
+                {t('dashboard.admin.tabs.nutris')}
+              </TabsTrigger>
+              <TabsTrigger value="user" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white">
+                {t('dashboard.admin.tabs.patients')}
+              </TabsTrigger>
+              <TabsTrigger value="admin" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white">
+                {t('dashboard.admin.tabs.admins')}
+              </TabsTrigger>
+            </TabsList>
+
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Input
+                placeholder={t('landing.registration.placeholders.name')}
+                className="pl-10 bg-gray-900/50 border-gray-800 text-white w-full md:w-64"
+                onChange={(e) => {
+                  const term = e.target.value.toLowerCase()
+                  setUsers(initialUsers.filter((u) => u.full_name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term)))
+                }}
+              />
+            </div>
+          </div>
+
+          <TabsContent value="personal" className="m-0">
+            <UserTable
+              users={filteredUsers("personal")}
+              emptyMessage={t('dashboard.admin.empty.nutris')}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
+              onSuccess={(msg) => setSuccess(msg)}
+              onError={(msg) => setError(msg)}
+              t={t}
+            />
+          </TabsContent>
+
+          <TabsContent value="user" className="m-0">
+            <UserTable
+              users={filteredUsers("user")}
+              emptyMessage={t('dashboard.admin.empty.patients')}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
+              onSuccess={(msg) => setSuccess(msg)}
+              onError={(msg) => setError(msg)}
+              t={t}
+            />
+          </TabsContent>
+
+          <TabsContent value="admin" className="m-0">
+            <UserTable
+              users={filteredUsers("admin")}
+              emptyMessage={t('dashboard.admin.empty.admins')}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
+              onSuccess={(msg) => setSuccess(msg)}
+              onError={(msg) => setError(msg)}
+              t={t}
+            />
+          </TabsContent>
+        </Tabs>
       </main>
 
       <Footer />
     </div>
+  )
+}
+
+function UserTable({
+  users,
+  emptyMessage,
+  onToggleStatus,
+  onDelete,
+  onSuccess,
+  onError,
+  t
+}: {
+  users: User[]
+  emptyMessage: string
+  onToggleStatus: (id: string, status: boolean) => void
+  onDelete: (id: string) => void
+  onSuccess: (msg: string) => void
+  onError: (msg: string) => void
+  t: (key: string) => string
+}) {
+  return (
+    <Card className="bg-gray-900/50 border-gray-800">
+      <CardContent className="p-0">
+        {users.length === 0 ? (
+          <div className="text-center py-12 text-gray-400">{emptyMessage}</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-gray-800 hover:bg-gray-800/50">
+                  <TableHead className="text-gray-400 pl-6">{t('dashboard.common.name')}</TableHead>
+                  <TableHead className="text-gray-400">{t('dashboard.common.email')}</TableHead>
+                  <TableHead className="text-gray-400">{t('dashboard.common.status')}</TableHead>
+                  <TableHead className="text-gray-400">{t('dashboard.common.createdAt')}</TableHead>
+                  <TableHead className="text-gray-400 text-right pr-6">{t('dashboard.common.actions')}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user.id} className="border-gray-800 hover:bg-gray-800/30">
+                    <TableCell className="text-white font-medium pl-6">{user.full_name}</TableCell>
+                    <TableCell className="text-gray-300">{user.email}</TableCell>
+                    <TableCell>
+                      <Badge className={user.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"}>
+                        {user.is_active ? t('dashboard.common.active') : t('dashboard.common.blocked')}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-gray-400">
+                      {new Date(user.created_at).toLocaleDateString(t('common.back') === 'Voltar' ? "pt-BR" : "en-US")}
+                    </TableCell>
+                    <TableCell className="text-right pr-6">
+                      <div className="flex items-center justify-end gap-2">
+                        {/* Student Limit (for personals only) */}
+                        {user.role === "personal" && (
+                          <LimitDialog
+                            personalId={user.id}
+                            personalName={user.full_name}
+                            currentLimit={user.max_students || 0}
+                            currentCount={user.student_count || 0}
+                            onSuccess={() => onSuccess(t('dashboard.admin.messages.successLimit'))}
+                            onError={(err) => onError(err)}
+                          />
+                        )}
+
+                        {/* Change Password */}
+                        <PasswordDialog
+                          userId={user.id}
+                          userName={user.full_name}
+                          onSuccess={() => onSuccess(t('dashboard.admin.messages.successPass'))}
+                          onError={(err) => onError(err)}
+                        />
+
+                        {/* Toggle Status */}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className={
+                            user.is_active
+                              ? "text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10"
+                              : "text-green-500 hover:text-green-400 hover:bg-green-500/10"
+                          }
+                          onClick={() => onToggleStatus(user.id, user.is_active)}
+                        >
+                          {user.is_active ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
+                        </Button>
+
+                        {/* Delete */}
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="text-red-500 hover:text-red-400 hover:bg-red-500/10"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="bg-gray-900 border-gray-800">
+                            <DialogHeader>
+                              <DialogTitle className="text-white">{t('dashboard.admin.messages.deleteTitle')}</DialogTitle>
+                              <DialogDescription className="text-gray-400">
+                                {t('dashboard.admin.messages.deleteConfirm').replace('{name}', user.full_name)}
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogFooter>
+                              <DialogClose asChild>
+                                <Button variant="outline" className="border-gray-700 text-gray-300 bg-transparent">
+                                  {t('dashboard.common.cancel')}
+                                </Button>
+                              </DialogClose>
+                              <DialogClose asChild>
+                                <Button variant="destructive" onClick={() => onDelete(user.id)}>
+                                  {t('dashboard.common.delete')}
+                                </Button>
+                              </DialogClose>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }

@@ -9,8 +9,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2, Phone, Mail, User, MessageSquare, Smartphone } from "lucide-react"
 import { Browser } from "@capacitor/browser"
+import { useLanguage } from "@/context/language-context"
+import { Globe } from "lucide-react"
 
 export function LandingPage() {
+    const { language, setLanguage, t } = useLanguage()
     const [step, setStep] = useState<"idle" | "register" | "payment">("idle")
     const [registeredEmail, setRegisteredEmail] = useState("")
     const [showIosGuide, setShowIosGuide] = useState(false)
@@ -45,23 +48,42 @@ export function LandingPage() {
 
                     <nav className="hidden lg:flex items-center gap-10 text-sm font-semibold text-gray-400">
                         <a href="#como-funciona" className="hover:text-emerald-400 transition-colors relative group">
-                            Como funciona
+                            {t('landing.header.howItWorks')}
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
                         </a>
                         <a href="#beneficios" className="hover:text-emerald-400 transition-colors relative group">
-                            Benefícios
+                            {t('landing.header.benefits')}
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
                         </a>
                         <a href="/app/fitplan-pro.apk" download className="text-green-400 hover:text-green-300 transition-colors flex items-center gap-2">
                             <Smartphone className="w-4 h-4" />
-                            Download App
+                            {t('landing.header.download')}
                         </a>
                     </nav>
 
                     <div className="flex items-center gap-4">
+                        <div className="flex items-center bg-white/5 rounded-xl border border-white/10 p-1 mr-2">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setLanguage('pt')}
+                                className={`h-8 px-2 text-[10px] font-bold rounded-lg transition-all ${language === 'pt' ? 'bg-white/10 text-white' : 'text-gray-500'}`}
+                            >
+                                PT
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setLanguage('en')}
+                                className={`h-8 px-2 text-[10px] font-bold rounded-lg transition-all ${language === 'en' ? 'bg-white/10 text-white' : 'text-gray-500'}`}
+                            >
+                                EN
+                            </Button>
+                        </div>
+
                         <Link href="/auth/login/" className="hidden sm:block">
                             <Button variant="ghost" className="text-sm font-bold hover:bg-white/5 text-gray-300 px-6">
-                                Entrar
+                                {t('common.login')}
                             </Button>
                         </Link>
                         <Button
@@ -71,7 +93,7 @@ export function LandingPage() {
                             }}
                             className="bg-white text-black hover:bg-gray-100 font-bold px-6 rounded-xl hidden md:flex"
                         >
-                            Começar
+                            {t('common.start')}
                         </Button>
                     </div>
                 </div>
@@ -82,22 +104,22 @@ export function LandingPage() {
                 <section className="container mx-auto px-4 text-center pb-32">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[10px] md:text-xs font-bold text-emerald-400 mb-10 animate-fade-in tracking-widest uppercase">
                         <Sparkles className="w-3 h-3 animate-pulse" />
-                        A nova era da alimentação de alta performance
+                        {t('landing.hero.badge')}
                         <Sparkles className="w-3 h-3 animate-pulse" />
                     </div>
 
                     <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-[0.9] text-white">
-                        Sua Dieta Feita <br />
+                        {t('landing.hero.title')} <br />
                         <span className="inline-block relative">
                             <span className="relative z-10 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent italic px-2">
-                                pela Inteligência Artificial
+                                {t('landing.hero.titleAi')}
                             </span>
                             <div className="absolute -bottom-2 left-0 w-full h-8 bg-emerald-500/10 blur-2xl -rotate-1" />
                         </span>
                     </h1>
 
                     <p className="max-w-3xl mx-auto text-lg md:text-2xl text-gray-400 mb-12 leading-relaxed font-medium">
-                        Pare de adivinhar o que comer. O <span className="text-white">NutriPlan Pro</span> molda sua jornada com precisão matemática e nutricional, criando planos 100% personalizados em segundos.
+                        {t('landing.hero.description')}
                     </p>
 
                     <div className="flex flex-col items-center justify-center gap-8">
@@ -108,12 +130,12 @@ export function LandingPage() {
                                     onClick={() => setStep("register")}
                                     className="w-full sm:w-auto h-16 px-12 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transition-all text-xl font-black rounded-3xl group shadow-[0_20px_50px_rgba(34,197,94,0.3)] hover:scale-105 active:scale-95"
                                 >
-                                    Começar Agora
+                                    {t('landing.hero.cta')}
                                     <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
                                 </Button>
                                 <a href="#como-funciona" className="w-full sm:w-auto">
                                     <Button size="lg" variant="outline" className="w-full h-16 px-12 border-white/10 hover:bg-white/5 bg-transparent rounded-3xl text-xl font-bold backdrop-blur-xl">
-                                        Vídeo Demo
+                                        {t('landing.hero.demo')}
                                         <Play className="w-5 h-5 ml-3 text-emerald-500 fill-emerald-500" />
                                     </Button>
                                 </a>
@@ -126,7 +148,7 @@ export function LandingPage() {
                                     <Link href="/app/fitplan-pro.apk" download className="hidden sm:inline-block">
                                         <Button variant="link" className="text-green-500 hover:text-green-400 font-bold gap-2">
                                             <Zap className="w-4 h-4" />
-                                            Baixar para Android (APK)
+                                            {t('landing.hero.android')}
                                         </Button>
                                     </Link>
                                     <Button
@@ -135,7 +157,7 @@ export function LandingPage() {
                                         className="text-gray-400 hover:text-white font-medium gap-2"
                                     >
                                         <Apple className="w-4 h-4" />
-                                        Instalar no iPhone (iOS)
+                                        {t('landing.hero.ios')}
                                     </Button>
                                 </div>
 
@@ -252,8 +274,8 @@ export function LandingPage() {
                                 <Zap className="w-5 h-5 text-green-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">Dieta Pronta</p>
-                                <p className="text-xs text-gray-500">Geração inteligente em poucos minutos</p>
+                                <p className="text-sm font-bold text-white">{t('landing.stats.ready')}</p>
+                                <p className="text-xs text-gray-500">{t('landing.stats.readyDesc')}</p>
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-3">
@@ -261,8 +283,8 @@ export function LandingPage() {
                                 <Target className="w-5 h-5 text-emerald-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">100% Personalizado</p>
-                                <p className="text-xs text-gray-500">Focado nos seus pontos fracos</p>
+                                <p className="text-sm font-bold text-white">{t('landing.stats.custom')}</p>
+                                <p className="text-xs text-gray-500">{t('landing.stats.customDesc')}</p>
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-3">
@@ -270,8 +292,8 @@ export function LandingPage() {
                                 <Brain className="w-5 h-5 text-blue-500" />
                             </div>
                             <div className="text-left">
-                                <p className="text-sm font-bold text-white">Ciência de Ponta</p>
-                                <p className="text-xs text-gray-500">Periodização baseada em dados</p>
+                                <p className="text-sm font-bold text-white">{t('landing.stats.science')}</p>
+                                <p className="text-xs text-gray-500">{t('landing.stats.scienceDesc')}</p>
                             </div>
                         </div>
                     </div>
@@ -282,15 +304,15 @@ export function LandingPage() {
                     <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/10 to-transparent" />
                     <div className="container mx-auto px-4 relative z-10">
                         <div className="text-center mb-24">
-                            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Sua jornada em <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">3 passos</span></h2>
-                            <p className="text-xl text-gray-400 font-medium">O caminho mais curto entre você e seu corpo ideal.</p>
+                            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">{t('landing.howItWorks.title')} <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">{t('landing.howItWorks.steps')}</span></h2>
+                            <p className="text-xl text-gray-400 font-medium">{t('landing.howItWorks.subtitle')}</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
                             {[
-                                { step: "01", title: "Perfil Nutricional", desc: "Nossa IA analisa sua rotina, objetivos, restrições e preferências através de perguntas estratégicas.", icon: <Brain className="w-6 h-6 text-white" /> },
-                                { step: "02", title: "Análise por IA", desc: "Algoritmos de ponta criam uma estratégia alimentar exclusiva, equilibrando macros e micronutrientes.", icon: <Bot className="w-6 h-6 text-white" /> },
-                                { step: "03", title: "Plano Alimentar", desc: "Receba seu plano em PDF pronto para seguir, com opções de substituições e dicas práticas.", icon: <Sparkles className="w-6 h-6 text-white" /> }
+                                { step: "01", title: t('landing.howItWorks.step1Title'), desc: t('landing.howItWorks.step1Desc'), icon: <Brain className="w-6 h-6 text-white" /> },
+                                { step: "02", title: t('landing.howItWorks.step2Title'), desc: t('landing.howItWorks.step2Desc'), icon: <Bot className="w-6 h-6 text-white" /> },
+                                { step: "03", title: t('landing.howItWorks.step3Title'), desc: t('landing.howItWorks.step3Desc'), icon: <Sparkles className="w-6 h-6 text-white" /> }
                             ].map((s, i) => (
                                 <div key={i} className="relative flex flex-col items-center group">
                                     <div className="w-24 h-24 rounded-[32px] bg-white/[0.03] border border-white/5 flex items-center justify-center mb-8 relative z-10 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all duration-500">
@@ -315,33 +337,33 @@ export function LandingPage() {
                 <section id="beneficios" className="py-24 bg-gradient-to-b from-transparent to-white/[0.02] border-t border-white/5">
                     <div className="container mx-auto px-4">
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4">A Ciência por trás do <span className="text-green-500">Resultado</span></h2>
-                            <p className="text-gray-400">Por que o NutriPlan Pro é superior aos métodos tradicionais?</p>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landing.features.title')} <span className="text-green-500">{t('landing.features.highlight')}</span></h2>
+                            <p className="text-gray-400">{t('landing.features.subtitle')}</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {[
                                 {
-                                    title: "Cálculo de Macros Pro",
-                                    desc: "Fórmulas avançadas que calculam exatamente o que seu corpo precisa para cada objetivo.",
+                                    title: t('landing.features.item1.title'),
+                                    desc: t('landing.features.item1.desc'),
                                     icon: <Target className="w-8 h-8 text-white" />,
                                     color: "from-green-500 to-emerald-600"
                                 },
                                 {
-                                    title: "Economia Inteligente",
-                                    desc: "Tenha a expertise de um Nutricionista top por menos do que você gasta em um lanche.",
+                                    title: t('landing.features.item2.title'),
+                                    desc: t('landing.features.item2.desc'),
                                     icon: <Zap className="w-8 h-8 text-white" />,
                                     color: "from-blue-500 to-cyan-600"
                                 },
                                 {
-                                    title: "Dieta Sem Tortura",
-                                    desc: "Nossa IA aprende seus gostos e cria prazer no processo de emagrecimento ou ganho.",
+                                    title: t('landing.features.item3.title'),
+                                    desc: t('landing.features.item3.desc'),
                                     icon: <Utensils className="w-8 h-8 text-white" />,
                                     color: "from-orange-500 to-red-600"
                                 },
                                 {
-                                    title: "Suporte 24/7 com IA",
-                                    desc: "Dúvidas sobre o que comer? Nossa IA está sempre online para te orientar.",
+                                    title: t('landing.features.item4.title'),
+                                    desc: t('landing.features.item4.desc'),
                                     icon: <Sparkles className="w-8 h-8 text-white" />,
                                     color: "from-purple-500 to-indigo-600"
                                 }
@@ -368,11 +390,11 @@ export function LandingPage() {
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-emerald-500/5 blur-[120px] rounded-full group-hover:bg-emerald-500/10 transition-colors duration-1000" />
 
                             <h2 className="text-5xl md:text-7xl font-black text-white mb-8 relative z-10 tracking-tighter">
-                                Pronto para a sua <br />
-                                <span className="text-emerald-500 italic">melhor versão?</span>
+                                {t('landing.ctaSection.title')} <br />
+                                <span className="text-emerald-500 italic">{t('landing.ctaSection.highlight')}</span>
                             </h2>
                             <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-2xl mx-auto relative z-10 font-medium leading-relaxed">
-                                Junte-se a milhares de pessoas que já transformaram seus corpos com a precisão da Inteligência Artificial.
+                                {t('landing.ctaSection.description')}
                             </p>
                             <div className="flex flex-col items-center justify-center gap-6 relative z-10">
                                 {step !== "payment" ? (
@@ -385,7 +407,7 @@ export function LandingPage() {
                                             }}
                                             className="h-20 px-16 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-2xl font-black rounded-3xl shadow-[0_30px_60px_rgba(34,197,94,0.3)] hover:scale-105 active:scale-95 transition-all"
                                         >
-                                            Quero Começar Agora
+                                            {t('landing.ctaSection.button')}
                                         </Button>
                                         <div className="flex items-center gap-4 text-xs font-bold text-gray-500 uppercase tracking-widest">
                                             <div className="flex -space-x-2">
@@ -395,7 +417,7 @@ export function LandingPage() {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <span>+5.000 alunos transformados</span>
+                                            <span>{t('landing.ctaSection.transformed')}</span>
                                         </div>
                                     </div>
                                 ) : (
@@ -403,7 +425,7 @@ export function LandingPage() {
                                         <MercadoPagoButton />
                                         <div className="flex items-center gap-3 text-green-400 font-black text-sm uppercase tracking-widest">
                                             <Shield className="w-5 h-5" />
-                                            Acesso Vitalício Liberado
+                                            {t('landing.ctaSection.lifetime')}
                                         </div>
                                     </div>
                                 )}
@@ -423,7 +445,7 @@ export function LandingPage() {
                 className="fixed bottom-6 right-6 z-[60] flex items-center gap-3 group animate-in slide-in-from-right-10 duration-500"
             >
                 <div className="hidden group-hover:flex items-center px-4 py-2 bg-white text-black rounded-full shadow-2xl animate-in fade-in slide-in-from-right-4 duration-300 font-bold text-sm">
-                    Suporte Técnico
+                    {t('common.technicalSupport')}
                 </div>
                 <div className="w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-2xl shadow-green-500/50 hover:scale-110 active:scale-95 transition-all text-white">
                     <MessageSquare size={28} />
@@ -434,6 +456,7 @@ export function LandingPage() {
 }
 
 function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void }) {
+    const { t, language } = useLanguage()
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({ name: "", email: "", phone: "", cpf: "", password: "" })
 
@@ -449,6 +472,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                     ...formData,
                     cpf: formData.cpf.replace(/\D/g, ""), // Envia apenas dígitos
                     source: "landing_page",
+                    language: language,
                     timestamp: new Date().toISOString()
                 })
             })
@@ -514,19 +538,19 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 blur-[80px] -mr-16 -mt-16 pointer-events-none" />
 
             <div className="text-center mb-8">
-                <h3 className="text-2xl font-black text-white mb-2 tracking-tight">Crie sua Conta</h3>
-                <p className="text-gray-400 text-sm font-medium">Inicie sua transformação agora</p>
+                <h3 className="text-2xl font-black text-white mb-2 tracking-tight">{t('registration.title')}</h3>
+                <p className="text-gray-400 text-sm font-medium">{t('registration.subtitle')}</p>
             </div>
 
             <div className="space-y-4">
                 <div className="space-y-2 group">
-                    <Label htmlFor="name" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">Nome Completo</Label>
+                    <Label htmlFor="name" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">{t('registration.fields.name')}</Label>
                     <div className="relative">
                         <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
                         <Input
                             id="name"
                             required
-                            placeholder="Ex: João Silva"
+                            placeholder={t('registration.placeholders.name')}
                             value={formData.name}
                             onChange={e => setFormData({ ...formData, name: e.target.value })}
                             className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
@@ -536,14 +560,14 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2 group">
-                        <Label htmlFor="email" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">E-mail de Acesso</Label>
+                        <Label htmlFor="email" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">{t('registration.fields.email')}</Label>
                         <div className="relative">
                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
                             <Input
                                 id="email"
                                 type="email"
                                 required
-                                placeholder="seu@email.com"
+                                placeholder={t('registration.placeholders.email')}
                                 value={formData.email}
                                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                                 className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
@@ -551,13 +575,13 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                         </div>
                     </div>
                     <div className="space-y-2 group">
-                        <Label htmlFor="phone" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">WhatsApp</Label>
+                        <Label htmlFor="phone" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">{t('registration.fields.phone')}</Label>
                         <div className="relative">
                             <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
                             <Input
                                 id="phone"
                                 required
-                                placeholder="(00) 00000-0000"
+                                placeholder={t('registration.placeholders.phone')}
                                 value={formData.phone}
                                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
                                 className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
@@ -567,13 +591,13 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                 </div>
 
                 <div className="space-y-2 group">
-                    <Label htmlFor="cpf" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">CPF (Para o Pix)</Label>
+                    <Label htmlFor="cpf" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">{t('registration.fields.cpf')}</Label>
                     <div className="relative">
                         <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
                         <Input
                             id="cpf"
                             required
-                            placeholder="000.000.000-00"
+                            placeholder={t('registration.placeholders.cpf')}
                             value={formData.cpf}
                             onChange={e => {
                                 let value = e.target.value.replace(/\D/g, "")
@@ -590,14 +614,14 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                 </div>
 
                 <div className="space-y-2 group">
-                    <Label htmlFor="password" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">Criar Senha Secreta</Label>
+                    <Label htmlFor="password" className="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-black ml-1 group-focus-within:text-green-500 transition-colors">{t('registration.fields.password')}</Label>
                     <div className="relative">
                         <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 group-focus-within:text-green-500 transition-colors" />
                         <Input
                             id="password"
                             type="password"
                             required
-                            placeholder="••••••••"
+                            placeholder={t('registration.placeholders.password')}
                             value={formData.password}
                             onChange={e => setFormData({ ...formData, password: e.target.value })}
                             className="h-14 pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-600 rounded-2xl focus:border-green-500/50 focus:ring-green-500/20 transition-all"
@@ -611,11 +635,11 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                 disabled={loading}
                 className="w-full h-16 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-lg font-black rounded-3xl shadow-[0_20px_40px_rgba(34,197,94,0.2)] transition-all active:scale-[0.98] mt-4"
             >
-                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Prosseguir para Checkout"}
+                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : t('registration.button')}
             </Button>
 
             <p className="text-[10px] text-center text-gray-500 font-bold uppercase tracking-widest italic group-hover:text-green-500/50 transition-colors">
-                🔐 Conexão 100% Criptografada via SSL
+                🔐 {t('registration.secure')}
             </p>
         </form>
     )

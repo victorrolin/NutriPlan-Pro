@@ -7,10 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Apple, Sparkles, Users, Utensils } from "lucide-react"
+import { Apple, Sparkles, Utensils, ArrowLeft } from "lucide-react"
 import { useState } from "react"
+import Link from "next/link"
+import { useLanguage } from "@/context/language-context"
 
 export default function PersonalLoginPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
@@ -25,14 +28,14 @@ export default function PersonalLoginPage() {
       const result = await loginAction(email, password)
 
       if (!result.success) {
-        setError(result.error || "Erro ao fazer login")
+        setError(result.error || t('auth.login.error'))
         setIsLoading(false)
         return
       }
 
       // Verificar se é personal ou admin
       if (result.role !== "personal" && result.role !== "admin") {
-        setError("Acesso não autorizado. Esta área é exclusiva para Nutricionistas.")
+        setError(t('auth.login.unauthorizedNutri'))
         setIsLoading(false)
         return
       }
@@ -40,13 +43,23 @@ export default function PersonalLoginPage() {
       window.location.href = "/personal"
     } catch (error: unknown) {
       console.error("Login error:", error)
-      setError("Erro ao fazer login")
+      setError(t('auth.login.error'))
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 relative">
+      {/* Back to Home Button */}
+      <div className="absolute top-4 left-4 md:top-8 md:left-8">
+        <Link href="/">
+          <Button variant="ghost" className="text-gray-400 hover:text-white transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {t('auth.login.backToHome')}
+          </Button>
+        </Link>
+      </div>
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
@@ -58,26 +71,26 @@ export default function PersonalLoginPage() {
           <h1 className="text-3xl font-bold text-white mb-2">NutriPlan Pro</h1>
           <div className="flex items-center justify-center gap-2 text-gray-400">
             <Utensils className="w-5 h-5 text-green-400" />
-            <p>Área do Nutricionista</p>
+            <p>{t('auth.login.nutriArea')}</p>
           </div>
         </div>
 
         <Card className="bg-gray-900/50 border-gray-800 backdrop-blur">
           <CardHeader>
-            <CardTitle className="text-2xl text-white">Login Nutri</CardTitle>
-            <CardDescription className="text-gray-400">Entre com suas credenciais de Nutricionista</CardDescription>
+            <CardTitle className="text-2xl text-white">{t('auth.login.nutriTitle')}</CardTitle>
+            <CardDescription className="text-gray-400">{t('auth.login.nutriDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin}>
               <div className="flex flex-col gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="email" className="text-gray-200">
-                    Email
+                    {t('auth.login.emailLabel')}
                   </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="nutri@email.com"
+                    placeholder={t('auth.login.emailPlaceholder')}
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -86,12 +99,12 @@ export default function PersonalLoginPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password" className="text-gray-200">
-                    Senha
+                    {t('auth.login.passwordLabel')}
                   </Label>
                   <Input
                     id="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={t('auth.login.passwordPlaceholder')}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -110,7 +123,7 @@ export default function PersonalLoginPage() {
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Entrando..." : "Entrar"}
+                  {isLoading ? t('auth.login.loading') : t('auth.login.button')}
                 </Button>
               </div>
             </form>
@@ -118,9 +131,9 @@ export default function PersonalLoginPage() {
         </Card>
 
         <div className="mt-6 text-center">
-          <a href="/auth/login" className="text-sm text-gray-500 hover:text-green-400 transition-colors">
-            ← Voltar para login de pacientes
-          </a>
+          <Link href="/auth/login" className="text-sm text-gray-500 hover:text-green-400 transition-colors">
+            {t('auth.login.backToPatient')}
+          </Link>
         </div>
       </div>
     </div>

@@ -1,0 +1,922 @@
+{
+    "pt": {
+        "common": {
+            "back": "Voltar",
+            "next": "Próxima",
+            "finish": "Finalizar",
+            "sending": "Enviando...",
+            "save": "Salvar",
+            "cancel": "Cancelar",
+            "logout": "Sair",
+            "backToHome": "Voltar para o Início",
+            "loading": "Carregando...",
+            "technicalSupport": "Suporte Técnico",
+            "downloadApp": "Baixar App",
+            "login": "Entrar",
+            "start": "Começar"
+        },
+        "labels": {
+            "male": "Masculino",
+            "female": "Feminino",
+            "other": "Prefiro não dizer",
+            "muscle": "Hipertrofia",
+            "weight-loss": "Emagrecimento",
+            "conditioning": "Performance",
+            "strength": "Força",
+            "flexibility": "Reeducação",
+            "health": "Saúde e Energia",
+            "sedentary": "Sedentário",
+            "light": "Leve",
+            "moderate-activity": "Moderado",
+            "very": "Muito Ativo",
+            "athlete": "Atleta de Elite",
+            "ectomorph": "Ectomorfo",
+            "mesomorph": "Mesomorfo",
+            "endomorph": "Endomorfo",
+            "balanced": "Balanceada",
+            "lowCarb": "Low Carb",
+            "highProtein": "Alta Proteína",
+            "vegetarian": "Vegetariana",
+            "vegan": "Vegana",
+            "good": "Excelente",
+            "moderate": "Moderado",
+            "poor": "Ruim",
+            "low": "Baixo",
+            "high": "Alto",
+            "always": "Sempre",
+            "sometimes": "Às vezes",
+            "never": "Raramente"
+        },
+        "landing": {
+            "header": {
+                "howItWorks": "Como funciona",
+                "benefits": "Benefícios",
+                "download": "Download App"
+            },
+            "hero": {
+                "badge": "A nova era da alimentação de alta performance",
+                "title": "Sua Dieta Feita",
+                "titleAi": "pela Inteligência Artificial",
+                "description": "Pare de adivinhar o que comer. O NutriPlan Pro molda sua jornada com precisão matemática e nutricional, criando planos 100% personalizados em segundos.",
+                "cta": "Começar Agora",
+                "demo": "Vídeo Demo",
+                "android": "Baixar para Android (APK)",
+                "ios": "Instalar no iPhone (iOS)",
+                "iosGuide": {
+                    "title": "Como instalar no iPhone:",
+                    "step1": "Acesse este site pelo navegador Safari.",
+                    "step2": "Toque no botão de Compartilhar (quadrado com seta para cima).",
+                    "step3": "Role para baixo e selecione \"Adicionar à Tela de Início\".",
+                    "step4": "Toque em Adicionar no canto superior direito.",
+                    "close": "Fechar Guia"
+                }
+            },
+            "stats": {
+                "ready": "Dieta Pronta",
+                "readyDesc": "Geração inteligente em poucos minutos",
+                "custom": "100% Personalizado",
+                "customDesc": "Focado nos seus pontos fracos",
+                "science": "Ciência de Ponta",
+                "scienceDesc": "Periodização baseada em dados"
+            },
+            "howItWorks": {
+                "title": "Sua jornada em",
+                "steps": "3 passos",
+                "subtitle": "O caminho mais curto entre você e seu corpo ideal.",
+                "step1Title": "Perfil Nutricional",
+                "step1Desc": "Nossa IA analisa sua rotina, objetivos, restrições e preferências através de perguntas estratégicas.",
+                "step2Title": "Análise por IA",
+                "step2Desc": "Algoritmos de ponta criam uma estratégia alimentar exclusiva, equilibrando macros e micronutrientes.",
+                "step3Title": "Plano Alimentar",
+                "step3Desc": "Receba seu plano em PDF pronto para seguir, com opções de substituições e dicas práticas."
+            },
+            "features": {
+                "title": "A Ciência por trás do",
+                "highlight": "Resultado",
+                "subtitle": "Por que o NutriPlan Pro é superior aos métodos tradicionais?",
+                "item1": {
+                    "title": "Cálculo de Macros Pro",
+                    "desc": "Fórmulas avançadas que calculam exatamente o que seu corpo precisa para cada objetivo."
+                },
+                "item2": {
+                    "title": "Economia Inteligente",
+                    "desc": "Tenha a expertise de um Nutricionista top por menos do que você gasta em um lanche."
+                },
+                "item3": {
+                    "title": "Dieta Sem Tortura",
+                    "desc": "Nossa IA aprende seus gostos e cria prazer no processo de emagrecimento ou ganho."
+                },
+                "item4": {
+                    "title": "Suporte 24/7 com IA",
+                    "desc": "Dúvidas sobre o que comer? Nossa IA está sempre online para te orientar."
+                }
+            },
+            "ctaSection": {
+                "title": "Pronto para a sua",
+                "highlight": "melhor versão?",
+                "description": "Junte-se a milhares de pessoas que já transformaram seus corpos com a precisão da Inteligência Artificial.",
+                "button": "Quero Começar Agora",
+                "transformed": "+5.000 alunos transformados",
+                "lifetime": "Acesso Vitalício Liberado"
+            }
+        },
+        "registration": {
+            "title": "Crie sua Conta",
+            "subtitle": "Inicie sua transformação agora",
+            "fields": {
+                "name": "Nome Completo",
+                "email": "E-mail de Acesso",
+                "phone": "WhatsApp",
+                "cpf": "CPF (Para o Pix)",
+                "password": "Criar Senha Secreta"
+            },
+            "placeholders": {
+                "name": "Ex: João Silva",
+                "email": "seu@email.com",
+                "phone": "(00) 00000-0000",
+                "cpf": "000.000.000-00",
+                "password": "••••••••"
+            },
+            "button": "Prosseguir para Checkout",
+            "secure": "Conexão 100% Criptografada via SSL"
+        },
+        "payment": {
+            "processing": "Pagamento em Andamento",
+            "description": "Abrimos a janela segura do Mercado Pago. Guarde seus dados abaixo para acessar assim que concluir:",
+            "userLabel": "Seu Usuário (E-mail)",
+            "passLabel": "Sua Senha",
+            "passValue": "A senha que você acabou de criar",
+            "info": "Após concluir o pagamento, seu acesso será liberado instantaneamente e você também receberá os dados por e-mail.",
+            "studentArea": "Área do Aluno",
+            "support": "Suporte",
+            "fallback": "Se a janela de pagamento não abriu, clique em \"Mercado Pago\" acima."
+        },
+        "assessment": {
+            "header": {
+                "step": "de"
+            },
+            "questions": {
+                "name": {
+                    "title": "Qual o seu nome?",
+                    "subtitle": "Vamos começar sua transformação",
+                    "placeholder": "Seu nome completo"
+                },
+                "age": {
+                    "title": "Qual sua idade?",
+                    "subtitle": "Importante para o cálculo metabólico",
+                    "placeholder": "Digite a idade"
+                },
+                "gender": {
+                    "title": "Qual seu gênero?",
+                    "subtitle": "Para personalizar suas necessidades"
+                },
+                "weight": {
+                    "title": "Qual seu peso atual (kg)?",
+                    "subtitle": "Precisão é a chave do sucesso",
+                    "placeholder": "Digite o peso em kg"
+                },
+                "height": {
+                    "title": "Qual sua altura (cm)?",
+                    "subtitle": "Para calcularmos seu IMC",
+                    "placeholder": "Digite a altura em cm"
+                },
+                "bodyType": {
+                    "title": "Qual seu biotipo corporal?",
+                    "subtitle": "Como você descreveria sua estrutura?",
+                    "ectomorph": "Magro, dificuldade em ganhar peso",
+                    "mesomorph": "Atlético, fácil ganho de massa",
+                    "endomorph": "Largo, facilidade em acumular gordura"
+                },
+                "activity": {
+                    "title": "Seu nível de atividade diária?",
+                    "subtitle": "Incluindo trabalho e exercícios",
+                    "sedentary": "Trabalho sentado, pouco movimento",
+                    "light": "Caminhadas leves ou 1-2x treino",
+                    "moderate": "Treino regular 3-5x por semana",
+                    "very": "Treino intenso diariamente",
+                    "athlete": "Treino profissional"
+                },
+                "goal": {
+                    "title": "Qual seu objetivo principal?",
+                    "subtitle": "Onde quer chegar?",
+                    "muscle": "Ganho de massa muscular",
+                    "weight-loss": "Redução de gordura",
+                    "health": "Vitalidade no dia a dia",
+                    "conditioning": "Desempenho esportivo",
+                    "reeducation": "Melhores hábitos"
+                },
+                "diet": {
+                    "title": "Qual sua preferência alimentar?",
+                    "subtitle": "Respeitamos seu estilo de vida",
+                    "balanced": "Sem restrições específicas",
+                    "lowCarb": "Redução de carboidratos",
+                    "vegetarian": "Sem carne animal",
+                    "vegan": "100% à base de plantas",
+                    "highProtein": "Foco em construção muscular"
+                },
+                "meals": {
+                    "title": "Quantas refeições faz por dia?",
+                    "subtitle": "Conte tudo, inclusive lanches",
+                    "placeholder": "Quantidade de refeições"
+                },
+                "water": {
+                    "title": "Consumo diário de água (Litros)?",
+                    "subtitle": "Aproximadamente",
+                    "placeholder": "Quantidade em litros (água)"
+                },
+                "allergies": {
+                    "title": "Possui alergias ou intolerâncias?",
+                    "subtitle": "Ex: Lactose, Glúten, Castanhas, Frutos do mar",
+                    "placeholder": "Ex: Lactose, Glúten, Castanhas..."
+                },
+                "dislikes": {
+                    "title": "Alimentos que você não come?",
+                    "subtitle": "Aquilo que você simplesmente detesta",
+                    "placeholder": "Fígado, coentro, carne vermelha..."
+                },
+                "health": {
+                    "title": "Alguma condição de saúde?",
+                    "subtitle": "Diabetes, Gastrite, Pressão Alta, etc.",
+                    "placeholder": "Diabetes, Tireoide, Anemia..."
+                },
+                "supplements": {
+                    "title": "Usa suplementos ou remédios?",
+                    "subtitle": "Whey, Creatina, Vitaminas, etc.",
+                    "placeholder": "Vitaminas, Creatina, Whey..."
+                },
+                "sleep": {
+                    "title": "Como você avalia seu sono?",
+                    "subtitle": "A qualidade do descanso",
+                    "good": "Acordo descansado",
+                    "moderate": "Sono interrompido às vezes",
+                    "poor": "Sempre cansado"
+                },
+                "stress": {
+                    "title": "Como está seu nível de estresse?",
+                    "subtitle": "No trabalho e na vida pessoal",
+                    "low": "Me sinto tranquilo",
+                    "moderate": "Alguns dias tensos",
+                    "high": "Muito estressado"
+                },
+                "cooking": {
+                    "title": "Com que frequência você cozinha?",
+                    "subtitle": "Isso ajuda na viabilidade do plano",
+                    "always": "Prepararo minhas refeições",
+                    "sometimes": "Cozinho mas também como fora",
+                    "never": "Peço delivery ou como fora"
+                },
+                "digestion": {
+                    "title": "Como está sua digestão?",
+                    "subtitle": "Regularidade, inchaço, azia, etc.",
+                    "placeholder": "Frequência, inchaço, azia ou qualquer desconforto..."
+                },
+                "extra": {
+                    "title": "Algum detalhe adicional?",
+                    "subtitle": "O que mais a IA deve saber?",
+                    "placeholder": "Ex: Mais disposição, melhorar exames, performance esportiva..."
+                }
+            },
+            "photo": {
+                "front": "Frente",
+                "side": "Lado",
+                "back": "Costas",
+                "upload": "Carregar Foto"
+            }
+        },
+        "results": {
+            "title": "Seu Plano Está Pronto!",
+            "summary": "Resumo do seu perfil:",
+            "personalInfo": "Informações Pessoais",
+            "nutriProfile": "Perfil Nutricional",
+            "preferences": "Preferências e Hábitos",
+            "digestion": "Saúde Digestiva",
+            "download": "Baixar PDF",
+            "share": "Compartilhar Plano",
+            "gender": "Gênero",
+            "age": "Idade",
+            "weight": "Peso",
+            "height": "Altura",
+            "bodyType": "Biotipo",
+            "goal": "Objetivo",
+            "diet": "Dieta",
+            "activity": "Atividade",
+            "meals": "Refeições",
+            "water": "Água",
+            "sleep": "Qualidade do Sono",
+            "stress": "Nível de Estresse",
+            "cooking": "Hábito de Cozinhar",
+            "digestionLabel": "Digestão",
+            "allergies": "Alergias",
+            "health": "Saúde",
+            "obs": "Observações",
+            "years": "anos",
+            "liters": "L/dia"
+        },
+        "auth": {
+            "login": {
+                "title": "Entrar",
+                "description": "Entre com suas credenciais para acessar",
+                "emailLabel": "Email",
+                "emailPlaceholder": "seu@email.com",
+                "passwordLabel": "Senha",
+                "passwordPlaceholder": "••••••••",
+                "button": "Entrar",
+                "loading": "Entrando...",
+                "error": "Erro ao fazer login",
+                "backToPatient": "← Voltar para login de pacientes",
+                "adminArea": "Área Administrativa",
+                "nutriArea": "Área do Nutri",
+                "adminTitle": "Login Admin",
+                "adminDesc": "Acesso restrito a administradores",
+                "nutriTitle": "Login Nutri",
+                "nutriDesc": "Entre com suas credenciais de Nutricionista",
+                "unauthorizedNutri": "Acesso não autorizado. Esta área é exclusiva para Nutricionistas.",
+                "unauthorizedAdmin": "Acesso restrito a administradores",
+                "backToHome": "← Voltar para o Início"
+            }
+        },
+        "dashboard": {
+            "common": {
+                "name": "Nome",
+                "email": "Email",
+                "status": "Status",
+                "createdAt": "Criado em",
+                "actions": "Ações",
+                "active": "Ativo",
+                "blocked": "Bloqueado",
+                "cancel": "Cancelar",
+                "save": "Salvar",
+                "delete": "Excluir",
+                "confirmDelete": "Confirmar Exclusão",
+                "you": "Você",
+                "type": "Tipo"
+            },
+            "personal": {
+                "header": {
+                    "students": "alunos",
+                    "back": "Voltar"
+                },
+                "limitCard": {
+                    "title": "Alunos vinculados",
+                    "subtitle": "Nutricionista",
+                    "panel": "Painel do Nutricionista",
+                    "limitReached": "Limite atingido. Solicite aumento ao administrador."
+                },
+                "addStudent": {
+                    "title": "Adicionar Novo Aluno",
+                    "description": "Cadastre um novo aluno para acessar o sistema",
+                    "nameLabel": "Nome Completo",
+                    "namePlaceholder": "Nome do aluno",
+                    "emailLabel": "Email",
+                    "emailPlaceholder": "email@exemplo.com",
+                    "passwordLabel": "Senha",
+                    "passwordPlaceholder": "Min. 6 caracteres",
+                    "button": "Criar Aluno",
+                    "loading": "Criando..."
+                },
+                "studentsTable": {
+                    "title": "Meus Alunos",
+                    "description": "Gerencie os acessos dos seus alunos",
+                    "empty": "Você ainda não tem alunos cadastrados"
+                },
+                "messages": {
+                    "fillAll": "Preencha todos os campos",
+                    "passTooShort": "A senha deve ter no mínimo 6 caracteres",
+                    "successCreated": "Aluno criado com sucesso!",
+                    "errorUpdate": "Erro ao atualizar aluno",
+                    "successBlocked": "Aluno bloqueado",
+                    "successUnblocked": "Aluno desbloqueado",
+                    "errorDelete": "Erro ao excluir aluno",
+                    "successDelete": "Aluno excluído com sucesso",
+                    "deleteTitle": "Excluir Aluno",
+                    "deleteConfirm": "Tem certeza que deseja excluir {name}? Esta ação não pode ser desfeita."
+                }
+            },
+            "admin": {
+                "header": {
+                    "title": "Painel Admin",
+                    "admins": "Admins",
+                    "nutris": "Nutris",
+                    "students": "Alunos"
+                },
+                "addUser": {
+                    "title": "Adicionar Novo Usuário",
+                    "description": "Cadastre admins, nutricionistas ou pacientes",
+                    "typeLabel": "Tipo",
+                    "roles": {
+                        "patient": "Paciente",
+                        "nutri": "Nutricionista",
+                        "admin": "Administrador"
+                    },
+                    "button": "Criar Usuário",
+                    "loading": "Criando..."
+                },
+                "tabs": {
+                    "manage": "Gerenciar Usuários",
+                    "nutris": "Nutricionistas",
+                    "patients": "Pacientes",
+                    "admins": "Administradores"
+                },
+                "empty": {
+                    "nutris": "Nenhum nutricionista cadastrado",
+                    "patients": "Nenhum paciente cadastrado",
+                    "admins": "Nenhum administrador cadastrado"
+                },
+                "messages": {
+                    "successCreated": "Usuário criado com sucesso!",
+                    "errorUpdate": "Erro ao atualizar usuário",
+                    "successBlocked": "Usuário bloqueado",
+                    "successUnblocked": "Usuário desbloqueado",
+                    "errorDelete": "Erro ao excluir usuário",
+                    "successDelete": "Usuário excluído com sucesso",
+                    "errorPass": "Erro ao alterar senha",
+                    "successPass": "Senha alterada com sucesso",
+                    "errorLimit": "Erro ao alterar limite",
+                    "successLimit": "Limite de alunos alterado com sucesso",
+                    "deleteTitle": "Excluir Usuário",
+                    "deleteConfirm": "Tem certeza que deseja excluir {name}? Esta ação não pode ser desfeita."
+                }
+            }
+        },
+        "dialogs": {
+            "password": {
+                "title": "Alterar Senha",
+                "description": "Defina uma nova senha para {name}",
+                "label": "Nova Senha",
+                "placeholder": "Min. 6 caracteres",
+                "saving": "Salvando...",
+                "save": "Salvar"
+            },
+            "limit": {
+                "title": "Alterar Limite de Alunos",
+                "description": "Defina o limite máximo de alunos para {name}",
+                "current": "Atual: {count}/{limit} alunos",
+                "label": "Novo Limite"
+            }
+        },
+        "footer": {
+            "developedBy": "Desenvolvido por",
+            "needHelp": "Precisa de ajuda? Fale com o Suporte Técnico"
+        }
+    },
+    "en": {
+        "common": {
+            "back": "Back",
+            "next": "Next",
+            "finish": "Finish",
+            "sending": "Sending...",
+            "save": "Save",
+            "cancel": "Cancel",
+            "logout": "Logout",
+            "backToHome": "Back to Home",
+            "loading": "Loading...",
+            "technicalSupport": "Technical Support",
+            "downloadApp": "Download App",
+            "login": "Login",
+            "start": "Start"
+        },
+        "labels": {
+            "male": "Male",
+            "female": "Female",
+            "other": "Prefer not to say",
+            "muscle": "Hypertrophy",
+            "weight-loss": "Weight Loss",
+            "conditioning": "Performance",
+            "strength": "Strength",
+            "flexibility": "Re-education",
+            "health": "Health & Energy",
+            "sedentary": "Sedentary",
+            "light": "Light",
+            "moderate-activity": "Moderate",
+            "very": "Very Active",
+            "athlete": "Elite Athlete",
+            "ectomorph": "Ectomorph",
+            "mesomorph": "Mesomorph",
+            "endomorph": "Endomorph",
+            "balanced": "Balanced",
+            "lowCarb": "Low Carb",
+            "highProtein": "High Protein",
+            "vegetarian": "Vegetarian",
+            "vegan": "Vegan",
+            "good": "Excellent",
+            "moderate": "Moderate",
+            "poor": "Poor",
+            "low": "Low",
+            "high": "High",
+            "always": "Always",
+            "sometimes": "Sometimes",
+            "never": "Rarely"
+        },
+        "landing": {
+            "header": {
+                "howItWorks": "How it works",
+                "benefits": "Benefits",
+                "download": "Download App"
+            },
+            "hero": {
+                "badge": "The new era of high performance nutrition",
+                "title": "Your Diet Made",
+                "titleAi": "by Artificial Intelligence",
+                "description": "Stop guessing what to eat. NutriPlan Pro shapes your journey with mathematical and nutritional precision, creating 100% personalized plans in seconds.",
+                "cta": "Start Now",
+                "demo": "Demo Video",
+                "android": "Download for Android (APK)",
+                "ios": "Install on iPhone (iOS)",
+                "iosGuide": {
+                    "title": "How to install on iPhone:",
+                    "step1": "Access this site using the Safari browser.",
+                    "step2": "Tap the Share button (square with an up arrow).",
+                    "step3": "Scroll down and select \"Add to Home Screen\".",
+                    "step4": "Tap Add in the top right corner.",
+                    "close": "Close Guide"
+                }
+            },
+            "stats": {
+                "ready": "Ready Diet",
+                "readyDesc": "Smart generation in minutes",
+                "custom": "100% Personalized",
+                "customDesc": "Focused on your weak points",
+                "science": "Cutting-edge Science",
+                "scienceDesc": "Data-driven periodization"
+            },
+            "howItWorks": {
+                "title": "Your journey in",
+                "steps": "3 steps",
+                "subtitle": "The shortest path between you and your ideal body.",
+                "step1Title": "Nutrition Profile",
+                "step1Desc": "Our AI analyzes your routine, goals, restrictions, and preferences through strategic questions.",
+                "step2Title": "AI Analysis",
+                "step2Desc": "Cutting-edge algorithms create an exclusive dietary strategy, balancing macros and micronutrients.",
+                "step3Title": "Meal Plan",
+                "step3Desc": "Receive your plan in PDF ready to follow, with substitution options and practical tips."
+            },
+            "features": {
+                "title": "The Science behind the",
+                "highlight": "Result",
+                "subtitle": "Why is NutriPlan Pro superior to traditional methods?",
+                "item1": {
+                    "title": "Macros Pro Calculation",
+                    "desc": "Advanced formulas that calculate exactly what your body needs for each goal."
+                },
+                "item2": {
+                    "title": "Smart Savings",
+                    "desc": "Have the expertise of a top Nutritionist for less than what you spend on a snack."
+                },
+                "item3": {
+                    "title": "Torture-Free Diet",
+                    "desc": "Our AI learns your tastes and creates pleasure in the process of weight loss or gain."
+                },
+                "item4": {
+                    "title": "24/7 Support with AI",
+                    "desc": "Questions about what to eat? Our AI is always online to guide you."
+                }
+            },
+            "ctaSection": {
+                "title": "Ready for your",
+                "highlight": "best version?",
+                "description": "Join thousands of people who have already transformed their bodies with the precision of Artificial Intelligence.",
+                "button": "I Want to Start Now",
+                "transformed": "+5,000 students transformed",
+                "lifetime": "Lifetime Access Released"
+            }
+        },
+        "registration": {
+            "title": "Create your Account",
+            "subtitle": "Start your transformation now",
+            "fields": {
+                "name": "Full Name",
+                "email": "Access E-mail",
+                "phone": "WhatsApp",
+                "cpf": "CPF/ID (For Payment)",
+                "password": "Create Secret Password"
+            },
+            "placeholders": {
+                "name": "E.g.: John Smith",
+                "email": "your@email.com",
+                "phone": "(00) 00000-0000",
+                "cpf": "000.000.000-00",
+                "password": "••••••••"
+            },
+            "button": "Proceed to Checkout",
+            "secure": "100% SSL Encrypted Connection"
+        },
+        "payment": {
+            "processing": "Payment in Progress",
+            "description": "We've opened the secure Mercado Pago window. Save your details below to access as soon as you finish:",
+            "userLabel": "Your Username (Email)",
+            "passLabel": "Your Password",
+            "passValue": "The password you just created",
+            "info": "After completing the payment, your access will be released instantly and you will also receive the details by email.",
+            "studentArea": "Student Area",
+            "support": "Support",
+            "fallback": "If the payment window didn't open, click \"Mercado Pago\" above."
+        },
+        "assessment": {
+            "header": {
+                "step": "of"
+            },
+            "questions": {
+                "name": {
+                    "title": "What is your name?",
+                    "subtitle": "Let's start your transformation",
+                    "placeholder": "Your full name"
+                },
+                "age": {
+                    "title": "How old are you?",
+                    "subtitle": "Important for metabolic calculation",
+                    "placeholder": "Enter age"
+                },
+                "gender": {
+                    "title": "What is your gender?",
+                    "subtitle": "To customize your needs"
+                },
+                "weight": {
+                    "title": "What is your current weight (kg)?",
+                    "subtitle": "Precision is the key to success",
+                    "placeholder": "Enter weight in kg"
+                },
+                "height": {
+                    "title": "What is your height (cm)?",
+                    "subtitle": "To calculate your BMI",
+                    "placeholder": "Enter height in cm"
+                },
+                "bodyType": {
+                    "title": "What is your body type?",
+                    "subtitle": "How would you describe your frame?",
+                    "ectomorph": "Lean, difficult to gain weight",
+                    "mesomorph": "Athletic, easy muscle gain",
+                    "endomorph": "Broad, easy to accumulate fat"
+                },
+                "activity": {
+                    "title": "Your daily activity level?",
+                    "subtitle": "Including work and exercise",
+                    "sedentary": "Sedentary, little movement",
+                    "light": "Light walks or 1-2x training",
+                    "moderate": "Regular training 3-5x per week",
+                    "very": "Intense training daily",
+                    "athlete": "Professional training"
+                },
+                "goal": {
+                    "title": "What is your main goal?",
+                    "subtitle": "Where do you want to get?",
+                    "muscle": "Muscle mass gain",
+                    "weight-loss": "Fat reduction",
+                    "health": "Vitality in daily life",
+                    "conditioning": "Sport performance",
+                    "reeducation": "Better habits"
+                },
+                "diet": {
+                    "title": "What is your dietary preference?",
+                    "subtitle": "We respect your lifestyle",
+                    "balanced": "No specific restrictions",
+                    "lowCarb": "Carbohydrate reduction",
+                    "vegetarian": "No animal meat",
+                    "vegan": "100% plant-based",
+                    "highProtein": "Focus on muscle building"
+                },
+                "meals": {
+                    "title": "How many meals a day?",
+                    "subtitle": "Count everything, including snacks",
+                    "placeholder": "Number of meals"
+                },
+                "water": {
+                    "title": "Daily water intake (Liters)?",
+                    "subtitle": "Approximately",
+                    "placeholder": "Amount in liters (water)"
+                },
+                "allergies": {
+                    "title": "Do you have any allergies?",
+                    "subtitle": "E.g.: Lactose, Gluten, Nuts, Seafood",
+                    "placeholder": "E.g.: Lactose, Gluten, Nuts..."
+                },
+                "dislikes": {
+                    "title": "Foods you don't eat?",
+                    "subtitle": "Things you simply hate",
+                    "placeholder": "Liver, cilantro, red meat..."
+                },
+                "health": {
+                    "title": "Any health condition?",
+                    "subtitle": "Diabetes, Gastritis, High Blood Pressure, etc.",
+                    "placeholder": "Diabetes, Thyroid, Anemia..."
+                },
+                "supplements": {
+                    "title": "Use supplements or meds?",
+                    "subtitle": "Whey, Creatine, Vitamins, etc.",
+                    "placeholder": "Vitamins, Creatine, Whey..."
+                },
+                "sleep": {
+                    "title": "How do you rate your sleep?",
+                    "subtitle": "Rest quality",
+                    "good": "Wake up rested",
+                    "moderate": "Interrupted sleep sometimes",
+                    "poor": "Always tired"
+                },
+                "stress": {
+                    "title": "How is your stress level?",
+                    "subtitle": "At work and personal life",
+                    "low": "I feel calm",
+                    "moderate": "Some tense days",
+                    "high": "Very stressed"
+                },
+                "cooking": {
+                    "title": "How often do you cook?",
+                    "subtitle": "Helps in plan feasibility",
+                    "always": "I prepare my meals",
+                    "sometimes": "I cook but also eat out",
+                    "never": "I order delivery or eat out"
+                },
+                "digestion": {
+                    "title": "How is your digestion?",
+                    "subtitle": "Regularity, bloating, heartburn, etc.",
+                    "placeholder": "Frequency, bloating, heartburn or discomfort..."
+                },
+                "extra": {
+                    "title": "Any additional detail?",
+                    "subtitle": "What else should the AI know?",
+                    "placeholder": "E.g.: More energy, improve exams, sports performance..."
+                }
+            },
+            "photo": {
+                "front": "Front",
+                "side": "Side",
+                "back": "Back",
+                "upload": "Upload Photo"
+            }
+        },
+        "results": {
+            "title": "Your Plan is Ready!",
+            "summary": "Profile summary:",
+            "personalInfo": "Personal Information",
+            "nutriProfile": "Nutrition Profile",
+            "preferences": "Preferences & Habits",
+            "digestion": "Digestive Health",
+            "download": "Download PDF",
+            "share": "Share Plan",
+            "gender": "Gender",
+            "age": "Age",
+            "weight": "Weight",
+            "height": "Height",
+            "bodyType": "Body Type",
+            "goal": "Goal",
+            "diet": "Diet",
+            "activity": "Activity",
+            "meals": "Meals",
+            "water": "Water",
+            "sleep": "Sleep Quality",
+            "stress": "Stress Level",
+            "cooking": "Cooking Habit",
+            "digestionLabel": "Digestion",
+            "allergies": "Allergies",
+            "health": "Health",
+            "obs": "Observations",
+            "years": "years",
+            "liters": "L/day"
+        },
+        "auth": {
+            "login": {
+                "title": "Login",
+                "description": "Enter your credentials to access",
+                "emailLabel": "Email",
+                "emailPlaceholder": "your@email.com",
+                "passwordLabel": "Password",
+                "passwordPlaceholder": "••••••••",
+                "button": "Login",
+                "loading": "Logging in...",
+                "error": "Error logging in",
+                "backToPatient": "← Back to patient login",
+                "adminArea": "Admin Area",
+                "nutriArea": "Nutri Area",
+                "adminTitle": "Admin Login",
+                "adminDesc": "Restricted access to administrators",
+                "nutriTitle": "Nutri Login",
+                "nutriDesc": "Enter your Nutritionist credentials",
+                "unauthorizedNutri": "Unauthorized access. This area is exclusive for Nutritionists.",
+                "unauthorizedAdmin": "Restricted access to administrators",
+                "backToHome": "← Back to Home"
+            }
+        },
+        "dashboard": {
+            "common": {
+                "name": "Name",
+                "email": "Email",
+                "status": "Status",
+                "createdAt": "Created at",
+                "actions": "Actions",
+                "active": "Active",
+                "blocked": "Blocked",
+                "cancel": "Cancel",
+                "save": "Save",
+                "delete": "Delete",
+                "confirmDelete": "Confirm Delete",
+                "you": "You",
+                "type": "Type"
+            },
+            "personal": {
+                "header": {
+                    "students": "students",
+                    "back": "Back"
+                },
+                "limitCard": {
+                    "title": "Linked Students",
+                    "subtitle": "Nutritionist",
+                    "panel": "Nutritionist Panel",
+                    "limitReached": "Limit reached. Request increase from administrator."
+                },
+                "addStudent": {
+                    "title": "Add New Student",
+                    "description": "Register a new student to access the system",
+                    "nameLabel": "Full Name",
+                    "namePlaceholder": "Student name",
+                    "emailLabel": "Email",
+                    "emailPlaceholder": "email@example.com",
+                    "passwordLabel": "Password",
+                    "passwordPlaceholder": "Min. 6 characters",
+                    "button": "Create Student",
+                    "loading": "Creating..."
+                },
+                "studentsTable": {
+                    "title": "My Students",
+                    "description": "Manage student access",
+                    "empty": "You don't have any registered students yet"
+                },
+                "messages": {
+                    "fillAll": "Fill in all fields",
+                    "passTooShort": "Password must be at least 6 characters",
+                    "successCreated": "Student created successfully!",
+                    "errorUpdate": "Error updating student",
+                    "successBlocked": "Student blocked",
+                    "successUnblocked": "Student unblocked",
+                    "errorDelete": "Error deleting student",
+                    "successDelete": "Student deleted successfully",
+                    "deleteTitle": "Delete Student",
+                    "deleteConfirm": "Are you sure you want to delete {name}? This action cannot be undone."
+                }
+            },
+            "admin": {
+                "header": {
+                    "title": "Admin Panel",
+                    "admins": "Admins",
+                    "nutris": "Nutris",
+                    "students": "Students"
+                },
+                "addUser": {
+                    "title": "Add New User",
+                    "description": "Register admins, nutritionists or patients",
+                    "typeLabel": "Type",
+                    "roles": {
+                        "patient": "Patient",
+                        "nutri": "Nutritionist",
+                        "admin": "Administrator"
+                    },
+                    "button": "Create User",
+                    "loading": "Creating..."
+                },
+                "tabs": {
+                    "manage": "Manage Users",
+                    "nutris": "Nutritionists",
+                    "patients": "Patients",
+                    "admins": "Administrators"
+                },
+                "empty": {
+                    "nutris": "No nutritionists registered",
+                    "patients": "No patients registered",
+                    "admins": "No administrators registered"
+                },
+                "messages": {
+                    "successCreated": "User created successfully!",
+                    "errorUpdate": "Error updating user",
+                    "successBlocked": "User blocked",
+                    "successUnblocked": "User unblocked",
+                    "errorDelete": "Error deleting user",
+                    "successDelete": "User deleted successfully",
+                    "errorPass": "Error changing password",
+                    "successPass": "Password changed successfully",
+                    "errorLimit": "Error changing limit",
+                    "successLimit": "Student limit changed successfully",
+                    "deleteTitle": "Delete User",
+                    "deleteConfirm": "Are you sure you want to delete {name}? This action cannot be undone."
+                }
+            }
+        },
+        "dialogs": {
+            "password": {
+                "title": "Change Password",
+                "description": "Set a new password for {name}",
+                "label": "New Password",
+                "placeholder": "Min. 6 characters",
+                "saving": "Saving...",
+                "save": "Save"
+            },
+            "limit": {
+                "title": "Change Student Limit",
+                "description": "Set the maximum student limit for {name}",
+                "current": "Current: {count}/{limit} students",
+                "label": "New Limit"
+            }
+        },
+        "footer": {
+            "developedBy": "Developed by",
+            "needHelp": "Need help? Talk to Technical Support"
+        }
+    }
+}

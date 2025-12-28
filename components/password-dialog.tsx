@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import { Key } from "lucide-react"
 import { AuthService } from "@/lib/auth-service"
+import { useLanguage } from "@/context/language-context"
 
 interface PasswordDialogProps {
     userId: string
@@ -24,13 +25,14 @@ interface PasswordDialogProps {
 }
 
 export function PasswordDialog({ userId, userName, onSuccess, onError }: PasswordDialogProps) {
+    const { t } = useLanguage()
     const [open, setOpen] = useState(false)
     const [password, setPassword] = useState("")
     const [isProcessing, setIsProcessing] = useState(false)
 
     const handleSave = async () => {
         if (!password || password.length < 6) {
-            onError("A senha deve ter no mínimo 6 caracteres")
+            onError(t('dashboard.personal.messages.passTooShort'))
             return
         }
 
@@ -39,7 +41,7 @@ export function PasswordDialog({ userId, userName, onSuccess, onError }: Passwor
         const { success, error } = await AuthService.updatePassword(userId, password)
 
         if (!success) {
-            onError(error || "Erro ao alterar senha")
+            onError(error || t('dashboard.admin.messages.errorPass'))
             setIsProcessing(false)
         } else {
             onSuccess()
@@ -67,17 +69,17 @@ export function PasswordDialog({ userId, userName, onSuccess, onError }: Passwor
             </DialogTrigger>
             <DialogContent className="bg-gray-900 border-gray-800">
                 <DialogHeader>
-                    <DialogTitle className="text-white">Alterar Senha</DialogTitle>
+                    <DialogTitle className="text-white">{t('dialogs.password.title')}</DialogTitle>
                     <DialogDescription className="text-gray-400">
-                        Defina uma nova senha para {userName}
+                        {t('dialogs.password.description').replace('{name}', userName)}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid gap-2">
-                        <Label className="text-gray-200">Nova Senha</Label>
+                        <Label className="text-gray-200">{t('dialogs.password.label')}</Label>
                         <Input
                             type="password"
-                            placeholder="Min. 6 caracteres"
+                            placeholder={t('dialogs.password.placeholder')}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="bg-gray-800/50 border-gray-700 text-white"
@@ -90,10 +92,10 @@ export function PasswordDialog({ userId, userName, onSuccess, onError }: Passwor
                         className="border-gray-700 text-gray-300 bg-transparent"
                         onClick={() => setOpen(false)}
                     >
-                        Cancelar
+                        {t('dashboard.common.cancel')}
                     </Button>
                     <Button onClick={handleSave} className="bg-orange-500 hover:bg-orange-600" disabled={isProcessing}>
-                        {isProcessing ? "Salvando..." : "Salvar"}
+                        {isProcessing ? t('dialogs.password.saving') : t('dialogs.password.save')}
                     </Button>
                 </DialogFooter>
             </DialogContent>

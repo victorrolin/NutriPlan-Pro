@@ -1,19 +1,20 @@
 "use client"
 
 import type React from "react"
-
 import { loginAction } from "./actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Apple, Sparkles, Shield, Users } from "lucide-react"
+import { Apple, Sparkles, Shield, Users, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import Link from "next/link"
+import { useLanguage } from "@/context/language-context"
 
 export default function LoginPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
@@ -29,7 +30,7 @@ export default function LoginPage() {
       const result = await loginAction(email, password)
 
       if (!result.success) {
-        setError(result.error || "Erro ao fazer login")
+        setError(result.error || t('auth.login.error'))
         setIsLoading(false)
         return
       }
@@ -37,13 +38,23 @@ export default function LoginPage() {
       window.location.href = "/"
     } catch (error: unknown) {
       console.error("[v0] Login error:", error)
-      setError("Erro ao fazer login")
+      setError(t('auth.login.error'))
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-black p-4 relative">
+      {/* Back to Home Button */}
+      <div className="absolute top-4 left-4 md:top-8 md:left-8">
+        <Link href="/">
+          <Button variant="ghost" className="text-gray-400 hover:text-white transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {t('auth.login.backToHome')}
+          </Button>
+        </Link>
+      </div>
+
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
@@ -53,25 +64,25 @@ export default function LoginPage() {
             </div>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">NutriPlan Pro</h1>
-          <p className="text-gray-400">Nutricionista com IA</p>
+          <p className="text-gray-400">{t('landing.hero.badge')}</p>
         </div>
 
         <Card className="bg-gray-900/50 border-gray-800 backdrop-blur">
           <CardHeader>
-            <CardTitle className="text-2xl text-white">Login</CardTitle>
-            <CardDescription className="text-gray-400">Entre com suas credenciais para acessar</CardDescription>
+            <CardTitle className="text-2xl text-white">{t('auth.login.title')}</CardTitle>
+            <CardDescription className="text-gray-400">{t('auth.login.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleLogin}>
               <div className="flex flex-col gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="email" className="text-gray-200">
-                    Email
+                    {t('auth.login.emailLabel')}
                   </Label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="seu@email.com"
+                    placeholder={t('auth.login.emailPlaceholder')}
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -80,12 +91,12 @@ export default function LoginPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="password" className="text-gray-200">
-                    Senha
+                    {t('auth.login.passwordLabel')}
                   </Label>
                   <Input
                     id="password"
                     type="password"
-                    placeholder="••••••••"
+                    placeholder={t('auth.login.passwordPlaceholder')}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -104,27 +115,27 @@ export default function LoginPage() {
                   className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-semibold"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Entrando..." : "Entrar"}
+                  {isLoading ? t('auth.login.loading') : t('auth.login.button')}
                 </Button>
               </div>
             </form>
           </CardContent>
         </Card>
 
-        <div className="mt-6 flex justify-center gap-6">
+        <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
           <Link
             href="/admin/login/"
             className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-400 transition-colors"
           >
             <Shield className="w-4 h-4" />
-            Área Administrativa
+            {t('auth.login.adminArea')}
           </Link>
           <Link
             href="/personal/login/"
             className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-emerald-400 transition-colors"
           >
             <Users className="w-4 h-4" />
-            Área do Nutri
+            {t('auth.login.nutriArea')}
           </Link>
         </div>
       </div>

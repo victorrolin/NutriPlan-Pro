@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -9,10 +8,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Apple, Shield, AlertCircle, Loader2 } from "lucide-react"
+import { Apple, Shield, AlertCircle, Loader2, ArrowLeft } from "lucide-react"
 import { loginAction } from "@/app/auth/login/actions"
+import Link from "next/link"
+import { useLanguage } from "@/context/language-context"
 
 export default function AdminLoginPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
@@ -36,7 +38,7 @@ export default function AdminLoginPage() {
       if (result.success) {
         // Verifica se é admin antes de redirecionar
         if (result.role !== "admin") {
-          setError("Acesso restrito a administradores")
+          setError(t('auth.login.unauthorizedAdmin'))
           setIsLoading(false)
           return
         }
@@ -44,13 +46,23 @@ export default function AdminLoginPage() {
       }
     } catch (err: any) {
       console.error("Login Page Error:", err)
-      setError(`Erro técnico: ${err?.message || JSON.stringify(err)}`)
+      setError(`${t('auth.login.error')}: ${err?.message || JSON.stringify(err)}`)
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
+      {/* Back to Home Button */}
+      <div className="absolute top-4 left-4 md:top-8 md:left-8">
+        <Link href="/">
+          <Button variant="ghost" className="text-muted-foreground hover:text-foreground transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {t('auth.login.backToHome')}
+          </Button>
+        </Link>
+      </div>
+
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
           <div className="flex items-center gap-2 mb-2">
@@ -59,14 +71,14 @@ export default function AdminLoginPage() {
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
             <Shield className="h-5 w-5" />
-            <p>Painel Administrativo</p>
+            <p>{t('auth.login.adminArea')}</p>
           </div>
         </div>
 
         <Card className="border-border/50 bg-card/50 backdrop-blur">
           <CardHeader>
-            <CardTitle className="text-xl">Login Admin</CardTitle>
-            <CardDescription>Acesso restrito a administradores</CardDescription>
+            <CardTitle className="text-xl">{t('auth.login.adminTitle')}</CardTitle>
+            <CardDescription>{t('auth.login.adminDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -78,7 +90,7 @@ export default function AdminLoginPage() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('auth.login.emailLabel')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -91,11 +103,11 @@ export default function AdminLoginPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Senha</Label>
+                <Label htmlFor="password">{t('auth.login.passwordLabel')}</Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder="••••••••"
+                  placeholder={t('auth.login.passwordPlaceholder')}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -107,12 +119,12 @@ export default function AdminLoginPage() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Entrando...
+                    {t('auth.login.loading')}
                   </>
                 ) : (
                   <>
                     <Shield className="mr-2 h-4 w-4" />
-                    Acessar Painel
+                    {t('auth.login.button')}
                   </>
                 )}
               </Button>

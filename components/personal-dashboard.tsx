@@ -23,7 +23,6 @@ import {
   Utensils,
   UserPlus,
   Users,
-  Settings,
   Shield,
   ShieldOff,
   Trash2,
@@ -43,6 +42,7 @@ import { createClient } from "@/lib/supabase/client"
 import { PasswordDialog } from "@/components/password-dialog"
 import type { User } from "@/lib/auth-service"
 import { Footer } from "@/components/footer"
+import { useLanguage } from "@/context/language-context"
 
 interface PersonalDashboardProps {
   students: User[]
@@ -56,6 +56,7 @@ interface PersonalDashboardProps {
 }
 
 export function PersonalDashboard({ students, currentUser }: PersonalDashboardProps) {
+  const { t } = useLanguage()
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -67,12 +68,6 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     full_name: "",
   })
 
-  // Password change
-  const [passwordChange, setPasswordChange] = useState({
-    studentId: "",
-    newPassword: "",
-  })
-
   const limitPercentage = (currentUser.studentCount / currentUser.maxStudents) * 100
   const isAtLimit = currentUser.studentCount >= currentUser.maxStudents
 
@@ -82,13 +77,13 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
     setIsCreating(true)
 
     if (!newStudent.email || !newStudent.password || !newStudent.full_name) {
-      setError("Preencha todos os campos")
+      setError(t('dashboard.personal.messages.fillAll'))
       setIsCreating(false)
       return
     }
 
     if (newStudent.password.length < 6) {
-      setError("A senha deve ter no mínimo 6 caracteres")
+      setError(t('dashboard.personal.messages.passTooShort'))
       setIsCreating(false)
       return
     }
@@ -114,10 +109,9 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
 
       if (linkError) {
         console.error("Error linking student:", linkError)
-        // Mesmo com erro no link, o usuário foi criado. Idealmente deveríamos tratar isso.
       }
 
-      setSuccess("Aluno criado com sucesso!")
+      setSuccess(t('dashboard.personal.messages.successCreated'))
       setNewStudent({ email: "", password: "", full_name: "" })
       setIsCreating(false)
       setTimeout(() => window.location.reload(), 1000)
@@ -136,13 +130,13 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
         .eq("id", studentId)
 
       if (error) {
-        setError("Erro ao atualizar aluno")
+        setError(t('dashboard.personal.messages.errorUpdate'))
       } else {
-        setSuccess(currentStatus ? "Aluno bloqueado" : "Aluno desbloqueado")
+        setSuccess(currentStatus ? t('dashboard.personal.messages.successBlocked') : t('dashboard.personal.messages.successUnblocked'))
         setTimeout(() => window.location.reload(), 1000)
       }
     } catch (error) {
-      setError("Erro ao atualizar aluno")
+      setError(t('dashboard.personal.messages.errorUpdate'))
     }
   }
 
@@ -155,13 +149,13 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
       const { error } = await supabase.from("nutri_users").delete().eq("id", studentId)
 
       if (error) {
-        setError("Erro ao excluir aluno")
+        setError(t('dashboard.personal.messages.errorDelete'))
       } else {
-        setSuccess("Aluno excluído com sucesso")
+        setSuccess(t('dashboard.personal.messages.successDelete'))
         setTimeout(() => window.location.reload(), 1000)
       }
     } catch (error) {
-      setError("Erro ao excluir aluno")
+      setError(t('dashboard.personal.messages.errorDelete'))
     }
   }
 
@@ -174,7 +168,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           <div className="flex items-center gap-4">
             <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
               <ArrowLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Voltar</span>
+              <span className="hidden sm:inline">{t('dashboard.personal.header.back')}</span>
             </Link>
             <div className="flex items-center gap-2">
               <div className="relative">
@@ -187,7 +181,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
 
           <div className="flex items-center gap-2 text-gray-400">
             <Users className="w-5 h-5" />
-            <span>{currentUser.studentCount} alunos</span>
+            <span>{currentUser.studentCount} {t('dashboard.personal.header.students')}</span>
           </div>
         </div>
       </header>
@@ -211,16 +205,16 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-green-500" />
-              <CardTitle className="text-white text-base">Alunos vinculados</CardTitle>
+              <CardTitle className="text-white text-base">{t('dashboard.personal.limitCard.title')}</CardTitle>
             </CardTitle>
             <CardDescription className="text-gray-400 text-xs text-emerald-400 font-medium">
-              Nutricionista: {currentUser.fullName}
+              {t('dashboard.personal.limitCard.subtitle')}: {currentUser.fullName}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <p className="text-gray-400 text-sm">Painel do Nutricionista</p>
+                <p className="text-gray-400 text-sm">{t('dashboard.personal.limitCard.panel')}</p>
                 <span className={isAtLimit ? "text-red-400" : "text-green-400"}>
                   {currentUser.studentCount} / {currentUser.maxStudents}
                 </span>
@@ -232,7 +226,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
               {isAtLimit && (
                 <div className="flex items-center gap-2 text-yellow-500 text-sm mt-2">
                   <AlertTriangle className="w-4 h-4" />
-                  <span>Limite atingido. Solicite aumento ao administrador.</span>
+                  <span>{t('dashboard.personal.limitCard.limitReached')}</span>
                 </div>
               )}
             </div>
@@ -244,16 +238,16 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <UserPlus className="w-5 h-5 text-green-500" />
-              Adicionar Novo Aluno
+              {t('dashboard.personal.addStudent.title')}
             </CardTitle>
-            <CardDescription className="text-gray-400">Cadastre um novo aluno para acessar o sistema</CardDescription>
+            <CardDescription className="text-gray-400">{t('dashboard.personal.addStudent.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <div className="grid gap-2">
-                <Label className="text-gray-200">Nome Completo</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.nameLabel')}</Label>
                 <Input
-                  placeholder="Nome do aluno"
+                  placeholder={t('dashboard.personal.addStudent.namePlaceholder')}
                   value={newStudent.full_name}
                   onChange={(e) => setNewStudent({ ...newStudent, full_name: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
@@ -261,10 +255,10 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-gray-200">Email</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.emailLabel')}</Label>
                 <Input
                   type="email"
-                  placeholder="email@exemplo.com"
+                  placeholder={t('dashboard.personal.addStudent.emailPlaceholder')}
                   value={newStudent.email}
                   onChange={(e) => setNewStudent({ ...newStudent, email: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
@@ -272,10 +266,10 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                 />
               </div>
               <div className="grid gap-2">
-                <Label className="text-gray-200">Senha</Label>
+                <Label className="text-gray-200">{t('dashboard.personal.addStudent.passwordLabel')}</Label>
                 <Input
                   type="password"
-                  placeholder="Min. 6 caracteres"
+                  placeholder={t('dashboard.personal.addStudent.passwordPlaceholder')}
                   value={newStudent.password}
                   onChange={(e) => setNewStudent({ ...newStudent, password: e.target.value })}
                   className="bg-gray-800/50 border-gray-700 text-white"
@@ -288,7 +282,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                   disabled={isCreating || isAtLimit}
                   className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 disabled:opacity-50"
                 >
-                  {isCreating ? "Criando..." : "Criar Aluno"}
+                  {isCreating ? t('dashboard.personal.addStudent.loading') : t('dashboard.personal.addStudent.button')}
                 </Button>
               </div>
             </div>
@@ -300,23 +294,23 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
           <CardHeader>
             <CardTitle className="text-white flex items-center gap-2">
               <Users className="w-5 h-5 text-orange-500" />
-              Meus Alunos
+              {t('dashboard.personal.studentsTable.title')}
             </CardTitle>
-            <CardDescription className="text-gray-400">Gerencie os acessos dos seus alunos</CardDescription>
+            <CardDescription className="text-gray-400">{t('dashboard.personal.studentsTable.description')}</CardDescription>
           </CardHeader>
           <CardContent>
             {students.length === 0 ? (
-              <div className="text-center py-8 text-gray-400">Você ainda não tem alunos cadastrados</div>
+              <div className="text-center py-8 text-gray-400">{t('dashboard.personal.studentsTable.empty')}</div>
             ) : (
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow className="border-gray-800 hover:bg-gray-800/50">
-                      <TableHead className="text-gray-400">Nome</TableHead>
-                      <TableHead className="text-gray-400">Email</TableHead>
-                      <TableHead className="text-gray-400">Status</TableHead>
-                      <TableHead className="text-gray-400">Criado em</TableHead>
-                      <TableHead className="text-gray-400 text-right">Ações</TableHead>
+                      <TableHead className="text-gray-400">{t('dashboard.common.name')}</TableHead>
+                      <TableHead className="text-gray-400">{t('dashboard.common.email')}</TableHead>
+                      <TableHead className="text-gray-400">{t('dashboard.common.status')}</TableHead>
+                      <TableHead className="text-gray-400">{t('dashboard.common.createdAt')}</TableHead>
+                      <TableHead className="text-gray-400 text-right">{t('dashboard.common.actions')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -330,11 +324,11 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                               student.is_active ? "bg-green-500/20 text-green-400" : "bg-red-500/20 text-red-400"
                             }
                           >
-                            {student.is_active ? "Ativo" : "Bloqueado"}
+                            {student.is_active ? t('dashboard.common.active') : t('dashboard.common.blocked')}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-gray-400">
-                          {new Date(student.created_at).toLocaleDateString("pt-BR")}
+                          {new Date(student.created_at).toLocaleDateString(t('common.back') === 'Voltar' ? "pt-BR" : "en-US")}
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -342,7 +336,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                             <PasswordDialog
                               userId={student.id}
                               userName={student.full_name}
-                              onSuccess={() => setSuccess("Senha alterada com sucesso")}
+                              onSuccess={() => setSuccess(t('dashboard.admin.messages.successPass'))}
                               onError={(error) => setError(error)}
                             />
 
@@ -356,7 +350,7 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                                   : "text-green-500 hover:text-green-400 hover:bg-green-500/10"
                               }
                               onClick={() => handleToggleStatus(student.id, student.is_active)}
-                              title={student.is_active ? "Bloquear" : "Desbloquear"}
+                              title={student.is_active ? t('dashboard.common.blocked') : t('dashboard.common.active')}
                             >
                               {student.is_active ? <ShieldOff className="w-4 h-4" /> : <Shield className="w-4 h-4" />}
                             </Button>
@@ -374,20 +368,20 @@ export function PersonalDashboard({ students, currentUser }: PersonalDashboardPr
                               </DialogTrigger>
                               <DialogContent className="bg-gray-900 border-gray-800">
                                 <DialogHeader>
-                                  <DialogTitle className="text-white">Excluir Aluno</DialogTitle>
+                                  <DialogTitle className="text-white">{t('dashboard.personal.messages.deleteTitle')}</DialogTitle>
                                   <DialogDescription className="text-gray-400">
-                                    Tem certeza que deseja excluir {student.full_name}? Esta ação não pode ser desfeita.
+                                    {t('dashboard.personal.messages.deleteConfirm').replace('{name}', student.full_name)}
                                   </DialogDescription>
                                 </DialogHeader>
                                 <DialogFooter>
                                   <DialogClose asChild>
                                     <Button variant="outline" className="border-gray-700 text-gray-300 bg-transparent">
-                                      Cancelar
+                                      {t('dashboard.common.cancel')}
                                     </Button>
                                   </DialogClose>
                                   <DialogClose asChild>
                                     <Button variant="destructive" onClick={() => handleDelete(student.id)}>
-                                      Excluir
+                                      {t('dashboard.common.delete')}
                                     </Button>
                                   </DialogClose>
                                 </DialogFooter>
