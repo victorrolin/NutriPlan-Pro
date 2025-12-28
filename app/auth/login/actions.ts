@@ -14,6 +14,7 @@ export async function loginAction(email: string, password: string) {
       email: user.email,
       fullName: user.full_name,
       role: user.role,
+      lastPdfUrl: user.last_pdf_url,
     })
 
     return { success: true, role: user.role }
