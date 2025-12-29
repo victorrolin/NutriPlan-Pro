@@ -89,6 +89,7 @@ async function sendToWebhook(data: UserData, currentLanguage: string, labels: an
 
 import { AuthService } from "@/lib/auth-service"
 import { DietPlanService } from "@/lib/diet-plan-service"
+import { PdfStorageService } from "@/lib/pdf-storage-service"
 
 interface AssessmentFlowProps {
   userId: string
@@ -353,12 +354,30 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
       const result = await sendToWebhook(userData, language, labels)
 
       if (result.pdfUrl && userId) {
-        console.log("[AssessmentFlow] PDF generated, saving to history...")
-        // Salvar plano completo no histórico
+        console.log("[AssessmentFlow] PDF generated, uploading to Storage...")
+
+        // Upload PDF to Supabase Storage
+        const planName = `Plano_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}`
+        const uploadResult = await PdfStorageService.uploadPdfFromBlob(
+          result.pdfUrl,
+          userId,
+          planName
+        )
+
+        let permanentPdfUrl = result.pdfUrl // Fallback to blob URL
+
+        if (uploadResult.error) {
+          console.error("[AssessmentFlow] Error uploading to Storage:", uploadResult.error)
+        } else if (uploadResult.url) {
+          console.log("[AssessmentFlow] PDF uploaded successfully:", uploadResult.url)
+          permanentPdfUrl = uploadResult.url
+        }
+
+        // Salvar plano completo no histórico com URL permanente
         const planResult = await DietPlanService.createPlan({
           userId: userId,
-          pdfUrl: result.pdfUrl,
-          planName: `Plano ${new Date().toLocaleDateString('pt-BR')}`,
+          pdfUrl: permanentPdfUrl,
+          planName: planName,
           goal: userData.goal,
           dietType: userData.dietType,
           activityLevel: userData.activityLevel,
@@ -383,13 +402,13 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
         }
 
         // Persistir no banco de dados (compatibilidade)
-        await AuthService.updateLastPdfUrl(userId, result.pdfUrl)
+        await AuthService.updateLastPdfUrl(userId, permanentPdfUrl)
 
         // Atualizar sessão local para feedback imediato no dashboard
         const { getSession, createSession } = await import("@/lib/session")
         const currentSession = await getSession()
         if (currentSession) {
-          await createSession({ ...currentSession, lastPdfUrl: result.pdfUrl })
+          await createSession({ ...currentSession, lastPdfUrl: permanentPdfUrl })
         }
       }
 
