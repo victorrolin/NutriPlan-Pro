@@ -7,7 +7,7 @@ import { AdminDashboard } from "@/components/admin-dashboard"
 import { AuthService } from "@/lib/auth-service"
 
 export default function AdminPage() {
-  const [data, setData] = useState<{ users: any[], currentUserId: string } | null>(null)
+  const [data, setData] = useState<{ users: any[], role: string } | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function AdminPage() {
       }
 
       const users = await AuthService.listUsers()
-      setData({ users, currentUserId: session.userId })
+      setData({ users, role: session.role })
     }
     load()
   }, [router])
@@ -32,5 +32,5 @@ export default function AdminPage() {
     return <div className="flex h-screen items-center justify-center">Carregando...</div>
   }
 
-  return <AdminDashboard users={data.users} currentUserId={data.currentUserId} />
+  return <AdminDashboard initialUsers={data.users} currentUserType={data.role} />
 }
