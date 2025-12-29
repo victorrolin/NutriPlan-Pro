@@ -354,29 +354,23 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
       const result = await sendToWebhook(userData, language, labels)
 
       if (result.pdfUrl && userId) {
-        console.log("[AssessmentFlow] PDF generated, uploading to Storage...")
+        console.log("[AssessmentFlow] PDF generated, converting to base64...")
 
-        // Upload PDF to Supabase Storage
-        const planName = `Plano_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}`
-        const uploadResult = await PdfStorageService.uploadPdfFromBlob(
-          result.pdfUrl,
-          userId,
-          planName
-        )
+        // Download PDF and convert to base64
+        const { base64, error: conversionError } = await PdfStorageService.downloadAndConvertToBase64(result.pdfUrl)
 
-        let permanentPdfUrl = result.pdfUrl // Fallback to blob URL
-
-        if (uploadResult.error) {
-          console.error("[AssessmentFlow] Error uploading to Storage:", uploadResult.error)
-        } else if (uploadResult.url) {
-          console.log("[AssessmentFlow] PDF uploaded successfully:", uploadResult.url)
-          permanentPdfUrl = uploadResult.url
+        if (conversionError || !base64) {
+          console.error("[AssessmentFlow] Error converting PDF:", conversionError)
+          // Continue with blob URL as fallback
         }
 
-        // Salvar plano completo no histórico com URL permanente
+        const planName = `Plano_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}`
+
+        // Salvar plano completo no histórico com PDF em base64
         const planResult = await DietPlanService.createPlan({
           userId: userId,
-          pdfUrl: permanentPdfUrl,
+          pdfUrl: result.pdfUrl, // Keep blob URL as fallback
+          pdfData: base64 || undefined, // Store base64 PDF
           planName: planName,
           goal: userData.goal,
           dietType: userData.dietType,
@@ -398,17 +392,17 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
         if (planResult.error) {
           console.error("[AssessmentFlow] Error saving plan to history:", planResult.error)
         } else {
-          console.log("[AssessmentFlow] Plan saved successfully:", planResult.plan)
+          console.log("[AssessmentFlow] Plan saved successfully with base64 PDF")
         }
 
         // Persistir no banco de dados (compatibilidade)
-        await AuthService.updateLastPdfUrl(userId, permanentPdfUrl)
+        await AuthService.updateLastPdfUrl(userId, result.pdfUrl)
 
         // Atualizar sessão local para feedback imediato no dashboard
         const { getSession, createSession } = await import("@/lib/session")
         const currentSession = await getSession()
         if (currentSession) {
-          await createSession({ ...currentSession, lastPdfUrl: permanentPdfUrl })
+          await createSession({ ...currentSession, lastPdfUrl: result.pdfUrl })
         }
       }
 

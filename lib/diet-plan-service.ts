@@ -4,6 +4,7 @@ export interface DietPlan {
     id: string
     user_id: string
     pdf_url: string
+    pdf_data: string | null
     plan_name: string | null
     goal: string | null
     diet_type: string | null
@@ -15,6 +16,7 @@ export interface DietPlan {
 export interface CreateDietPlanData {
     userId: string
     pdfUrl: string
+    pdfData?: string
     planName?: string
     goal?: string
     dietType?: string
@@ -35,6 +37,7 @@ export class DietPlanService {
             const insertData = {
                 user_id: data.userId,
                 pdf_url: data.pdfUrl,
+                pdf_data: data.pdfData || null,
                 plan_name: data.planName || `Plano ${new Date().toLocaleDateString('pt-BR')}`,
                 goal: data.goal,
                 diet_type: data.dietType,

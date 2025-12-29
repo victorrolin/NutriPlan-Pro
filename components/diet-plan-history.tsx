@@ -48,8 +48,19 @@ export function DietPlanHistory({ userId }: DietPlanHistoryProps) {
         })
     }
 
-    const handleOpenPdf = (pdfUrl: string) => {
-        window.open(pdfUrl, '_blank')
+    const handleOpenPdf = (plan: DietPlan) => {
+        // If we have base64 data, convert it to blob URL
+        if (plan.pdf_data) {
+            const { PdfStorageService } = require('@/lib/pdf-storage-service')
+            const blobUrl = PdfStorageService.base64ToBlobUrl(plan.pdf_data)
+            if (blobUrl) {
+                window.open(blobUrl, '_blank')
+                return
+            }
+        }
+
+        // Fallback to pdf_url
+        window.open(plan.pdf_url, '_blank')
     }
 
     if (loading) {
@@ -167,7 +178,7 @@ export function DietPlanHistory({ userId }: DietPlanHistoryProps) {
                                 {/* Actions */}
                                 <div className="flex flex-col gap-2">
                                     <Button
-                                        onClick={() => handleOpenPdf(plan.pdf_url)}
+                                        onClick={() => handleOpenPdf(plan)}
                                         size="sm"
                                         className="bg-green-500 hover:bg-green-600 text-white"
                                     >
@@ -175,7 +186,7 @@ export function DietPlanHistory({ userId }: DietPlanHistoryProps) {
                                         Visualizar
                                     </Button>
                                     <Button
-                                        onClick={() => handleOpenPdf(plan.pdf_url)}
+                                        onClick={() => handleOpenPdf(plan)}
                                         size="sm"
                                         variant="outline"
                                         className="border-gray-700 text-gray-300 hover:bg-gray-800"
