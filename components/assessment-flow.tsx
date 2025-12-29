@@ -355,22 +355,37 @@ export function AssessmentFlow({ userId, userName, onComplete, onBack }: Assessm
 
       if (result.pdfUrl && userId) {
         console.log("[AssessmentFlow] PDF generated, converting to base64...")
+        console.log("[AssessmentFlow] Blob URL:", result.pdfUrl)
 
         // Download PDF and convert to base64
-        const { base64, error: conversionError } = await PdfStorageService.downloadAndConvertToBase64(result.pdfUrl)
+        let base64Data: string | null = null
+        try {
+          const conversionResult = await PdfStorageService.downloadAndConvertToBase64(result.pdfUrl)
+          console.log("[AssessmentFlow] Conversion result:", {
+            hasBase64: !!conversionResult.base64,
+            base64Length: conversionResult.base64?.length,
+            error: conversionResult.error
+          })
 
-        if (conversionError || !base64) {
-          console.error("[AssessmentFlow] Error converting PDF:", conversionError)
-          // Continue with blob URL as fallback
+          if (conversionResult.error) {
+            console.error("[AssessmentFlow] Error converting PDF:", conversionResult.error)
+          } else if (conversionResult.base64) {
+            base64Data = conversionResult.base64
+            console.log("[AssessmentFlow] ✅ PDF converted to base64 successfully, length:", base64Data.length)
+          }
+        } catch (error) {
+          console.error("[AssessmentFlow] Exception during conversion:", error)
         }
 
         const planName = `Plano_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}`
+
+        console.log("[AssessmentFlow] Saving plan with base64:", !!base64Data)
 
         // Salvar plano completo no histórico com PDF em base64
         const planResult = await DietPlanService.createPlan({
           userId: userId,
           pdfUrl: result.pdfUrl, // Keep blob URL as fallback
-          pdfData: base64 || undefined, // Store base64 PDF
+          pdfData: base64Data || undefined, // Store base64 PDF
           planName: planName,
           goal: userData.goal,
           dietType: userData.dietType,
