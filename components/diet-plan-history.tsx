@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { FileText, Download, Calendar, Target, Apple, Activity, Loader2 } from "lucide-react"
+import { FileText, Download, Calendar, Target, Apple, Activity, Loader2, Trash2 } from "lucide-react"
 import { DietPlanService, type DietPlan } from "@/lib/diet-plan-service"
 import { useLanguage } from "@/context/language-context"
 import { Badge } from "@/components/ui/badge"
@@ -61,6 +61,21 @@ export function DietPlanHistory({ userId }: DietPlanHistoryProps) {
 
         // Fallback to pdf_url
         window.open(plan.pdf_url, '_blank')
+    }
+
+    const handleDeletePlan = async (planId: string, planName: string) => {
+        if (!confirm(`Tem certeza que deseja excluir o plano "${planName}"? Esta ação não pode ser desfeita.`)) {
+            return
+        }
+
+        const { success, error } = await DietPlanService.deletePlan(planId)
+
+        if (error) {
+            alert(`Erro ao excluir plano: ${error}`)
+        } else {
+            // Reload plans after deletion
+            loadPlans()
+        }
     }
 
     if (loading) {
@@ -193,6 +208,15 @@ export function DietPlanHistory({ userId }: DietPlanHistoryProps) {
                                     >
                                         <Download className="w-4 h-4 mr-2" />
                                         Baixar
+                                    </Button>
+                                    <Button
+                                        onClick={() => handleDeletePlan(plan.id, plan.plan_name || 'Plano')}
+                                        size="sm"
+                                        variant="outline"
+                                        className="border-red-700 text-red-400 hover:bg-red-900/20"
+                                    >
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Excluir
                                     </Button>
                                 </div>
                             </div>
