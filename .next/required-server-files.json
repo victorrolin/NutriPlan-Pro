@@ -100,7 +100,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "C:\\Users\\Severino\\Downloads\\trainer-workout-app",
+    "outputFileTracingRoot": "C:\\Users\\Severino\\Downloads\\nutriplan-pro",
     "cacheComponents": false,
     "cacheLife": {
       "default": {
@@ -289,13 +289,16 @@
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.js",
+    "eslint": {
+      "ignoreDuringBuilds": true
+    },
     "turbopack": {
-      "root": "C:\\Users\\Severino\\Downloads\\trainer-workout-app"
+      "root": "C:\\Users\\Severino\\Downloads\\nutriplan-pro"
     },
     "distDirRoot": ".next"
   },
-  "appDir": "C:\\Users\\Severino\\Downloads\\trainer-workout-app",
-  "relativeAppDir": "",
+  "appDir": "C:\\Users\\Severino\\Downloads\\nutriplan-pro\\FitPlan-Pro",
+  "relativeAppDir": "FitPlan-Pro",
   "files": [
     ".next\\routes-manifest.json",
     ".next\\server\\pages-manifest.json",
