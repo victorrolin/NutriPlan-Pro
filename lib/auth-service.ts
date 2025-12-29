@@ -54,9 +54,8 @@ export class AuthService {
         return { user: null, error: "Email já cadastrado" }
       }
 
-      // Use bcrypt for hashing (bcryptjs works in both server and browser)
-      const salt = bcrypt.genSaltSync(10)
-      const passwordHash = bcrypt.hashSync(data.password, salt)
+      // Hashing disabled as per user request
+      const passwordHash = data.password
 
       const { data: newUser, error } = await supabase
         .from("nutri_users")
@@ -106,8 +105,8 @@ export class AuthService {
         return { user: null, error: "Email ou senha incorretos" }
       }
 
-      // Use bcrypt for password comparison
-      const isValidPassword = bcrypt.compareSync(data.password, user.password_hash)
+      // Comparison logic changed to plain text as per user request
+      const isValidPassword = data.password === user.password_hash
 
       if (!isValidPassword) {
         console.error("[v0] Password mismatch")
@@ -156,8 +155,8 @@ export class AuthService {
     try {
       const supabase = await createClient()
 
-      const salt = bcrypt.genSaltSync(10)
-      const passwordHash = bcrypt.hashSync(newPassword, salt)
+      // Hashing disabled as per user request
+      const passwordHash = newPassword
 
       const { error } = await supabase.from("nutri_users").update({ password_hash: passwordHash }).eq("id", userId)
 
