@@ -467,6 +467,7 @@ function RegistrationForm({ onSuccess }: { onSuccess: (email: string) => void })
                     ...formData,
                     cpf: formData.cpf.replace(/\D/g, ""), // Envia apenas dígitos
                     source: "landing_page",
+                    tag: "nutriplan",
                     language: language,
                     timestamp: new Date().toISOString()
                 })
