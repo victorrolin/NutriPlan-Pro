@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js"
-import bcrypt from "bcryptjs"
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -11,9 +10,10 @@ async function createAdmin() {
   const password = "admin123"
   const fullName = "Administrador"
 
-  // Gerar hash bcrypt válido
-  const salt = await bcrypt.genSalt(10)
-  const passwordHash = await bcrypt.hash(password, salt)
+  console.log("Creating admin user with email:", email)
+
+  // Hashing disabled at user request
+  const passwordHash = password
 
   console.log("Hash gerado:", passwordHash)
 

@@ -46,9 +46,8 @@ async function createAdmin() {
 
   console.log("Iniciando criação do admin...");
 
-  // Gerar hash bcrypt
-  const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash(password, salt);
+  // Hashing desativado a pedido do usuário
+  const passwordHash = password;
 
   // Deletar admin existente se houver
   await supabase.from("nutri_users").delete().eq("email", email);

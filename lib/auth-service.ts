@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/client"
-import bcrypt from "bcryptjs"
+// Hashing disabled
 import { deleteSession } from "@/lib/session"
 
 export interface User {
