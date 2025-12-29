@@ -1,6 +1,6 @@
 export class PdfStorageService {
     /**
-     * Upload PDF from blob URL to Supabase Storage via API route
+     * Save PDF from blob URL to local filesystem
      */
     static async uploadPdfFromBlob(
         blobUrl: string,
@@ -8,10 +8,10 @@ export class PdfStorageService {
         planName?: string
     ): Promise<{ url: string | null; error: string | null }> {
         try {
-            console.log("[PdfStorageService] Uploading PDF via API route:", blobUrl)
+            console.log("[PdfStorageService] Saving PDF to filesystem:", blobUrl)
 
-            // Call API route to upload (uses service role on server)
-            const response = await fetch('/api/upload-pdf', {
+            // Call API route to save PDF locally
+            const response = await fetch('/api/save-pdf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,20 +22,20 @@ export class PdfStorageService {
             const result = await response.json()
 
             if (!response.ok || result.error) {
-                console.error("[PdfStorageService] Upload error:", result.error)
-                return { url: null, error: result.error || 'Upload failed' }
+                console.error("[PdfStorageService] Save error:", result.error)
+                return { url: null, error: result.error || 'Save failed' }
             }
 
-            console.log("[PdfStorageService] Upload successful:", result.url)
+            console.log("[PdfStorageService] PDF saved successfully:", result.url)
             return { url: result.url, error: null }
         } catch (error: any) {
             console.error("[PdfStorageService] Exception:", error)
-            return { url: null, error: error.message || "Failed to upload PDF" }
+            return { url: null, error: error.message || "Failed to save PDF" }
         }
     }
 
     /**
-     * Delete PDF from storage (not implemented - would need API route)
+     * Delete PDF from filesystem (not implemented)
      */
     static async deletePdf(filePath: string): Promise<{ success: boolean; error: string | null }> {
         return { success: false, error: "Not implemented" }
@@ -45,12 +45,11 @@ export class PdfStorageService {
      * Get public URL for a file path
      */
     static async getPublicUrl(filePath: string): Promise<string> {
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-        return `${supabaseUrl}/storage/v1/object/public/diet-plans/${filePath}`
+        return filePath
     }
 
     /**
-     * List all PDFs for a user (not implemented - would need API route)
+     * List all PDFs for a user (not implemented)
      */
     static async listUserPdfs(userId: string): Promise<{ files: any[]; error: string | null }> {
         return { files: [], error: "Not implemented" }
