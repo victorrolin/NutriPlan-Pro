@@ -88,7 +88,7 @@ export class DietPlanService {
             return { plans: plans || [], error: null }
         } catch (error: any) {
             console.error("[DietPlanService] Exception in getUserPlans:", error)
-            return { plans: [], error: error?.message || "Erro ao carregar planos" }
+            return { plans: [], error: error.message }
         }
     }
 
