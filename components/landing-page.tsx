@@ -133,12 +133,7 @@ export function LandingPage() {
                                     {t('landing.hero.cta')}
                                     <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
                                 </Button>
-                                <a href="#como-funciona" className="w-full sm:w-auto">
-                                    <Button size="lg" variant="outline" className="w-full h-16 px-12 border-white/10 hover:bg-white/5 bg-transparent rounded-3xl text-xl font-bold backdrop-blur-xl">
-                                        {t('landing.hero.demo')}
-                                        <Play className="w-5 h-5 ml-3 text-emerald-500 fill-emerald-500" />
-                                    </Button>
-                                </a>
+                                {/* Removed demo button as per user request */}
                             </div>
                         )}
 
